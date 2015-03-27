@@ -4,13 +4,13 @@ let main_return r =
   Printf.sprintf "int %s = 1;\nreturn %s;\n" r r
 
 let translate_print s = match s with
-  | "min_caml_print_int" -> ("printf", "%d")
+  | "min_caml_print_int" -> "printf(\"%d\", "
   | "min_caml_print_float" -> ("printf", "%d")
 
 let print_results id l = 
-  let (func, s) = translate_print id in
+  let s = translate_print id in
   List.fold_left (fun acc s -> acc ^ " " ^ s) "" l
-  |> Printf.sprintf "%s(\"%s\",%s);\n" func s
+  |> Printf.sprintf "%s%s);\n" s
 
 let type_To_String t = match t with
   | Type.Unit -> "void"
@@ -44,7 +44,7 @@ let rec trans_exp r (tp : (string * Type.t) list) = function
   | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x tp e1) (trans_exp r ((x, t) :: tp) e2)
 
 let make_header () =
-  Printf.sprintf "#include<stdio.h>\n#include<stdlib.h>\n//#include\"syntax.h\"\n\n"
+  Printf.sprintf "#include<stdio.h>\n#include<stdlib.h>\n#include\"syntax.h\"\n\n"
 
 let make_main () =
   Printf.sprintf "int main(){\n"
