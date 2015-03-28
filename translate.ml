@@ -5,19 +5,28 @@ let main_return r =
 
 let translate_print s = match s with
   | "min_caml_print_int" -> "printf(\"%d\", "
-  | "min_caml_print_float" -> ("printf", "%d")
+  | "min_caml_print_float" -> "printf(\"%s\", "
 
 let print_results id l = 
   let s = translate_print id in
   List.fold_left (fun acc s -> acc ^ " " ^ s) "" l
   |> Printf.sprintf "%s%s);\n" s
 
-let type_To_String t = match t with
+let string_of_type t = match t with
   | Type.Unit -> "void"
   | Type.Int -> "int"
   | Type.Bool -> "bool"
   | Type.Float -> "double"
   | _ -> ""
+
+let create_tuple xts y =
+  List.mapi (fun i l ->
+    begin
+      let (n, t) = l in
+      Printf.sprintf "%s %s = %s[%d];\n" (string_of_type t) n y i
+    end
+  ) xts
+  |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
 
 let rec trans_exp r (tp : (string * Type.t) list) = function
   | Unit -> Printf.sprintf "%s;" r
@@ -38,13 +47,15 @@ let rec trans_exp r (tp : (string * Type.t) list) = function
     begin
       try
 	let (n, t) = List.find (fun (name, typ) -> name = x) tp in 
-	Printf.sprintf "%s %s = %s;" (type_To_String t) r x
+	Printf.sprintf "%s %s = %s;" (string_of_type t) r x
       with Not_found -> print_endline x; assert false
     end
-  | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x tp e1) (trans_exp r ((x, t) :: tp) e2)
+  | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x tp e1) (trans_exp r ((x, t) :: tp) e2) 
+  | Tuple(xs) -> Printf.sprintf "int %s[] = {%s};" r (List.fold_left (fun acc s -> match acc with | "" -> s | _ -> acc ^ ", " ^ s) "" xs)
+  | LetTuple(xts, y, e) -> Printf.sprintf "%s%s" (create_tuple xts y) (trans_exp r tp e)
 
 let make_header () =
-  Printf.sprintf "#include<stdio.h>\n#include<stdlib.h>\n#include\"syntax.h\"\n\n"
+  Printf.sprintf "#include<stdio.h>\n#include<stdlib.h>\n#include\"csyntax.h\"\n\n"
 
 let make_main () =
   Printf.sprintf "int main(){\n"
