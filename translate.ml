@@ -12,11 +12,12 @@ let print_results id l =
   List.fold_left (fun acc s -> acc ^ " " ^ s) "" l
   |> Printf.sprintf "%s%s);\n" s
 
-let string_of_type t = match t with
+let rec string_of_type t = match t with
   | Type.Unit -> "void"
   | Type.Int -> "int"
   | Type.Bool -> "bool"
   | Type.Float -> "double"
+  | Type.Fun(l, r) -> (string_of_type r)
   | _ -> ""
 
 let create_tuple xts y =
@@ -60,11 +61,27 @@ let make_header () =
 let make_main () =
   Printf.sprintf "int main(){\n"
 
-let end_function() =
-  Printf.sprintf "}\n"
+let end_function r =
+  Printf.sprintf "\nreturn %s;\n}\n" r
+
+let rec make_function(f : fundef list) = 
+  match f with
+  | [] -> ""
+  | _ -> 
+    begin
+      let elem = List.hd f in 
+      let (Id.L l, t) = elem.name in
+      let a = elem.args in
+      let b = elem.body in
+      Printf.sprintf "%s %s(%s){\n%s%s\n\n%s" (string_of_type t) l 
+	(List.fold_left(fun acc (s, typ) -> match acc with 
+	| "" -> acc ^ (string_of_type typ) ^ " " ^ s 
+	| _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s) "" a) 
+	(trans_exp "result" [] b) (end_function "result") (make_function (List.tl f))  
+    end
 
 let main s =
-  let x = Lexing.from_string s
+  let (prog, x) = Lexing.from_string s
   |> Parser.exp Lexer.token
   |> Typing.f 
   |> KNormal.f
@@ -72,7 +89,6 @@ let main s =
   |> Inline.f
   |> Elim.f
   |> Closure.f
-  |> (fun (Prog (_, t)) -> t)(*Deal with Prog and Fundef*)
-  |> trans_exp "result" [] in
-  make_header() ^ make_main() ^ x ^ end_function() |> print_endline;;
+  |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
+  make_header() ^ (make_function prog) ^ make_main() ^ (trans_exp "result" [] x) ^ end_function "result" |> print_endline;;
 
