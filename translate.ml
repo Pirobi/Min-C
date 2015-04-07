@@ -12,6 +12,7 @@ let rec string_of_type t = match t with
   | Type.Fun(l, r) -> 
     (match r with
     | Type.Fun(l', r') -> "Closure"
+    | Type.Unit -> "Closure"
     | _ -> (string_of_type r))
   | Type.Array(t) ->
     (match t with
@@ -38,15 +39,13 @@ let list_params l =
 let malloc_check =
   Printf.sprintf "if(env == NULL){\nprintf(\"Error allocating memory for environment\\n\");\nexit(-1);\n}\n"
 
-let translate_print s r = match s with
-  | "min_caml_print_int" -> "printf(\"%d\", "
-  | "min_caml_print_float" -> "printf(\"%s\", "
-  | _ -> "Closure " ^ r ^ " = " ^ s ^ "("
-
-let print_results id l r = 
-  let s = translate_print id r in
-  list_params l
-  |> Printf.sprintf "%s%s);" s
+let print_results id l r =
+  match id with
+    | "min_caml_print_int" -> let params = list_params l in Printf.sprintf "printf(\"%%d\", %s);" params
+    | "min_caml_print_float" -> let params = list_params l in Printf.sprintf "printf(\"%%s\", %s);" params
+    | "min_caml_create_float_array" -> Printf.sprintf "double %s[%s] = {%s};" r (List.nth l 0) (List.nth l 1)
+    | "min_caml_create_array" -> Printf.sprintf "int %s[%s] = {%s};" r (List.nth l 0) (List.nth l 1)
+    | _ -> let params = list_params l in Printf.sprintf "Closure %s = %s(%s);" r id params
 
 let make_main () =
   Printf.sprintf "int main(){\n"
@@ -76,16 +75,11 @@ let rec make_typedefs(f : fundef list) (g : string list) (h : string list) =
       let name =  "fun" ^ (List.fold_left(fun acc (s, typ) -> 
 	acc ^ "_" ^ (string_of_type typ)) "" a) ^ "_" ^ (string_of_type t) in
       let typedef = name ^ signature in
-      let g' = 
+      let (g', h') = 
 	if not (List.exists (fun n -> n = name) g) && fv <> [] then
-	  (name :: g)
+	  (name :: g, typedef::h)
 	else
-	  g in 
-      let h' =
-	if not (List.exists (fun n -> n = typedef) h) && fv <> [] then
-	  (typedef :: h)
-	else 
-	  h in 
+	  (g, h) in 
       (make_typedefs (List.tl f) g' h')
     end 
 
@@ -99,7 +93,7 @@ let create_tuple xts y =
   |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
 
 let rec trans_exp r (tp : (string * Type.t) list) (typedefs : string list) = function
-  | Unit -> Printf.sprintf "%s;" r
+  | Unit -> Printf.sprintf "" 
   | Int(i) -> Printf.sprintf "int %s = %d;" r i
   | Float(d) -> Printf.sprintf "double %s = %f;" r d
   | Neg(n) -> Printf.sprintf "int %s = -%s;" r n
@@ -110,8 +104,8 @@ let rec trans_exp r (tp : (string * Type.t) list) (typedefs : string list) = fun
   | FMul(x, y) -> Printf.sprintf "double %s =  %s * %s;" r x y
   | FDiv(x, y) -> Printf.sprintf "double %s = %s / %s;" r x y
   | FNeg(n) -> Printf.sprintf "double %s = -%s;" r n
-  | IfEq(x, y, e1, e2) -> Printf.sprintf "if(%s == %s){\n%s\n}\nelse{%s\n}" x y (trans_exp r tp typedefs e1) (trans_exp r tp typedefs e2)
-  | IfLE(x, y, e1, e2) -> Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{%s\n}" x y (trans_exp r tp typedefs e1) (trans_exp r tp typedefs e2)
+  | IfEq(x, y, e1, e2) -> Printf.sprintf "if(%s == %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r tp typedefs e1) (trans_exp r tp typedefs e2)
+  | IfLE(x, y, e1, e2) -> Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r tp typedefs e1) (trans_exp r tp typedefs e2)
   | AppDir(Id.L l, xs) -> Printf.sprintf "%s" (print_results l xs r)
   | Var(x) -> 
     begin
@@ -120,7 +114,7 @@ let rec trans_exp r (tp : (string * Type.t) list) (typedefs : string list) = fun
 	Printf.sprintf "%s %s = %s;" (string_of_type t) r x
       with Not_found -> print_endline x; assert false
     end
-  | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x ((x, t) :: tp) typedefs e1) (trans_exp r ((x, t) :: tp) typedefs e2) 
+  | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x ((x,t)::tp) typedefs e1) (trans_exp r tp typedefs e2) 
   | Tuple(xs) -> Printf.sprintf "int %s[] = {%s};" r (list_params xs)
   | LetTuple(xts, y, e) -> Printf.sprintf "%s%s" (create_tuple xts y) (trans_exp r tp typedefs e)
   | MakeCls((x, t), { entry = Id.L l; actual_fv = ys }, e) -> Printf.sprintf "Environment env = malloc(%d * sizeof(int));\n%s%sClosure %s = { (Function)%s, env };" (List.length ys) (malloc_check) 
@@ -132,7 +126,7 @@ let rec trans_exp r (tp : (string * Type.t) list) (typedefs : string list) = fun
 	let typedef = List.hd typedefs in 
 	let typedefs = List.tl typedefs in
         Printf.sprintf "%s %s = ((%s*)%s.f)(%s, %s.env);" (string_of_type t) r typedef x (list_params ys) x
-      with Not_found -> print_endline x; assert false
+      with Not_found -> print_endline r; assert false
     end
   | Get(x, y) -> 
     begin 
@@ -144,7 +138,7 @@ let rec trans_exp r (tp : (string * Type.t) list) (typedefs : string list) = fun
   | Put(x, y, z) -> Printf.sprintf "%s[%s] = %s;" x y z
   | ExtArray(_) -> ""
 
-let rec make_functions(f : fundef list) = 
+let rec make_functions(f : fundef list) (typedefs : string list) = 
   match f with
   | [] -> ""
   | _ -> 
@@ -163,7 +157,11 @@ let rec make_functions(f : fundef list) =
 	| "" -> acc ^ (string_of_type typ) ^ " " ^ s 
 	| _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s) "" a) 
 	environment in
-      Printf.sprintf "%s%s{\n%s%s%s\n\n%s" name signature (list_args fv) (trans_exp "result" [] [] b) (end_function "result" false) (make_functions (List.tl f))  
+      let func_end =
+	match t with
+	| Type.Unit -> ""
+	| _ -> (end_function "result" false) in
+      Printf.sprintf "%s%s{\n%s%s%s\n\n%s" name signature (list_args fv) (trans_exp "result" [("result", t)] typedefs b) func_end (make_functions (List.tl f) typedefs)  
     end
 
 let main s =
@@ -177,5 +175,5 @@ let main s =
   |> Closure.f
   |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
   let (names, typedefs) = make_typedefs funcs [] [] in
-  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs) ^ make_main() ^ (trans_exp "result" [] names mainf) ^ (end_function "result" true) |> print_endline;;
+  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs names) ^ make_main() ^ (trans_exp "result" [] names mainf) ^ (end_function "ans" true) |> print_endline;;
 
