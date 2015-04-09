@@ -61,7 +61,7 @@ let end_function r is_main =
   | true -> Printf.sprintf "\nint %s = 1;\nreturn %s;\n}\n" r r
   | false -> Printf.sprintf "\nreturn %s;\n}" r
 
-let rec make_typedefs(f : fundef list) (g : (string * string) list) (h : string list) = 
+let rec make_typedefs(f : fundef list) (g : string list) (h : string list) = 
   match f with 
   | [] -> (g, h)
   | _ ->
@@ -78,14 +78,17 @@ let rec make_typedefs(f : fundef list) (g : (string * string) list) (h : string 
 	| "" -> acc ^ (string_of_type typ) ^ " " ^ s 
 	| _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s) "" a) 
 	environment in
-      let types = (string_of_type t) ^ ", " ^ (List.fold_left(fun acc (s, typ) -> match acc with
-										 | "" -> (string_of_type typ)
-										 | _ -> acc ^ ", " ^ (string_of_type typ)) "" a) in
-      let name =  l ^ "_type" in
+      let name = "fun_" ^ (string_of_type t) ^ "_" ^ (List.fold_left(fun acc (s, typ) -> 
+								     match acc with
+								     | "" -> (string_of_type typ)
+								     | _ -> acc ^ "_" ^ (string_of_type typ)) "" a) 
+		 ^ match environment with 
+		   | "" -> "" 
+		   | _ -> "_Environment" in
       let typedef = name ^ signature in
       let (g', h') = 
-	if fv <> [] then
-	  ((name, types) :: g, typedef::h)
+	if not (List.exists (fun n -> n = name) g) && fv <> [] then
+	  (name :: g, typedef::h)
 	else
 	  (g, h) in 
       (make_typedefs (List.tl f) g' h')
@@ -100,7 +103,7 @@ let create_tuple xts y =
   ) xts
   |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
 
-let rec trans_exp r (tp : (string * Type.t) list) (typedefs : (string * string) list) = function
+let rec trans_exp r (tp : (string * Type.t) list) (typedef_names : string list) = function
   | Unit -> Printf.sprintf "" 
   | Int(i) -> Printf.sprintf "int %s = %d;" r i
   | Float(d) -> Printf.sprintf "double %s = %f;" r d
@@ -112,8 +115,8 @@ let rec trans_exp r (tp : (string * Type.t) list) (typedefs : (string * string) 
   | FMul(x, y) -> Printf.sprintf "double %s =  %s * %s;" r x y
   | FDiv(x, y) -> Printf.sprintf "double %s = %s / %s;" r x y
   | FNeg(n) -> Printf.sprintf "double %s = -%s;" r n
-  | IfEq(x, y, e1, e2) -> Printf.sprintf "if(%s == %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r tp typedefs e1) (trans_exp r tp typedefs e2)
-  | IfLE(x, y, e1, e2) -> Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r tp typedefs e1) (trans_exp r tp typedefs e2)
+  | IfEq(x, y, e1, e2) -> Printf.sprintf "if(%s == %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r tp typedef_names e1) (trans_exp r tp typedef_names e2)
+  | IfLE(x, y, e1, e2) -> Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r tp typedef_names e1) (trans_exp r tp typedef_names e2)
   | AppDir(Id.L l, xs) -> Printf.sprintf "%s" (print_results l xs r)
   | Var(x) -> 
     begin
@@ -122,9 +125,9 @@ let rec trans_exp r (tp : (string * Type.t) list) (typedefs : (string * string) 
 	Printf.sprintf "%s %s = %s;" (string_of_type t) r x
       with Not_found -> print_endline x; assert false
     end
-  | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x ((x,t)::tp) typedefs e1) (trans_exp r tp typedefs e2) 
+  | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x ((x,t)::tp) typedef_names e1) (trans_exp r tp typedef_names e2) 
   | Tuple(xs) -> Printf.sprintf "int %s[] = {%s};" r (list_params xs)
-  | LetTuple(xts, y, e) -> Printf.sprintf "%s%s" (create_tuple xts y) (trans_exp r tp typedefs e)
+  | LetTuple(xts, y, e) -> Printf.sprintf "%s%s" (create_tuple xts y) (trans_exp r tp typedef_names e)
   | MakeCls((x, t), { entry = Id.L l; actual_fv = ys }, e) ->
      Printf.sprintf "Environment env = malloc(%d * sizeof(int));\n%s%sClosure %s = { (Function)%s, env };" (List.length ys) malloc_check 
     (List.mapi (fun i n -> Printf.sprintf "*(env + %d) = %s;\n" i n) ys 
@@ -133,9 +136,12 @@ let rec trans_exp r (tp : (string * Type.t) list) (typedefs : (string * string) 
     begin
       try
 	let (n, t) = List.find (fun (name, typ) -> name = r) tp in 
-	let types = (type_of_string x) ^ ", " ^ (list_params ys) in
-	let (typedef_name, typedef_type) = List.find (fun (name, typ) -> typ = types) typedefs in 
-        Printf.sprintf "%s %s = ((%s)%s.f)(%s, %s.env);" (string_of_type t) r typedef_name x (list_params ys) x
+	let types = "fun_" ^ (string_of_type t) ^ "_" ^ (List.fold_left (fun acc x -> 
+								 match acc with 
+								 | "" -> acc ^ "" ^ (type_of_string x) 
+								 | _ -> acc ^ "_" ^ (type_of_string x)) "" ys) ^ "_Environment" in
+	let typedef_type = List.find (fun typ -> typ = types) typedef_names in 
+        Printf.sprintf "%s %s = ((%s*)%s.f)(%s, %s.env);" (string_of_type t) r typedef_type x (list_params ys) x
       with Not_found -> print_endline r; assert false
     end
   | Get(x, y) -> 
@@ -148,7 +154,7 @@ let rec trans_exp r (tp : (string * Type.t) list) (typedefs : (string * string) 
   | Put(x, y, z) -> Printf.sprintf "%s[%s] = %s;" x y z
   | ExtArray(_) -> ""
 
-let rec make_functions(f : fundef list) (typedefs : (string * string) list) = 
+let rec make_functions(f : fundef list) (typedef_names : string list) = 
   match f with
   | [] -> ""
   | _ -> 
@@ -171,7 +177,7 @@ let rec make_functions(f : fundef list) (typedefs : (string * string) list) =
 	match t with
 	| Type.Unit -> ""
 	| _ -> (end_function "result" false) in
-      Printf.sprintf "%s%s{\n%s%s%s\n\n%s" name signature (list_args fv) (trans_exp "result" [("result", t)] typedefs b) func_end (make_functions (List.tl f) typedefs)  
+      Printf.sprintf "%s%s{\n%s%s%s\n\n%s" name signature (list_args fv) (trans_exp "result" [("result", t)] typedef_names b) func_end (make_functions (List.tl f) typedef_names)  
     end
 
 let main s =
@@ -184,6 +190,6 @@ let main s =
   |> Elim.f
   |> Closure.f
   |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
-  let (names, typedefs) = make_typedefs funcs [] [] in
-  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs names) ^ make_main() ^ (trans_exp "result" [] names mainf) ^ (end_function "ans" true) |> print_endline;;
+  let (typedef_names, typedefs) = make_typedefs funcs [] [] in
+  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ make_main() ^ (trans_exp "result" [] typedef_names mainf) ^ (end_function "ans" true) |> print_endline;;
 
