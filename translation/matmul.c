@@ -142,7 +142,7 @@ int main(){
     exit(-1);
   }
   *(env + 0) = dummy;
-  Closure result = { (Function)make, env };
+  Closure ans = { (Function)make, env };
   int ans = 1;
   return ans;
 }
