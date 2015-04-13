@@ -1,20 +1,8 @@
 open Closure
 
-let return_variable = "result"
-
-let main_variable = "ans"
-
 (*Create the header of the output *.c file*)
 let make_header () =
   Printf.sprintf "#include<stdio.h>\n#include<stdlib.h>\n#include\"csyntax.h\"\n\n"
-
-let rec get_return_type t = match t with
-  | Type.Unit -> "int"
-  | Type.Int -> "int"
-  | Type.Bool -> "bool"
-  | Type.Float -> "double"
-  | Type.Fun(l, r) -> "Closure"
-  | _ -> "int"
 
 (*Convert a Type.t type to a string*)
 let rec string_of_type t = match t with
@@ -22,7 +10,11 @@ let rec string_of_type t = match t with
   | Type.Int -> "int"
   | Type.Bool -> "bool"
   | Type.Float -> "double"
-  | Type.Fun(l, r) -> string_of_type r
+  | Type.Fun(l, r) -> 
+     (match r with
+      | Type.Fun(l', r') -> "Closure"
+      | Type.Unit -> "Closure" 
+      | _ -> string_of_type r)
   | Type.Array(t) ->
     (match t with
     | Type.Array(t') -> string_of_type t'
@@ -94,7 +86,7 @@ let rec make_typedefs(f : fundef list) (g : string list) (h : string list) =
 	| "" -> acc ^ (string_of_type typ) ^ " " ^ s 
 	| _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s) "" a) 
 	environment in
-      let name = "fun_" ^ (get_return_type t) ^ "_" ^ 
+      let name = "fun_" ^ (string_of_type t) ^ "_" ^ 
 		   (List.fold_left(fun acc (s, typ) -> match acc with
 						       | "" -> (string_of_type typ)
 						       | _ -> acc ^ "_" ^ (string_of_type typ)) "" a) 
@@ -137,7 +129,7 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) = function
   | IfEq(x, y, e1, e2) -> Printf.sprintf "if(%s == %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r rt typedef_names e1) (trans_exp r rt typedef_names e2)
   | IfLE(x, y, e1, e2) -> Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r rt typedef_names e1) (trans_exp r rt typedef_names e2)
   | AppDir(Id.L l, xs) -> Printf.sprintf "%s" (print_results l xs r)
-  | Var(x) -> Printf.sprintf "%s %s = %s;" (get_return_type rt) r x
+  | Var(x) -> Printf.sprintf "%s %s = %s;" (string_of_type rt) r x
   | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x t typedef_names e1) (trans_exp r rt typedef_names e2) 
   | Tuple(xs) -> Printf.sprintf "int %s[] = {%s};" r (list_params xs)
   | LetTuple(xts, y, e) -> Printf.sprintf "%s%s" (create_tuple xts y) (trans_exp r rt typedef_names e)
@@ -147,11 +139,11 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) = function
      |> List.fold_left (fun acc s -> acc ^ "" ^ s) "") x l (trans_exp r rt typedef_names e)
   | AppCls(x, ys) -> 
     (match r with
-    | return_variable -> Printf.sprintf "%s %s = %s_fun(%s, env);" (string_of_type rt) r x (list_params ys)
+    | "result" -> Printf.sprintf "%s %s = %s_fun(%s, env);" (string_of_type rt) r x (list_params ys)
     | _ ->
       begin
 	try
-	  let types = "fun_" ^ (type_of_string x) ^ "_" ^ (List.fold_left (fun acc x -> 
+	  let types = "fun_" ^ (string_of_type rt) ^ "_" ^ (List.fold_left (fun acc x -> 
 							     match acc with 
 							     | "" -> acc ^ "" ^ (type_of_string x) 
 							     | _ -> acc ^ "_" ^ (type_of_string x)) "" ys) ^ "_Environment" in
@@ -187,8 +179,8 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
       let func_end =
 	match t with
 	| Type.Unit -> ""
-	| _ -> (end_function return_variable) in
-      Printf.sprintf "%s%s{\n%s%s%s\n\n%s" name signature (list_args fv) (trans_exp return_variable t typedef_names b) func_end (make_functions (List.tl f) typedef_names)  
+	| _ -> (end_function "result") in
+      Printf.sprintf "%s%s{\n%s%s%s\n\n%s" name signature (list_args fv) (trans_exp "result" t typedef_names b) func_end (make_functions (List.tl f) typedef_names)  
     end
 
 (*This function creates the C main function*)
@@ -207,6 +199,6 @@ let main s =
   |> Closure.f
   |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
   let (typedef_names, typedefs) = make_typedefs funcs [] [] in
-  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main main_variable typedef_names mainf) 
+  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
   |> print_endline
 
