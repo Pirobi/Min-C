@@ -2,7 +2,7 @@ open Closure
 
 (*Create the header of the output *.c file*)
 let make_header () =
-  Printf.sprintf "#include<stdio.h>\n#include<stdlib.h>\n#include\"csyntax.h\"\n\n"
+  Printf.sprintf "#include<string.h>\n#include<stdio.h>\n#include<stdlib.h>\n#include\"csyntax.h\"\n\n"
 
 let rec typedef_of_type t = match t with
   | Type.Unit -> "int"
@@ -47,15 +47,18 @@ let rec string_of_type t = match t with
   | _ -> ""
 
 (*Determine the type of the given string and return a string*)
-let type_of_string s = match s.[1] with
-  | 'i' -> "int"
-  | 'd' -> "double"
-  | 'b' -> "bool"
-  | 'f' -> "Closure"
-  | 't' -> "int"
-  | 'u' -> "int"
-  | 'a' -> "array"
-  | _ -> "int"
+let type_of_string s = 
+  if String.length s > 2 then 
+    match s.[1] with
+    | 'i' -> "int"
+    | 'd' -> "double"
+    | 'b' -> "bool"
+    | 'f' -> "Closure"
+    | 't' -> "int"
+    | 'u' -> "int"
+    | 'a' -> "array"
+    | _ -> "int"
+  else "int"
 
 (*Assign each value in the Environment list to a variable*)
 let list_args fv =
@@ -77,8 +80,8 @@ let list_params l =
     | _ -> acc ^ ", " ^ s) "" l
 
 (*Add the check for a created Environment malloc*)
-let malloc_check =
-  Printf.sprintf "if(env == NULL){\nprintf(\"Error allocating memory for environment\\n\");\nexit(-1);\n}\n"
+let malloc_check n =
+  Printf.sprintf "if(%s_env == NULL){\nprintf(\"Error allocating memory for environment\\n\");\nexit(-1);\n}\n" n
 
 (*Translate min_caml functions into C*)
 let print_results id l r rt =
@@ -141,8 +144,8 @@ let create_tuple xts y =
 
 (*This function will translate a single line of the OCaml intermediate code and decide the translated C version
 Change tp to rt -> directly pass the type of r*)
-let rec trans_exp r (rt: Type.t) (typedef_names : string list) = function
-  | Unit -> Printf.sprintf ""  
+let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : string) = function
+  | Unit -> Printf.sprintf "%s %s = 1;" (string_of_type rt) r  
   | Int(i) -> Printf.sprintf "int %s = %d;" r i
   | Float(d) -> Printf.sprintf "double %s = %f;" r d
   | Neg(n) -> Printf.sprintf "int %s = -%s;" r n
@@ -153,20 +156,20 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) = function
   | FMul(x, y) -> Printf.sprintf "double %s =  %s * %s;" r x y
   | FDiv(x, y) -> Printf.sprintf "double %s = %s / %s;" r x y
   | FNeg(n) -> Printf.sprintf "double %s = -%s;" r n
-  | IfEq(x, y, e1, e2) -> Printf.sprintf "if(%s == %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r rt typedef_names e1) (trans_exp r rt typedef_names e2)
-  | IfLE(x, y, e1, e2) -> Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r rt typedef_names e1) (trans_exp r rt typedef_names e2)
+  | IfEq(x, y, e1, e2) -> Printf.sprintf "if(%s == %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r rt typedef_names env_name e1) (trans_exp r rt typedef_names env_name e2)
+  | IfLE(x, y, e1, e2) -> Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y (trans_exp r rt typedef_names env_name e1) (trans_exp r rt typedef_names env_name e2)
   | AppDir(Id.L l, xs) -> Printf.sprintf "%s" (print_results l xs r rt)
   | Var(x) -> Printf.sprintf "%s %s = %s;" (string_of_type rt) r x
-  | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x t typedef_names e1) (trans_exp r rt typedef_names e2) 
+  | Let((x, t), e1, e2) -> Printf.sprintf "%s\n%s" (trans_exp x t typedef_names env_name e1) (trans_exp r rt typedef_names env_name e2) 
   | Tuple(xs) -> Printf.sprintf "int %s[] = {%s};" r (list_params xs)
-  | LetTuple(xts, y, e) -> Printf.sprintf "%s%s" (create_tuple xts y) (trans_exp r rt typedef_names e)
+  | LetTuple(xts, y, e) -> Printf.sprintf "%s%s" (create_tuple xts y) (trans_exp r rt typedef_names env_name e)
   | MakeCls((x, t), { entry = Id.L l; actual_fv = ys }, e) ->
-     Printf.sprintf "Environment env = malloc(%d * sizeof(int));\n%s%sClosure %s = { (Function)%s_fun, env };\n%s" (List.length ys) malloc_check 
-    (List.mapi (fun i n -> Printf.sprintf "*(env + %d) = %s;\n" i n) ys 
-     |> List.fold_left (fun acc s -> acc ^ "" ^ s) "") x l (trans_exp r rt typedef_names e)
+     Printf.sprintf "Environment %s_env = malloc(%d * sizeof(int));\n%s%sClosure %s = { (Function)%s_fun, %s_env };\n%s" x (List.length ys) (malloc_check x)
+    (List.mapi (fun i n -> Printf.sprintf "*(%s_env + %d) = %s;\n" x i n) ys 
+     |> List.fold_left (fun acc s -> acc ^ "" ^ s) "") x l x (trans_exp r rt typedef_names (x ^ "_") e)
   | AppCls(x, ys) -> 
     (match r with
-    | "result" -> Printf.sprintf "return %s_fun(%s, env);" x (list_params ys)
+    | "result" -> Printf.sprintf "return %s_fun(%s, %senv);" x (list_params ys) env_name
     | _ ->
       begin
 	try
@@ -182,7 +185,14 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) = function
      (match rt with
       | Type.Array(t) -> Printf.sprintf "%s %s = (%s + %s);" (string_of_type rt) r x y
       | _ -> Printf.sprintf "%s %s = *(%s + %s);" (string_of_type rt) r x y)
-  | Put(x, y, z) -> Printf.sprintf "%s[%s] = *%s;" x y z
+  | Put(x, y, z) -> 
+     begin
+       let z_type = type_of_string z in 
+       let mark = match z_type with 
+	 | "array" -> "*" 
+	 | _ -> "" in
+       Printf.sprintf "%s[%s] = %s%s;" x y mark z
+     end
   | ExtArray(_) -> ""
 
 (*This function will go through all fundefs and translate each function into C
@@ -210,12 +220,12 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 	match t with
 	| Type.Unit -> ""
 	| _ -> (end_function "result") in
-      Printf.sprintf "%s%s{\n%s%s%s\n\n%s" name signature (list_args fv) (trans_exp "result" t typedef_names b) func_end (make_functions (List.tl f) typedef_names)  
+      Printf.sprintf "%s%s{\n%s%s%s\n\n%s" name signature (list_args fv) (trans_exp "result" t typedef_names "" b) func_end (make_functions (List.tl f) typedef_names)  
     end
 
 (*This function creates the C main function*)
 let make_main r typedef_names body =
-  Printf.sprintf "int main(){\n%s\nint %s = 1;\nreturn %s;\n}\n" (trans_exp r Type.Int typedef_names body) r r
+  Printf.sprintf "int main(){\n%s\nint %s = 1;\nreturn %s;\n}\n" (trans_exp r Type.Int typedef_names "" body) r r
 
 (*The main process of translate.ml*)
 let main s =

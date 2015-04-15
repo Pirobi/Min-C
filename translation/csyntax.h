@@ -7,7 +7,7 @@ typedef void* Function;
 //Defines a pointer to a list of free variables, or the environment
 typedef int* Environment;
 
-/*Defines a closure for use in Closure Conversion.
+/*Defines a closure for use in dealing with Closure Conversion.
 A Closure is defined as the following:
 <Function name, Environment>*/
 typedef struct{

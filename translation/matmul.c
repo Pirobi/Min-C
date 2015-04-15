@@ -1,3 +1,4 @@
+#include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include"csyntax.h"
@@ -12,24 +13,24 @@ int loop3_fun(int k, Environment env){
   double* c = (double*) *(env + 2);
   int i = (int) *(env + 3);
   int j = (int) *(env + 4);
-  int Ti2908 = 0;
-  if(Ti2908 <= k){
-    double* Ta2909 = (c + i);
-    double* Ta2910 = (c + i);
-    double Td2911 = *(Ta2910 + j);
-    double* Ta2912 = (a + i);
-    double Td2913 = *(Ta2912 + k);
-    double* Ta2914 = (b + k);
-    double Td2915 = *(Ta2914 + j);
-    double Td2916 =  Td2913 * Td2915;
-    double Td2917 = Td2911 + Td2916;
-    Ta2909[j] = Td2917;
-    int Ti2918 = 1;
-    int Ti2919 = k - Ti2918;
-    return loop3_fun(Ti2919, env);
+  int Ti128 = 0;
+  if(Ti128 <= k){
+    double* Ta129 = (c + i);
+    double* Ta130 = (c + i);
+    double Td131 = *(Ta130 + j);
+    double* Ta132 = (a + i);
+    double Td133 = *(Ta132 + k);
+    double* Ta134 = (b + k);
+    double Td135 = *(Ta134 + j);
+    double Td136 =  Td133 * Td135;
+    double Td137 = Td131 + Td136;
+    Ta129[j] = Td137;
+    int Ti138 = 1;
+    int Ti139 = k - Ti138;
+    return loop3_fun(Ti139, env);
   }
   else{
-
+    int result = 1;
   }
   return result;
 }
@@ -40,28 +41,28 @@ int loop2_fun(int j, Environment env){
   double* c = (double*) *(env + 2);
   int i = (int) *(env + 3);
   int m = (int) *(env + 4);
-  int Ti2903 = 0;
-  if(Ti2903 <= j){
-    Environment env = malloc(5 * sizeof(int));
-    if(env == NULL){
+  int Ti123 = 0;
+  if(Ti123 <= j){
+    Environment loop3_env = malloc(5 * sizeof(int));
+    if(loop3_env == NULL){
       printf("Error allocating memory for environment\n");
       exit(-1);
     }
-    *(env + 0) = a;
-    *(env + 1) = b;
-    *(env + 2) = c;
-    *(env + 3) = i;
-    *(env + 4) = j;
-    Closure loop3 = { (Function)loop3_fun, env };
-    int Ti2904 = 1;
-    int Ti2905 = m - Ti2904;
-    int Tu2782 = ((fun_int_int_Environment*)loop3.f)(Ti2905, loop3.env);
-    int Ti2906 = 1;
-    int Ti2907 = j - Ti2906;
-    return loop2_fun(Ti2907, env);
+    *(loop3_env + 0) = a;
+    *(loop3_env + 1) = b;
+    *(loop3_env + 2) = c;
+    *(loop3_env + 3) = i;
+    *(loop3_env + 4) = j;
+    Closure loop3 = { (Function)loop3_fun, loop3_env };
+    int Ti124 = 1;
+    int Ti125 = m - Ti124;
+    int Tu2 = ((fun_int_int_Environment*)loop3.f)(Ti125, loop3.env);
+    int Ti126 = 1;
+    int Ti127 = j - Ti126;
+    return loop2_fun(Ti127, loop3_env);
   }
   else{
-
+    int result = 1;
   }
   return result;
 }
@@ -72,65 +73,65 @@ int loop1_fun(int i, Environment env){
   double* c = (double*) *(env + 2);
   int m = (int) *(env + 3);
   int n = (int) *(env + 4);
-  int Ti2898 = 0;
-  if(Ti2898 <= i){
-    Environment env = malloc(5 * sizeof(int));
-    if(env == NULL){
+  int Ti118 = 0;
+  if(Ti118 <= i){
+    Environment loop2_env = malloc(5 * sizeof(int));
+    if(loop2_env == NULL){
       printf("Error allocating memory for environment\n");
       exit(-1);
     }
-    *(env + 0) = a;
-    *(env + 1) = b;
-    *(env + 2) = c;
-    *(env + 3) = i;
-    *(env + 4) = m;
-    Closure loop2 = { (Function)loop2_fun, env };
-    int Ti2899 = 1;
-    int Ti2900 = n - Ti2899;
-    int Tu2783 = ((fun_int_int_Environment*)loop2.f)(Ti2900, loop2.env);
-    int Ti2901 = 1;
-    int Ti2902 = i - Ti2901;
-    return loop1_fun(Ti2902, env);
+    *(loop2_env + 0) = a;
+    *(loop2_env + 1) = b;
+    *(loop2_env + 2) = c;
+    *(loop2_env + 3) = i;
+    *(loop2_env + 4) = m;
+    Closure loop2 = { (Function)loop2_fun, loop2_env };
+    int Ti119 = 1;
+    int Ti120 = n - Ti119;
+    int Tu3 = ((fun_int_int_Environment*)loop2.f)(Ti120, loop2.env);
+    int Ti121 = 1;
+    int Ti122 = i - Ti121;
+    return loop1_fun(Ti122, loop2_env);
   }
   else{
-
+    int result = 1;
   }
   return result;
 }
 
 int mul_fun(int l, int m, int n, double* a, double* b, double* c){
-  Environment env = malloc(5 * sizeof(int));
-  if(env == NULL){
+  Environment loop1_env = malloc(5 * sizeof(int));
+  if(loop1_env == NULL){
     printf("Error allocating memory for environment\n");
     exit(-1);
   }
-  *(env + 0) = a;
-  *(env + 1) = b;
-  *(env + 2) = c;
-  *(env + 3) = m;
-  *(env + 4) = n;
-  Closure loop1 = { (Function)loop1_fun, env };
-  int Ti2896 = 1;
-  int Ti2897 = l - Ti2896;
-  return loop1_fun(Ti2897, env);
+  *(loop1_env + 0) = a;
+  *(loop1_env + 1) = b;
+  *(loop1_env + 2) = c;
+  *(loop1_env + 3) = m;
+  *(loop1_env + 4) = n;
+  Closure loop1 = { (Function)loop1_fun, loop1_env };
+  int Ti116 = 1;
+  int Ti117 = l - Ti116;
+  return loop1_fun(Ti117, loop1_env);
   return result;
 }
 
 int init_fun(int i, Environment env){
   double* mat = (double*) *(env + 0);
   int n = (int) *(env + 1);
-  int Ti2891 = 0;
-  if(Ti2891 <= i){
-    double Td2892 = 0.000000;
-    double Ta2893[n];
-    memset(Ta2893, Td2892, n * sizeof(double));
-    mat[i] = *Ta2893;
-    int Ti2894 = 1;
-    int Ti2895 = i - Ti2894;
-    return init_fun(Ti2895, env);
+  int Ti111 = 0;
+  if(Ti111 <= i){
+    double Td112 = 0.000000;
+    double Ta113[n];
+    memset(Ta113, Td112, n * sizeof(double));
+    mat[i] = *Ta113;
+    int Ti114 = 1;
+    int Ti115 = i - Ti114;
+    return init_fun(Ti115, env);
   }
   else{
-
+    int result = 1;
   }
   return result;
 }
@@ -139,137 +140,137 @@ double* make_fun(int m, int n, Environment env){
   double* dummy = (double*) *(env + 0);
   int mat[m];
   memset(mat, dummy, m * sizeof(int));
-  Environment env1 = malloc(2 * sizeof(int));//Wrong, used to be env...name error
-  if(env == NULL){
+  Environment init_env = malloc(2 * sizeof(int));
+  if(init_env == NULL){
     printf("Error allocating memory for environment\n");
     exit(-1);
   }
-  *(env + 0) = mat;
-  *(env + 1) = n;
-  Closure init = { (Function)init_fun, env1 }; //Wrong, used to be env
-  int Ti2889 = 1;
-  int Ti2890 = m - Ti2889;
-  int Tu2785 = ((fun_int_int_Environment*)init.f)(Ti2890, init.env);
+  *(init_env + 0) = mat;
+  *(init_env + 1) = n;
+  Closure init = { (Function)init_fun, init_env };
+  int Ti109 = 1;
+  int Ti110 = m - Ti109;
+  int Tu5 = ((fun_int_int_Environment*)init.f)(Ti110, init.env);
   double* result = mat;
   return result;
 }
 
 int main(){
-  int Ti2806 = 0;
-  double Td2807 = 0.000000;
-  double dummy[Ti2806];
-  memset(dummy, Td2807, Ti2806 * sizeof(double));
-  Environment env = malloc(1 * sizeof(int));
-  if(env == NULL){
+  int Ti26 = 0;
+  double Td27 = 0.000000;
+  double dummy[Ti26];
+  memset(dummy, Td27, Ti26 * sizeof(double));
+  Environment make_env = malloc(1 * sizeof(int));
+  if(make_env == NULL){
     printf("Error allocating memory for environment\n");
     exit(-1);
   }
-  *(env + 0) = dummy;
-  Closure make = { (Function)make_fun, env };
-  int Ti2808 = 2;
-  int Ti2809 = 3;
-  double* a = ((fun_double_int_int_Environment*)make.f)(Ti2808, Ti2809, make.env);
-  int Ti2810 = 3;
-  int Ti2811 = 2;
-  double* b = ((fun_double_int_int_Environment*)make.f)(Ti2810, Ti2811, make.env);
-  int Ti2812 = 2;
-  int Ti2813 = 2;
-  double* c = ((fun_double_int_int_Environment*)make.f)(Ti2812, Ti2813, make.env);
-  int Ti2814 = 0;
-  double* Ta2815 = (a + Ti2814);
-  int Ti2816 = 0;
-  double Td2817 = 1.000000;
-  Ta2815[Ti2816] = Td2817;
-  int Ti2818 = 0;
-  double* Ta2819 = (a + Ti2818);
-  int Ti2820 = 1;
-  double Td2821 = 2.000000;
-  Ta2819[Ti2820] = Td2821;
-  int Ti2822 = 0;
-  double* Ta2823 = (a + Ti2822);
-  int Ti2824 = 2;
-  double Td2825 = 3.000000;
-  Ta2823[Ti2824] = Td2825;
-  int Ti2826 = 1;
-  double* Ta2827 = (a + Ti2826);
-  int Ti2828 = 0;
-  double Td2829 = 4.000000;
-  Ta2827[Ti2828] = Td2829;
-  int Ti2830 = 1;
-  double* Ta2831 = (a + Ti2830);
-  int Ti2832 = 1;
-  double Td2833 = 5.000000;
-  Ta2831[Ti2832] = Td2833;
-  int Ti2834 = 1;
-  double* Ta2835 = (a + Ti2834);
-  int Ti2836 = 2;
-  double Td2837 = 6.000000;
-  Ta2835[Ti2836] = Td2837;
-  int Ti2838 = 0;
-  double* Ta2839 = (b + Ti2838);
-  int Ti2840 = 0;
-  double Td2841 = 7.000000;
-  Ta2839[Ti2840] = Td2841;
-  int Ti2842 = 0;
-  double* Ta2843 = (b + Ti2842);
-  int Ti2844 = 1;
-  double Td2845 = 8.000000;
-  Ta2843[Ti2844] = Td2845;
-  int Ti2846 = 1;
-  double* Ta2847 = (b + Ti2846);
-  int Ti2848 = 0;
-  double Td2849 = 9.000000;
-  Ta2847[Ti2848] = Td2849;
-  int Ti2850 = 1;
-  double* Ta2851 = (b + Ti2850);
-  int Ti2852 = 1;
-  double Td2853 = 10.000000;
-  Ta2851[Ti2852] = Td2853;
-  int Ti2854 = 2;
-  double* Ta2855 = (b + Ti2854);
-  int Ti2856 = 0;
-  double Td2857 = 11.000000;
-  Ta2855[Ti2856] = Td2857;
-  int Ti2858 = 2;
-  double* Ta2859 = (b + Ti2858);
-  int Ti2860 = 1;
-  double Td2861 = 12.000000;
-  Ta2859[Ti2860] = Td2861;
-  int Ti2862 = 2;
-  int Ti2863 = 3;
-  int Ti2864 = 2;
-  int Tu2793 = mul_fun(Ti2862, Ti2863, Ti2864, a, b, c);
-  int Ti2865 = 0;
-  double* Ta2866 = (c + Ti2865);
-  int Ti2867 = 0;
-  double Td2868 = *(Ta2866 + Ti2867);
-  int Ti2869 = (int) Td2868;
-  printf("%d", Ti2869);
-
+  *(make_env + 0) = dummy;
+  Closure make = { (Function)make_fun, make_env };
+  int Ti28 = 2;
+  int Ti29 = 3;
+  double* a = ((fun_double_int_int_Environment*)make.f)(Ti28, Ti29, make.env);
+  int Ti30 = 3;
+  int Ti31 = 2;
+  double* b = ((fun_double_int_int_Environment*)make.f)(Ti30, Ti31, make.env);
+  int Ti32 = 2;
+  int Ti33 = 2;
+  double* c = ((fun_double_int_int_Environment*)make.f)(Ti32, Ti33, make.env);
+  int Ti34 = 0;
+  double* Ta35 = (a + Ti34);
+  int Ti36 = 0;
+  double Td37 = 1.000000;
+  Ta35[Ti36] = Td37;
+  int Ti38 = 0;
+  double* Ta39 = (a + Ti38);
+  int Ti40 = 1;
+  double Td41 = 2.000000;
+  Ta39[Ti40] = Td41;
+  int Ti42 = 0;
+  double* Ta43 = (a + Ti42);
+  int Ti44 = 2;
+  double Td45 = 3.000000;
+  Ta43[Ti44] = Td45;
+  int Ti46 = 1;
+  double* Ta47 = (a + Ti46);
+  int Ti48 = 0;
+  double Td49 = 4.000000;
+  Ta47[Ti48] = Td49;
+  int Ti50 = 1;
+  double* Ta51 = (a + Ti50);
+  int Ti52 = 1;
+  double Td53 = 5.000000;
+  Ta51[Ti52] = Td53;
+  int Ti54 = 1;
+  double* Ta55 = (a + Ti54);
+  int Ti56 = 2;
+  double Td57 = 6.000000;
+  Ta55[Ti56] = Td57;
+  int Ti58 = 0;
+  double* Ta59 = (b + Ti58);
+  int Ti60 = 0;
+  double Td61 = 7.000000;
+  Ta59[Ti60] = Td61;
+  int Ti62 = 0;
+  double* Ta63 = (b + Ti62);
+  int Ti64 = 1;
+  double Td65 = 8.000000;
+  Ta63[Ti64] = Td65;
+  int Ti66 = 1;
+  double* Ta67 = (b + Ti66);
+  int Ti68 = 0;
+  double Td69 = 9.000000;
+  Ta67[Ti68] = Td69;
+  int Ti70 = 1;
+  double* Ta71 = (b + Ti70);
+  int Ti72 = 1;
+  double Td73 = 10.000000;
+  Ta71[Ti72] = Td73;
+  int Ti74 = 2;
+  double* Ta75 = (b + Ti74);
+  int Ti76 = 0;
+  double Td77 = 11.000000;
+  Ta75[Ti76] = Td77;
+  int Ti78 = 2;
+  double* Ta79 = (b + Ti78);
+  int Ti80 = 1;
+  double Td81 = 12.000000;
+  Ta79[Ti80] = Td81;
+  int Ti82 = 2;
+  int Ti83 = 3;
+  int Ti84 = 2;
+  int Tu13 = mul_fun(Ti82, Ti83, Ti84, a, b, c);
+  int Ti85 = 0;
+  double* Ta86 = (c + Ti85);
+  int Ti87 = 0;
+  double Td88 = *(Ta86 + Ti87);
+  int Ti89 = (int) Td88;
+  printf("%d", Ti89);
+  int Tu90 = 1;
   printf("\n");
-  int Ti2871 = 0;
-  double* Ta2872 = (c + Ti2871);
-  int Ti2873 = 1;
-  double Td2874 = *(Ta2872 + Ti2873);
-  int Ti2875 = (int) Td2874;
-  printf("%d", Ti2875);
-
+  int Ti91 = 0;
+  double* Ta92 = (c + Ti91);
+  int Ti93 = 1;
+  double Td94 = *(Ta92 + Ti93);
+  int Ti95 = (int) Td94;
+  printf("%d", Ti95);
+  int Tu96 = 1;
   printf("\n");
-  int Ti2877 = 1;
-  double* Ta2878 = (c + Ti2877);
-  int Ti2879 = 0;
-  double Td2880 = *(Ta2878 + Ti2879);
-  int Ti2881 = (int) Td2880;
-  printf("%d", Ti2881);
-
+  int Ti97 = 1;
+  double* Ta98 = (c + Ti97);
+  int Ti99 = 0;
+  double Td100 = *(Ta98 + Ti99);
+  int Ti101 = (int) Td100;
+  printf("%d", Ti101);
+  int Tu102 = 1;
   printf("\n");
-  int Ti2883 = 1;
-  double* Ta2884 = (c + Ti2883);
-  int Ti2885 = 1;
-  double Td2886 = *(Ta2884 + Ti2885);
-  int Ti2887 = (int) Td2886;
-  printf("%d", Ti2887);
-
+  int Ti103 = 1;
+  double* Ta104 = (c + Ti103);
+  int Ti105 = 1;
+  double Td106 = *(Ta104 + Ti105);
+  int Ti107 = (int) Td106;
+  printf("%d", Ti107);
+  int Tu108 = 1;
   printf("\n");
   int ans = 1;
   return ans;
