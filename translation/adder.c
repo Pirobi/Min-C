@@ -1,3 +1,4 @@
+#include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include"csyntax.h"
@@ -24,11 +25,11 @@ Closure make_adder_fun(int x){
 }
 
 int main(){
-  int Ti1252 = 3;
-  Closure Tf1253 = make_adder_fun(Ti1252);
-  int Ti1254 = 7;
-  int Ti1255 = ((fun_int_int_Environment*)Tf1253.f)(Ti1254, Tf1253.env);
-  printf("%d", Ti1255);
+  int Ti1 = 3;
+  Closure Tf2 = make_adder_fun(Ti1);
+  int Ti3 = 7;
+  int Ti4 = ((fun_int_int_Environment*)Tf2.f)(Ti3, Tf2.env);
+  printf("%d", Ti4);
   int ans = 1;
   return ans;
 }
