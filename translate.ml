@@ -73,7 +73,8 @@ let list_args fv =
     List.mapi (fun i l ->  
       begin
 	let (n, t) = l in
-	Printf.sprintf "%s %s = (%s) *(env + %d);\n" (string_of_type t) n (string_of_type t) i
+	let double_pointer = (match t with | Type.Array(t) -> "" | _ -> "*") in
+	Printf.sprintf "%s %s = (%s) %s*(env + %d * sizeof(%s));\n" (string_of_type t) n (string_of_type t) double_pointer i "int"
       end) fv 
     |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
 
@@ -170,7 +171,7 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
   | LetTuple(xts, y, e) -> Printf.sprintf "%s%s" (create_tuple xts y) (trans_exp r rt typedef_names env_name func_name e)
   | MakeCls((x, t), { entry = Id.L l; actual_fv = ys }, e) ->
      Printf.sprintf "Environment %s_env = malloc(%d * sizeof(int));\n%s%sClosure %s = { (Function)%s_fun, %s_env };\n%s" x (List.length ys) (malloc_check x)
-    (List.mapi (fun i n -> Printf.sprintf "*(%s_env + %d) = %s;\n" x i n) ys 
+    (List.mapi (fun i n -> Printf.sprintf "*(%s_env + %d * sizeof(%s)) = %s;\n" x i "int" n) ys 
      |> List.fold_left (fun acc s -> acc ^ "" ^ s) "") x l x (trans_exp r rt typedef_names (x ^ "_") func_name e)
   | AppCls(x, ys) ->
      if x = func_name then 
