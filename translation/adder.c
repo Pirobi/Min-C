@@ -26,11 +26,11 @@ return result;
 }
 
 int main(){
-int Ti883 = 3;
-Closure Tf884 = make_adder_fun(Ti883);
-int Ti885 = 7;
-int Ti886 = ((fun_int_int_Environment*)Tf884.f)(Ti885, Tf884.env);
-printf("%d", Ti886);
+int Ti1026 = 3;
+Closure Tf1027 = make_adder_fun(Ti1026);
+int Ti1028 = 7;
+int Ti1029 = ((fun_int_int_Environment*)Tf1027.f)(Ti1028, Tf1027.env);
+printf("%d", Ti1029);
 int ans = 1;
 return ans;
 }

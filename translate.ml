@@ -247,6 +247,7 @@ let translate s =
   |> Closure.f
   |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
   let (typedef_names, typedefs) = make_typedefs funcs [] [] in
+  Format.eprintf "Translating intermediate code to C...@.";
   make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
 
 let main f = 
@@ -259,7 +260,6 @@ let main f =
     done;
   with End_of_file ->
     close_in in_channel;
-    Format.eprintf "Translating intermediate code to C...@.";
     let result = translate !lines in
     let out_channel = open_out ("translation/" ^ f ^ ".c") in
     Format.eprintf "Outputting to translation/%s.c...@." f;
