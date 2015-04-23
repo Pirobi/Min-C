@@ -2,7 +2,7 @@ open Closure
 
 (*Create the header of the output *.c file*)
 let make_header () =
-  Printf.sprintf "#include<stdio.h>\n#include<stdlib.h>\n#include\"csyntax.h\"\n\n"
+  Printf.sprintf "#include<stdio.h>\n#include<stdlib.h>\n#include\"csyntax.c\"\n\n"
 
 (*Convert a Type.t type to a string*)
 (*Used for variables*)
@@ -89,7 +89,7 @@ let print_results id l r rt =
     | "min_caml_create_array" -> Printf.sprintf "int* %s = (int*) make_array(%s, %s);" r (List.nth l 0) (List.nth l 1)
     | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
     | "min_caml_truncate" -> let params = list_params l in Printf.sprintf "%s %s = (%s) %s;" (type_of_string r) r (type_of_string r) params
-    | _ -> let params = list_params l in Printf.sprintf "%s %s = %s_fun(%s);" (get_return_type rt) r id params
+    | _ -> let params = list_params l in Printf.sprintf "%s %s = %s_fun(%s);" (string_of_type rt) r id params
 
 (*Return the result of the function. This function MIGHT be restructured later*)
 let end_function r =
@@ -182,7 +182,7 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
        Printf.sprintf "%s = %s_fun(%s, env);" (include_type r (string_of_type rt)) x (list_params ys)
      else
        begin
-	 let types = "fun_" ^ (type_of_string x) ^ "_" ^ (List.fold_left (fun acc x -> 
+	 let types = "fun_" ^ (typedef_of_type rt) ^ "_" ^ (List.fold_left (fun acc x -> 
 									      match acc with 
 									      | "" -> acc ^ "" ^ (type_of_string x) 
 									      | _ -> acc ^ "_" ^ (type_of_string x)) "" ys) ^ "_Environment" in
@@ -224,21 +224,6 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 let make_main r typedef_names body =
   Printf.sprintf "int main(){\n%s\nint %s = 1;\nreturn %s;\n}\n" (trans_exp r Type.Int typedef_names "" "main" body) r r
 
-(*The main process of translate.ml*)
-let main s =
-  let (funcs, mainf) = Lexing.from_string s
-  |> Parser.exp Lexer.token
-  |> Typing.f 
-  |> KNormal.f
-  |> Assoc.f
-  |> Inline.f
-  |> Elim.f
-  |> Closure.f
-  |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
-  let (typedef_names, typedefs) = make_typedefs funcs [] [] in
-  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
-  |> print_endline
-
 let debug s =
   let (funcs, mainf) = Lexing.from_string s
   |> Parser.exp Lexer.token
@@ -250,3 +235,31 @@ let debug s =
   |> Closure.f
   |> (fun (Prog (p, t)) -> (p, t)) in (funcs, mainf)
 
+(*The main process of translate.ml*)
+let translate s =
+  let (funcs, mainf) = Lexing.from_string s
+  |> Parser.exp Lexer.token
+  |> Typing.f 
+  |> KNormal.f
+  |> Assoc.f
+  |> Inline.f
+  |> Elim.f
+  |> Closure.f
+  |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
+  let (typedef_names, typedefs) = make_typedefs funcs [] [] in
+  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
+
+let main f = 
+  let lines = ref "" in
+  let in_channel = open_in ("test/" ^ f ^ ".ml") in
+  try
+    while true do
+      lines := Printf.sprintf "%s%s\n" !lines (input_line in_channel)
+    done;
+  with End_of_file ->
+    close_in in_channel;
+    let result = translate !lines in
+    let out_channel = open_out ("translation/" ^ f ^ ".c") in
+    output_string out_channel result;
+    close_out out_channel;;
+		   
