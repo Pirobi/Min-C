@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include"csyntax.h"
+#include"csyntax.c"
 
 typedef Closure fun_Closure_int(int x);
 typedef int fun_int_int_Environment(int y, Environment env);
@@ -26,11 +26,11 @@ return result;
 }
 
 int main(){
-int Ti597 = 3;
-Closure Tf598 = make_adder_fun(Ti597);
-int Ti599 = 7;
-int Ti600 = ((fun_int_int_Environment*)Tf598.f)(Ti599, Tf598.env);
-printf("%d", Ti600);
+int Ti883 = 3;
+Closure Tf884 = make_adder_fun(Ti883);
+int Ti885 = 7;
+int Ti886 = ((fun_int_int_Environment*)Tf884.f)(Ti885, Tf884.env);
+printf("%d", Ti886);
 int ans = 1;
 return ans;
 }

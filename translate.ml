@@ -250,6 +250,7 @@ let translate s =
   make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
 
 let main f = 
+  Format.eprintf "Reading file test/%s.ml...@." f;
   let lines = ref "" in
   let in_channel = open_in ("test/" ^ f ^ ".ml") in
   try
@@ -258,8 +259,11 @@ let main f =
     done;
   with End_of_file ->
     close_in in_channel;
+    Format.eprintf "Translating intermediate code to C...@.";
     let result = translate !lines in
     let out_channel = open_out ("translation/" ^ f ^ ".c") in
+    Format.eprintf "Outputting to translation/%s.c...@." f;
     output_string out_channel result;
-    close_out out_channel;;
+    close_out out_channel;
+    Format.eprintf "Translation complete.@."
 		   
