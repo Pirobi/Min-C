@@ -74,7 +74,7 @@ let list_args fv =
       begin
 	let (n, t) = l in
 	let double_pointer = (match t with | Type.Array(t) -> "" | _ -> "*") in
-	Printf.sprintf "%s %s = (%s) %s*(env + %d * sizeof(%s));\n" (string_of_type t) n (string_of_type t) double_pointer i "int"
+	Printf.sprintf "%s %s = (%s) %s*(env + %d);\n" (string_of_type t) n (string_of_type t) double_pointer i
       end) fv 
     |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
 
@@ -94,8 +94,8 @@ let print_results id l r rt =
   match id with
     | "min_caml_print_int" -> let params = list_params l in Printf.sprintf "printf(\"%%d\", %s);" params
     | "min_caml_print_float" -> let params = list_params l in Printf.sprintf "printf(\"%%s\", %s);" params
-    | "min_caml_create_float_array" -> Printf.sprintf "double %s[%s];\nmemset(%s, %s, %s * sizeof(double));" r (List.nth l 0) r (List.nth l 1) (List.nth l 0) 
-    | "min_caml_create_array" -> Printf.sprintf "int %s[%s];\nmemset(%s, %s, %s * sizeof(int));" r (List.nth l 0) r (List.nth l 1) (List.nth l 0)
+    | "min_caml_create_float_array" -> Printf.sprintf "double* %s = calloc(%s, sizeof(double));" r (List.nth l 0)
+    | "min_caml_create_array" -> Printf.sprintf "int* %s = calloc(%s, sizeof(int));" r (List.nth l 0)
     | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
     | "min_caml_truncate" -> let params = list_params l in Printf.sprintf "%s %s = (%s) %s;" (type_of_string r) r (type_of_string r) params
     | _ -> let params = list_params l in Printf.sprintf "%s %s = %s_fun(%s);" (get_return_type rt) r id params
@@ -170,8 +170,8 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
   | Tuple(xs) -> Printf.sprintf "%s[] = {%s};" (include_type r "int") (list_params xs)
   | LetTuple(xts, y, e) -> Printf.sprintf "%s%s" (create_tuple xts y) (trans_exp r rt typedef_names env_name func_name e)
   | MakeCls((x, t), { entry = Id.L l; actual_fv = ys }, e) ->
-     Printf.sprintf "Environment %s_env = malloc(%d * sizeof(int));\n%s%sClosure %s = { (Function)%s_fun, %s_env };\n%s" x (List.length ys) (malloc_check x)
-    (List.mapi (fun i n -> Printf.sprintf "*(%s_env + %d * sizeof(%s)) = %s;\n" x i "int" n) ys 
+     Printf.sprintf "Environment %s_env = malloc(%d * sizeof(int*));\n%s%sClosure %s = { (Function)%s_fun, %s_env };\n%s" x (List.length ys) (malloc_check x)
+    (List.mapi (fun i n -> Printf.sprintf "*(%s_env + %d) = %s;\n" x i n) ys 
      |> List.fold_left (fun acc s -> acc ^ "" ^ s) "") x l x (trans_exp r rt typedef_names (x ^ "_") func_name e)
   | AppCls(x, ys) ->
      if x = func_name then 
@@ -197,7 +197,7 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
        let mark = match z_type with 
 	 | "array" -> "*" 
 	 | _ -> "" in
-       Printf.sprintf "%s[%s] = %s%s;" x y mark z
+       Printf.sprintf "*(%s + %s) = %s%s;" x y mark z
      end
   | ExtArray(_) -> ""
 
