@@ -4,15 +4,15 @@
 
 
 int main(){
-int Ti3 = 123;
-printf("%d", Ti3);
-int Ti4 = 456;
-int Ti5 = -Ti4;
-printf("%d", Ti5);
-int Ti6 = 789;
-int Ti7 = 0;
-int Ti8 = Ti6 + Ti7;
-printf("%d", Ti8);
+int Ti27 = 123;
+printf("%d", Ti27);
+int Ti28 = 456;
+int Ti29 = -Ti28;
+printf("%d", Ti29);
+int Ti30 = 789;
+int Ti31 = 0;
+int Ti32 = Ti30 + Ti31;
+printf("%d", Ti32);
 int ans = 1;
 return ans;
 }

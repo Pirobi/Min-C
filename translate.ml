@@ -251,9 +251,9 @@ let translate s =
   make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
 
 let main f = 
-  Format.eprintf "Reading file test/%s.ml...@." f;
+  Format.eprintf "Reading file test/%s...@." f;
   let lines = ref "" in
-  let in_channel = open_in ("test/" ^ f ^ ".ml") in
+  let in_channel = open_in ("test/" ^ f) in
   try
     while true do
       lines := Printf.sprintf "%s%s\n" !lines (input_line in_channel)
@@ -261,8 +261,10 @@ let main f =
   with End_of_file ->
     close_in in_channel;
     let result = translate !lines in
-    let out_channel = open_out ("translation/" ^ f ^ ".c") in
-    Format.eprintf "Outputting to translation/%s.c...@." f;
+    let p = String.index f '.' in
+    let name = String.sub f 0 p in
+    let out_channel = open_out ("translation/" ^ name ^ ".c") in
+    Format.eprintf "Outputting to translation/%s.c...@." name;
     output_string out_channel result;
     close_out out_channel;
     Format.eprintf "Translation complete.@."
