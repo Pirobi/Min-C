@@ -2,7 +2,7 @@ open Closure
 
 (*Create the header of the output *.c file*)
 let make_header () =
-  Printf.sprintf "#include<stdio.h>\n#include<stdlib.h>\n#include\"csyntax.c\"\n\n"
+  Printf.sprintf "#include\"csyntax.c\"\n\n"
 
 (*Convert a Type.t type to a string*)
 (*Used for variables*)

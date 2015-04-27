@@ -1,18 +1,16 @@
-#include<stdio.h>
-#include<stdlib.h>
 #include"csyntax.c"
 
 
 int main(){
-int Ti27 = 123;
-printf("%d", Ti27);
-int Ti28 = 456;
-int Ti29 = -Ti28;
-printf("%d", Ti29);
-int Ti30 = 789;
-int Ti31 = 0;
-int Ti32 = Ti30 + Ti31;
-printf("%d", Ti32);
 int ans = 1;
+int Ti640 = 123;
+printf("%d", Ti640);
+int Ti641 = 456;
+int Ti642 = -Ti641;
+printf("%d", Ti642);
+int Ti643 = 789;
+int Ti644 = 0;
+int Ti645 = Ti643 + Ti644;
+printf("%d", Ti645);
 return ans;
 }

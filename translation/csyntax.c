@@ -1,4 +1,5 @@
 #include<string.h>
+#include<stdio.h>
 #include<stdlib.h>
 #include"csyntax.h"
 

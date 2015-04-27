@@ -1,5 +1,3 @@
-#include<stdio.h>
-#include<stdlib.h>
 #include"csyntax.c"
 
 typedef int fun_int_int_int_int_int_int_int(int a, int b, int c, int d, int e, int f);
@@ -23,12 +21,12 @@ return result;
 
 int main(){
 int ans = 1;
-int Ti61 = 1;
-int Ti62 = 2;
-int Ti63 = 3;
-int Ti64 = 4;
-int Ti65 = 5;
-int Ti66 = 6;
-ans = bar_fun(Ti61, Ti62, Ti63, Ti64, Ti65, Ti66);
+int Ti632 = 1;
+int Ti633 = 2;
+int Ti634 = 3;
+int Ti635 = 4;
+int Ti636 = 5;
+int Ti637 = 6;
+ans = bar_fun(Ti632, Ti633, Ti634, Ti635, Ti636, Ti637);
 return ans;
 }
