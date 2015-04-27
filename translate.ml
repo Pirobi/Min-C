@@ -52,6 +52,7 @@ let type_of_string s =
     | _ -> "int"
   else "int"
 
+(*If the return variable has already been declared, omit the type*)
 let include_type r rt = 
   match r with
   | "result" | "ans" -> Printf.sprintf "%s" r
@@ -80,7 +81,7 @@ let list_params l =
 let malloc_check n =
   Printf.sprintf "if(%s_env == NULL){\nprintf(\"Error allocating memory for environment\\n\");\nexit(-1);\n}\n" n
 
-(*Translate min_caml functions into C*)
+(*Translate min_caml functions into C. If a min_caml function is not used, then directly call a defined function*)
 let print_results id l r rt =
   match id with
     | "min_caml_print_int" -> let params = list_params l in Printf.sprintf "printf(\"%%d\", %s);" params
@@ -91,11 +92,11 @@ let print_results id l r rt =
     | "min_caml_truncate" -> let params = list_params l in Printf.sprintf "%s %s = (%s) %s;" (type_of_string r) r (type_of_string r) params
     | _ -> let params = list_params l in Printf.sprintf "%s = %s_fun(%s);" (include_type r (get_return_type rt)) id params
 
-(*Return the result of the function. This function MIGHT be restructured later*)
+(*Return the result of the function.*)
 let end_function r =
   Printf.sprintf "\nreturn %s;\n}" r
 
-(*Scan the fundefs and generate the typedefs used in C*)
+(*Scan the fundefs and generate the typedefs used in the C program*)
 let rec make_typedefs(f : fundef list) (g : string list) (h : string list) = 
   match f with 
   | [] -> (g, h)
@@ -189,14 +190,14 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
 	   try
 	     let typedef_type = List.find (fun typ -> typ = types) typedef_names in 
 	     Printf.sprintf "%s = ((%s*)%s.f)(%s, %s.env);" (include_type r (string_of_type rt)) typedef_type x (list_params ys) x
-	   with Not_found -> print_endline types; print_endline (typedef_of_type rt); print_endline (string_of_type rt); print_endline (get_return_type rt); print_endline (list_params ys); assert false
+	   with Not_found -> print_endline types; print_endline (typedef_of_type rt); print_endline (string_of_type rt); 
+			     print_endline (get_return_type rt); print_endline (list_params ys); assert false
        end
   | Get(x, y) -> Printf.sprintf "%s = %s[%s];" (include_type r (string_of_type rt)) x y
   | Put(x, y, z) ->  Printf.sprintf "%s[%s] = %s;" x y z
-  | ExtArray(_) -> ""
+  | ExtArray(_) -> ""(*Will evaluate when working with the ray tracer*)
 
-(*This function will go through all fundefs and translate each function into C
-Seperate function to find return type*)
+(*This function will go through all fundefs and translate each function into C*)
 let rec make_functions(f : fundef list) (typedef_names : string list) = 
   match f with
   | [] -> ""
@@ -217,13 +218,15 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 	| _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s) "" a) 
 	environment in
       let func_end = end_function "result" in
-      Printf.sprintf "%s%s{\n%s result = NULL;\n%s%s%s\n\n%s" name signature (get_return_type t) (list_args fv) (trans_exp "result" t typedef_names "" l b) func_end (make_functions (List.tl f) typedef_names)  
+      Printf.sprintf "%s%s{\n%s result = NULL;\n%s%s%s\n\n%s" name signature (get_return_type t) (list_args fv) 
+		     (trans_exp "result" t typedef_names "" l b) func_end (make_functions (List.tl f) typedef_names)  
     end
 
 (*This function creates the C main function*)
 let make_main r typedef_names body =
   Printf.sprintf "int main(){\nint %s = 1;\n%s\nreturn %s;\n}\n" r (trans_exp r Type.Int typedef_names "" "main" body) r
 
+(*Generates the intermediate code for use in debugging the translation*)
 let debug s =
   let (funcs, mainf) = Lexing.from_string s
   |> Parser.exp Lexer.token
@@ -235,7 +238,7 @@ let debug s =
   |> Closure.f
   |> (fun (Prog (p, t)) -> (p, t)) in (funcs, mainf)
 
-(*The main process of translate.ml*)
+(*Compiles Min-Caml code through closure conversion, then translates the resulting intermediate code into C*)
 let translate s =
   let (funcs, mainf) = Lexing.from_string s
   |> Parser.exp Lexer.token
@@ -250,6 +253,7 @@ let translate s =
   Format.eprintf "Translating intermediate code to C...@.";
   make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
 
+(*Reads a file and translates the Min-Caml code*)
 let main f = 
   Format.eprintf "Reading file test/%s...@." f;
   let lines = ref "" in
