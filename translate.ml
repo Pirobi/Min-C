@@ -54,7 +54,7 @@ let type_of_string s =
 
 let include_type r rt = 
   match r with
-  | "result" -> Printf.sprintf "%s" r
+  | "result" | "ans" -> Printf.sprintf "%s" r
   | _ -> Printf.sprintf "%s %s" rt r
 
 (*Assign each value in the Environment list to a variable*)
@@ -89,7 +89,7 @@ let print_results id l r rt =
     | "min_caml_create_array" -> Printf.sprintf "int* %s = (int*) make_array(%s, %s);" r (List.nth l 0) (List.nth l 1)
     | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
     | "min_caml_truncate" -> let params = list_params l in Printf.sprintf "%s %s = (%s) %s;" (type_of_string r) r (type_of_string r) params
-    | _ -> let params = list_params l in Printf.sprintf "%s %s = %s_fun(%s);" (string_of_type rt) r id params
+    | _ -> let params = list_params l in Printf.sprintf "%s = %s_fun(%s);" (include_type r (get_return_type rt)) id params
 
 (*Return the result of the function. This function MIGHT be restructured later*)
 let end_function r =
@@ -217,12 +217,12 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 	| _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s) "" a) 
 	environment in
       let func_end = end_function "result" in
-      Printf.sprintf "%s%s{\n%s result;\n%s%s%s\n\n%s" name signature (get_return_type t) (list_args fv) (trans_exp "result" t typedef_names "" l b) func_end (make_functions (List.tl f) typedef_names)  
+      Printf.sprintf "%s%s{\n%s result = NULL;\n%s%s%s\n\n%s" name signature (get_return_type t) (list_args fv) (trans_exp "result" t typedef_names "" l b) func_end (make_functions (List.tl f) typedef_names)  
     end
 
 (*This function creates the C main function*)
 let make_main r typedef_names body =
-  Printf.sprintf "int main(){\n%s\nint %s = 1;\nreturn %s;\n}\n" (trans_exp r Type.Int typedef_names "" "main" body) r r
+  Printf.sprintf "int main(){\nint %s = 1;\n%s\nreturn %s;\n}\n" r (trans_exp r Type.Int typedef_names "" "main" body) r
 
 let debug s =
   let (funcs, mainf) = Lexing.from_string s
