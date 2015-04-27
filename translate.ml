@@ -81,17 +81,6 @@ let list_params l =
 let malloc_check n =
   Printf.sprintf "if(%s_env == NULL){\nprintf(\"Error allocating memory for environment\\n\");\nexit(-1);\n}\n" n
 
-(*Translate min_caml functions into C. If a min_caml function is not used, then directly call a defined function*)
-let print_results id l r rt =
-  match id with
-    | "min_caml_print_int" -> let params = list_params l in Printf.sprintf "printf(\"%%d\", %s);" params
-    | "min_caml_print_float" -> let params = list_params l in Printf.sprintf "printf(\"%%s\", %s);" params
-    | "min_caml_create_float_array" -> Printf.sprintf "double* %s = (double*) make_array(%s, (int)%s);" r (List.nth l 0) (List.nth l 1)
-    | "min_caml_create_array" -> Printf.sprintf "int* %s = (int*) make_array(%s, %s);" r (List.nth l 0) (List.nth l 1)
-    | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
-    | "min_caml_truncate" -> let params = list_params l in Printf.sprintf "%s %s = (%s) %s;" (type_of_string r) r (type_of_string r) params
-    | _ -> let params = list_params l in Printf.sprintf "%s = %s_fun(%s);" (include_type r (get_return_type rt)) id params
-
 (*Return the result of the function.*)
 let end_function r =
   Printf.sprintf "\nreturn %s;\n}" r
@@ -162,7 +151,16 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
      let t1 = (trans_exp r rt typedef_names env_name func_name e1) in
      let t2 = (trans_exp r rt typedef_names env_name func_name e2) in
      Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y t1 t2
-  | AppDir(Id.L l, xs) -> Printf.sprintf "%s" (print_results l xs r rt)
+  | AppDir(Id.L l, xs) ->
+     let params = list_params xs in
+     (match l with
+      | "min_caml_print_int" -> Printf.sprintf "printf(\"%%d\", %s);" params
+      | "min_caml_print_float" -> Printf.sprintf "printf(\"%%s\", %s);" params
+      | "min_caml_create_float_array" -> Printf.sprintf "double* %s = (double*) make_array(%s, (int)%s);" r (List.nth xs 0) (List.nth xs 1)
+      | "min_caml_create_array" -> Printf.sprintf "int* %s = (int*) make_array(%s, %s);" r (List.nth xs 0) (List.nth xs 1)
+      | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
+      | "min_caml_truncate" -> Printf.sprintf "%s %s = (%s) %s;" (type_of_string r) r (type_of_string r) params
+      | _ -> Printf.sprintf "%s = %s_fun(%s);" (include_type r (get_return_type rt)) l params)
   | Var(x) -> Printf.sprintf "%s = %s;" (include_type r (string_of_type rt)) x
   | Let((x, t), e1, e2) -> 
      let t1 = (trans_exp x t typedef_names env_name func_name e1) in
