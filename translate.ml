@@ -22,8 +22,8 @@ let rec typedef_of_type t = match t with
   | Type.Int -> "int"
   | Type.Bool -> "bool"
   | Type.Float -> "double"
-  | Type.Fun(l, r) -> 
-     (match r with 
+  | Type.Fun(l, r) ->
+     (match r with
       | Type.Array(t) -> typedef_of_type t
       | _ -> string_of_type r)
   | Type.Array(t) -> "array"
@@ -40,8 +40,8 @@ let rec get_return_type t = match t with
   | _ -> ""
 
 (*Determine the type of the given string and return a string*)
-let type_of_string s = 
-  if String.length s > 2 then 
+let type_of_string s =
+  if String.length s > 2 then
     match s.[1] with
     | 'i' -> "int"
     | 'd' -> "double"
@@ -50,7 +50,7 @@ let type_of_string s =
     | 't' -> "int"
     | 'u' -> "unit"
     | 'a' -> "array"
-    | _ -> ""
+    | _ -> "int"
   else "int"
 
 (*If the return variable has already been declared, omit the type*)
@@ -78,10 +78,6 @@ let list_params l =
 		  | "" -> s 
 		  | _ -> acc ^ ", " ^ s) "" l
 
-(*Add the check for a created Environment malloc*)
-let malloc_check n =
-  Printf.sprintf "if(%s_env == NULL){\nprintf(\"Error allocating memory for environment\\n\");\nexit(-1);\n}\n" n
-
 (*Return the result of the function.*)
 let end_function r =
   Printf.sprintf "\nreturn %s;\n}" r
@@ -95,7 +91,6 @@ let rec make_typedefs(f : fundef list) (g : string list) (h : string list) =
        let elem = List.hd f in 
        let (Id.L l, t) = elem.name in
        let a = elem.args in
-       let fv = elem.formal_fv in
        let environment = ", Environment env" in
        let signature = Printf.sprintf "(%s%s)"  
 				      (List.fold_left(fun acc (s, typ) -> match acc with 
@@ -142,9 +137,9 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
   | FDiv(x, y) -> Printf.sprintf "%s = %s / %s;" r x y
   | IfEq(x, y, e1, e2) -> 
      let t1 = (trans_exp r rt typedef_names env_name func_name e1) in
-     let t2 = (trans_exp r rt typedef_names env_name func_name e2) in 
+     let t2 = (trans_exp r rt typedef_names env_name func_name e2) in
      Printf.sprintf "if(%s == %s){\n%s\n}\nelse{\n%s\n}" x y t1 t2
-  | IfLE(x, y, e1, e2) -> 
+  | IfLE(x, y, e1, e2) ->
      let t1 = (trans_exp r rt typedef_names env_name func_name e1) in
      let t2 = (trans_exp r rt typedef_names env_name func_name e2) in
      Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y t1 t2
@@ -157,12 +152,13 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
      Printf.sprintf "%s%s\n%s" variable t1 t2
   | Var(x) -> Printf.sprintf "%s = %s;" r x
   | MakeCls((x, t), { entry = Id.L l; actual_fv = ys }, e) ->
-     let environment_creation = Printf.sprintf "Environment %s_env = malloc(%d * sizeof(void*));\n%s%s" x (List.length ys) (malloc_check x) 
-					       (List.mapi (fun i n -> Printf.sprintf "%s_env[%d] = %s;\n" x i n) ys 
+     let environment_creation = Printf.sprintf "Environment %s_env = safe_malloc(&%%s_env, %d);\n%s" x x (List.length ys)
+					       (List.mapi (fun i n -> Printf.sprintf "%s_env[%d] = %s;\n" x i n) ys
 						|> List.fold_left (fun acc s -> acc ^ "" ^ s) "") in
      let closure_creation = Printf.sprintf"Closure %s = { (Function)%s_fun, %s_env };\n" x l x in
      Printf.sprintf "%s%s%s" environment_creation closure_creation (trans_exp r rt typedef_names (x ^ "_") func_name e)
   | AppCls(x, ys) ->
+
      if x = func_name then 
        Printf.sprintf "%s = %s_fun(%s, env);" r x (list_params ys)
      else
@@ -196,6 +192,7 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
   | Put(x, y, z) ->  Printf.sprintf "%s[%s] = %s;" x y z
   | ExtArray(_) -> ""(*Will evaluate when working with the ray tracer*)
 
+
 (*This function will go through all fundefs and translate each function into C*)
 let rec make_functions(f : fundef list) (typedef_names : string list) = 
   match f with
@@ -226,6 +223,7 @@ let make_main r typedef_names body =
 (*Generates the intermediate code for use in debugging the translation*)
 let debug s =
   let (funcs, mainf) = Lexing.from_string s
+
 		       |> Parser.exp Lexer.token
 		       |> Typing.f 
 		       |> KNormal.f
@@ -251,10 +249,10 @@ let translate s =
   make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
 
 (*Reads a file and translates the Min-Caml code*)
-let main f = 
-  Format.eprintf "Reading file test/%s...@." f;
+let main file = 
+  Format.eprintf "Reading file test/%s...@." file;
   let lines = ref "" in
-  let in_channel = open_in ("test/" ^ f) in
+  let in_channel = open_in file in
   try
     while true do
       lines := Printf.sprintf "%s%s\n" !lines (input_line in_channel)
@@ -262,11 +260,12 @@ let main f =
   with End_of_file ->
     close_in in_channel;
     let result = translate !lines in
-    let p = String.index f '.' in
-    let name = String.sub f 0 p in
-    let out_channel = open_out ("translation/" ^ name ^ ".c") in
-    Format.eprintf "Outputting to translation/%s.c...@." name;
+    let out_channel = open_out (file ^ ".c") in
+    Format.eprintf "Outputting to translation/%s.c...@." file;
     output_string out_channel result;
     close_out out_channel;
     Format.eprintf "Translation complete.@."
-		   
+let () =
+  if Array.length Sys.argv = 1
+  then begin Format.printf "Usage: min-caml filename@."; exit 0 end
+  else main Sys.argv.(1)

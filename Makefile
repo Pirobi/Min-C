@@ -1,5 +1,5 @@
 # Sumii's Makefile for Min-Caml (for GNU Make)
-# 
+#
 # ack.mlなどのテストプログラムをtest/に用意してmake do_testを実行すると、
 # min-camlとocamlでコンパイル・実行した結果を自動で比較します。
 
@@ -42,7 +42,7 @@ TRASH = $(TESTS:%=test/%.s) $(TESTS:%=test/%) $(TESTS:%=test/%.res) $(TESTS:%=te
 
 test/%: $(RESULT) test/%.ml translation/csyntax.o
 	./$(RESULT) test/$*.ml
-	$(CC) $(FLAG) -o $* test/$*.ml.c
+	$(CC) $(FLAG) -o test/$* test/$*.ml.c
 test/%.res: test/%
 	$< > $@
 test/%.ans: test/%.ml
