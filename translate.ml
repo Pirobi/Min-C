@@ -152,7 +152,7 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
      Printf.sprintf "%s%s\n%s" variable t1 t2
   | Var(x) -> Printf.sprintf "%s = %s;" r x
   | MakeCls((x, t), { entry = Id.L l; actual_fv = ys }, e) ->
-     let environment_creation = Printf.sprintf "Environment %s_env = safe_malloc(&%%s_env, %d);\n%s" x x (List.length ys)
+     let environment_creation = Printf.sprintf "Environment %s_env;\nsafe_malloc(&%%s_env, %d);\n%s" x x (List.length ys)
 					       (List.mapi (fun i n -> Printf.sprintf "%s_env[%d] = %s;\n" x i n) ys
 						|> List.fold_left (fun acc s -> acc ^ "" ^ s) "") in
      let closure_creation = Printf.sprintf"Closure %s = { (Function)%s_fun, %s_env };\n" x l x in
