@@ -50,7 +50,7 @@ let type_of_string s =
     | 't' -> "int"
     | 'u' -> "unit"
     | 'a' -> "array"
-    | _ -> "int"
+    | _ -> ""
   else "int"
 
 (*If the return variable has already been declared, omit the type*)
