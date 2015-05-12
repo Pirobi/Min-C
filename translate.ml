@@ -226,7 +226,6 @@ let make_main r typedef_names body =
 (*Generates the intermediate code for use in debugging the translation*)
 let debug s =
   let (funcs, mainf) = Lexing.from_string s
-
 		       |> Parser.exp Lexer.token
 		       |> Typing.f 
 		       |> KNormal.f
@@ -269,7 +268,7 @@ let main file =
     close_out out_channel;
     Format.eprintf "Translation complete.@."
 
-(* let () = *)
-(*   if Array.length Sys.argv = 1 *)
-(*   then begin Format.printf "Usage: min-caml filename@."; exit 0 end *)
-(*   else main Sys.argv.(1) *)
+let () = 
+  if Array.length Sys.argv = 1 
+  then begin Format.printf "Usage: min-caml filename@."; exit 0 end 
+  else main Sys.argv.(1)
