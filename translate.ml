@@ -265,6 +265,7 @@ let main file =
     output_string out_channel result;
     close_out out_channel;
     Format.eprintf "Translation complete.@."
+
 let () =
   if Array.length Sys.argv = 1
   then begin Format.printf "Usage: min-caml filename@."; exit 0 end
