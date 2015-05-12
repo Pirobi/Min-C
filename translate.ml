@@ -16,6 +16,10 @@ let rec string_of_type t = match t with
   | Type.Tuple(t) -> "int*"
   | _ -> ""
 
+let rec environment_of_type t = match t with
+  | Type.Fun(l, r) -> "Function"
+  | _ -> string_of_type t 
+
 (*Used for typedefs*)
 let rec typedef_of_type t = match t with
   | Type.Unit -> "int"
@@ -67,7 +71,7 @@ let set_environment fv =
      List.mapi (fun i l ->  
 		begin
 		  let (n, t) = l in
-		  Printf.sprintf "%s %s = (%s) env[%d];\n" (string_of_type t) n (string_of_type t) i
+		  Printf.sprintf "%s %s = (%s) env[%d];\n" (environment_of_type t) n (environment_of_type t) i
 		end) fv 
      |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
 
@@ -123,7 +127,7 @@ let create_tuple xts y =
 
 (*This function will translate a single line of the OCaml intermediate code and decide the translated C version
 Change tp to rt -> directly pass the type of r*)
-let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : string) (func_name : string) = function
+let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : string) (func_name : string) (closure_made: bool) = function
   | Unit -> Printf.sprintf "%s = 1;" r
   | Int(i) -> Printf.sprintf "%s = %d;" r i
   | Float(d) -> Printf.sprintf "%s = %f;" r d
@@ -136,31 +140,30 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
   | FMul(x, y) -> Printf.sprintf "%s =  %s * %s;" r x y
   | FDiv(x, y) -> Printf.sprintf "%s = %s / %s;" r x y
   | IfEq(x, y, e1, e2) -> 
-     let t1 = (trans_exp r rt typedef_names env_name func_name e1) in
-     let t2 = (trans_exp r rt typedef_names env_name func_name e2) in
+     let t1 = (trans_exp r rt typedef_names env_name func_name closure_made e1) in
+     let t2 = (trans_exp r rt typedef_names env_name func_name closure_made e2) in
      Printf.sprintf "if(%s == %s){\n%s\n}\nelse{\n%s\n}" x y t1 t2
   | IfLE(x, y, e1, e2) ->
-     let t1 = (trans_exp r rt typedef_names env_name func_name e1) in
-     let t2 = (trans_exp r rt typedef_names env_name func_name e2) in
+     let t1 = (trans_exp r rt typedef_names env_name func_name closure_made e1) in
+     let t2 = (trans_exp r rt typedef_names env_name func_name closure_made e2) in
      Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y t1 t2
   | Let((x, t), e1, e2) -> 
-     let t1 = (trans_exp x t typedef_names env_name func_name e1) in
-     let t2 = (trans_exp r rt typedef_names env_name func_name e2) in
+     let t1 = (trans_exp x t typedef_names env_name func_name closure_made e1) in
+     let t2 = (trans_exp r rt typedef_names env_name func_name closure_made e2) in
      let variable = match type_of_string x with
        | "unit" | "" -> ""
        | _ -> Printf.sprintf "%s %s;\n" (string_of_type t) x in
      Printf.sprintf "%s%s\n%s" variable t1 t2
   | Var(x) -> Printf.sprintf "%s = %s;" r x
   | MakeCls((x, t), { entry = Id.L l; actual_fv = ys }, e) ->
-     let environment_creation = Printf.sprintf "Environment %s_env;\nsafe_malloc(&%%s_env, %d);\n%s" x x (List.length ys)
+     let environment_creation = Printf.sprintf "Environment %s_env;\nsafe_malloc(&%s_env, %d);\n%s" x x (List.length ys)
 					       (List.mapi (fun i n -> Printf.sprintf "%s_env[%d] = %s;\n" x i n) ys
 						|> List.fold_left (fun acc s -> acc ^ "" ^ s) "") in
-     let closure_creation = Printf.sprintf"Closure %s = { (Function)%s_fun, %s_env };\n" x l x in
-     Printf.sprintf "%s%s%s" environment_creation closure_creation (trans_exp r rt typedef_names (x ^ "_") func_name e)
+     let closure_creation = Printf.sprintf"Closure %s_cls = { (Function)%s, %s_env };\n" x l x in
+     Printf.sprintf "%s%s%s" environment_creation closure_creation (trans_exp r rt typedef_names (x ^ "_") func_name true e)
   | AppCls(x, ys) ->
-
-     if x = func_name then 
-       Printf.sprintf "%s = %s_fun(%s, env);" r x (list_params ys)
+     if x = func_name || not closure_made then 
+       Printf.sprintf "%s = %s(%s, env);" r x (list_params ys)
      else
        begin
 	 let types = "fun_" ^ (typedef_of_type rt) ^ "_" ^ (List.fold_left (fun acc x -> 
@@ -169,7 +172,7 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
 									    | _ -> acc ^ "_" ^ (type_of_string x)) "" ys) ^ "_Environment" in
 	 try
 	   let typedef_type = List.find (fun typ -> typ = types) typedef_names in 
-	   Printf.sprintf "%s = ((%s*)%s.f)(%s, %s.env);" r typedef_type x (list_params ys) x
+	   Printf.sprintf "%s = ((%s*)%s_cls.f)(%s, %s.env);" r typedef_type x (list_params ys) x
 	 with Not_found -> print_endline types; print_endline (typedef_of_type rt); print_endline (string_of_type rt); 
 			   print_endline (get_return_type rt); print_endline (list_params ys); assert false
        end
@@ -183,10 +186,10 @@ let rec trans_exp r (rt: Type.t) (typedef_names : string list) (env_name : strin
       | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
       | "min_caml_print_endline" -> Printf.sprintf "printf(\"%%s\\n\", %s);" params
       | "min_caml_truncate" -> Printf.sprintf "%s %s = (%s) %s;" (type_of_string r) r (type_of_string r) params
-      | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r l params)
+      | _ -> Printf.sprintf "%s = %s(%s, NULL);" r l params)
   | Tuple(xs) -> Printf.sprintf "%s[] = {%s};" r (list_params xs)
   | LetTuple(xts, y, e) -> 
-     let t = (trans_exp r rt typedef_names env_name func_name e) in
+     let t = (trans_exp r rt typedef_names env_name func_name closure_made e) in
      Printf.sprintf "%s%s" (create_tuple xts y) t
   | Get(x, y) -> Printf.sprintf "%s = %s[%s];" r x y
   | Put(x, y, z) ->  Printf.sprintf "%s[%s] = %s;" x y z
@@ -205,7 +208,7 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
        let fv = elem.formal_fv in
        let environment = ", Environment env" in
        let b = elem.body in
-       let name = Printf.sprintf "%s %s_fun" (get_return_type t) l in
+       let name = Printf.sprintf "%s %s" (get_return_type t) l in
        let signature = Printf.sprintf "(%s%s)"  
 				      (List.fold_left(fun acc (s, typ) -> match acc with 
 									  | "" -> acc ^ (string_of_type typ) ^ " " ^ s 
@@ -213,12 +216,12 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 				      environment in
        let func_end = end_function "result" in
        Printf.sprintf "%s%s{\n%s result = NULL;\n%s%s%s\n\n%s" name signature (get_return_type t) (set_environment fv) 
-		      (trans_exp "result" t typedef_names "" l b) func_end (make_functions (List.tl f) typedef_names)  
+		      (trans_exp "result" t typedef_names "" l false b) func_end (make_functions (List.tl f) typedef_names)  
      end
 
 (*This function creates the C main function*)
 let make_main r typedef_names body =
-  Printf.sprintf "int main(){\nint %s = 1;\n%s\nreturn %s;\n}\n" r (trans_exp r Type.Int typedef_names "" "main" body) r
+  Printf.sprintf "int main(){\nint %s = 1;\n%s\nreturn %s;\n}\n" r (trans_exp r Type.Int typedef_names "" "main" false body) r
 
 (*Generates the intermediate code for use in debugging the translation*)
 let debug s =
@@ -250,7 +253,7 @@ let translate s =
 
 (*Reads a file and translates the Min-Caml code*)
 let main file = 
-  Format.eprintf "Reading file test/%s...@." file;
+  Format.eprintf "Reading file %s...@." file;
   let lines = ref "" in
   let in_channel = open_in file in
   try
@@ -266,7 +269,7 @@ let main file =
     close_out out_channel;
     Format.eprintf "Translation complete.@."
 
-let () =
-  if Array.length Sys.argv = 1
-  then begin Format.printf "Usage: min-caml filename@."; exit 0 end
-  else main Sys.argv.(1)
+(* let () = *)
+(*   if Array.length Sys.argv = 1 *)
+(*   then begin Format.printf "Usage: min-caml filename@."; exit 0 end *)
+(*   else main Sys.argv.(1) *)
