@@ -11,7 +11,7 @@ let rec string_of_type t = match t with
   | Type.Int -> "int"
   | Type.Bool -> "bool"
   | Type.Float -> "double"
-  | Type.Fun(l, r) -> "Closure"
+  | Type.Fun(l, r) -> "Closure*"
   | Type.Array(t) -> string_of_type t ^ "*"
   | Type.Tuple(t) -> "int*"
   | _ -> ""
@@ -33,6 +33,7 @@ let rec typedef_of_type t = match t with
   | Type.Fun(l, r) ->
      (match r with
       | Type.Array(t) -> typedef_of_type t
+      | Type.Fun(l', r') -> "Closure"
       | _ -> string_of_type r)
   | Type.Array(t) -> "array"
   | _ -> ""
@@ -74,7 +75,7 @@ let set_environment fv =
   | _::_ ->
     List.mapi (fun i l -> begin
           let (n, t) = l in
-          let n' = if (string_of_type t) = "Closure" then Printf.sprintf "*%s_cls" n else n in
+          let n' = if (string_of_type t) = "Closure*" then Printf.sprintf "%s_cls" n else n in
           Printf.sprintf "%s %s = env[%d].%s;\n" (string_of_type t) n' i (type_for_union t)
         end) fv 
      |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
@@ -154,9 +155,15 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
   | Let((x, t), e1, e2) -> 
      let t1 = (trans_exp x t t_env typedef_names env_name func_name e1) in
      let t2 = (trans_exp r rt ((x, t) :: t_env) typedef_names env_name func_name e2) in
-     let variable = Printf.sprintf "%s %s;\n" (string_of_type t) x in
+     let typ = string_of_type t in
+     let cls = if typ = "Closure*" then "_cls" else "" in 
+     let variable = Printf.sprintf "%s %s%s;\n" typ x cls in
      Printf.sprintf "%s%s\n%s" variable t1 t2
-  | Var(x) -> Printf.sprintf "%s = %s;" r x
+  | Var(x) -> 
+    let cls = 
+      if (get_return_type rt) = "Closure*" then "_cls" 
+      else "" in 
+    Printf.sprintf "%s = %s%s;" r x cls
   | MakeCls((x, t), { entry = Id.L l; actual_fv = ys }, e) ->
     begin
       try
@@ -165,12 +172,12 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
                 let (name, typ) = List.find (fun (a, b) -> a = n) t_env in
                 let (n', cls) = 
                   if n = func_name then 
-                    (Printf.sprintf "%s_cls" n, Printf.sprintf "Closure *%s_cls = malloc(sizeof(Closure));\n%s_cls -> f = (Function)%s;\n%s_cls -> env = env;\n" n n n n) 
+                    (Printf.sprintf "%s_cls" n, Printf.sprintf "Closure* %s_cls = malloc(sizeof(Closure));\n%s_cls -> f = (Function)%s;\n%s_cls -> env = env;\n" n n n n) 
                   else 
                     (n, "") in 
                 Printf.sprintf "%s%s_env[%d].%s = %s;\n" cls x i (type_for_union typ) n') ys
       |> List.fold_left (fun acc s -> acc ^ "" ^ s) "") in
-        let closure_creation = Printf.sprintf"Closure *%s_cls = malloc(sizeof(Closure));\n%s_cls -> f = (Function)%s;\n%s_cls -> env = %s_env;\n" x x l x x in
+        let closure_creation = Printf.sprintf"Closure* %s_cls = malloc(sizeof(Closure));\n%s_cls -> f = (Function)%s;\n%s_cls -> env = %s_env;\n" x x l x x in
         Printf.sprintf "%s%s%s" environment_creation closure_creation (trans_exp r rt ((x, t) :: t_env) typedef_names (x ^ "_") func_name e)
       with Not_found -> print_endline ("ys: " ^ (List.fold_left (fun acc s -> acc ^ ", " ^ s) "" ys)); 
         Printf.sprintf "t_env: %s" (List.fold_left (fun acc (x, y) -> acc ^ "," ^ x ) "" t_env); 
@@ -192,15 +199,18 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
        end
   | AppDir(Id.L l, xs) ->
      let params = list_params xs in
+     let cls = 
+       if (string_of_type rt) = "Closure*" then "_cls"
+       else "" in
      (match l with
       | "min_caml_print_int" -> Printf.sprintf "printf(\"%%d\", %s);" params
       | "min_caml_print_float" -> Printf.sprintf "printf(\"%%s\", %s);" params
-      | "min_caml_create_float_array" -> Printf.sprintf "%s = (double*) make_array(%s, (int)%s);" r (List.nth xs 0) (List.nth xs 1)
-      | "min_caml_create_array" -> Printf.sprintf "%s = (int*) make_array(%s, %s);" r (List.nth xs 0) (List.nth xs 1)
+      | "min_caml_create_float_array" -> Printf.sprintf "%s%s = (double*) make_array(%s, (int)%s);" r cls (List.nth xs 0) (List.nth xs 1)
+      | "min_caml_create_array" -> Printf.sprintf "%s%s = (int*) make_array(%s, %s);" r cls (List.nth xs 0) (List.nth xs 1)
       | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
       | "min_caml_print_endline" -> Printf.sprintf "printf(\"%%s\\n\", %s);" params
-      | "min_caml_truncate" -> Printf.sprintf "%s = (%s) %s;" r (type_of_string r) params
-      | _ -> Printf.sprintf "%s = %s(%s, NULL);" r l params)
+      | "min_caml_truncate" -> Printf.sprintf "%s%s = (%s) %s;" r cls (type_of_string r) params
+      | _ -> Printf.sprintf "%s%s = %s(%s, NULL);" r cls l params)
   | Tuple(xs) -> Printf.sprintf "%s[] = {%s};" r (list_params xs)
   | LetTuple(xts, y, e) -> 
      let t = (trans_exp r rt t_env typedef_names env_name func_name e) in
@@ -230,7 +240,8 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 				      environment in
        let func_end = end_function "result" in
        let t_env = (l, t) :: (List.append fv a) in
-       Printf.sprintf "%s%s{\n%s result = NULL;\n%s%s%s\n\n%s" name signature (get_return_type t) (set_environment fv) 
+       let return_typ = get_return_type t in
+       Printf.sprintf "%s%s{\n%s result = NULL;\n%s%s%s\n\n%s" name signature return_typ (set_environment fv) 
 		      (trans_exp "result" t t_env typedef_names "" l b) func_end (make_functions (List.tl f) typedef_names)  
      end
 
@@ -283,8 +294,8 @@ let main file =
     close_out out_channel;
     Format.eprintf "Translation complete.@."
 
-let () =  
-  if Array.length Sys.argv = 1  
-  then begin Format.printf "Usage: min-caml filename@."; exit 0 end  
-  else main Sys.argv.(1) 
+(* let () =   *)
+(*   if Array.length Sys.argv = 1   *)
+(*   then begin Format.printf "Usage: min-caml filename@."; exit 0 end   *)
+(*   else main Sys.argv.(1)  *)
       
