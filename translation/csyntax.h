@@ -4,15 +4,26 @@
 //Defines a function pointer
 typedef void* Function;
 
-//Defines a pointer to a list of free variables, or the environment
-typedef int* Environment;
+union Value;
+
+struct Closure;
 
 /*Defines a closure for use in dealing with Closure Conversion.
 A Closure is defined as the following:
 <Function name, Environment>*/
-typedef struct{
+typedef struct Closure{
   Function f;
-  Environment env;
+  union Value* env;
 }Closure;
+
+typedef union Value{
+  int i;
+  double d;
+  Closure* c;
+  int* ip;
+  double* dp;
+}Value;
+
+
 
 #endif

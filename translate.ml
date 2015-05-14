@@ -16,6 +16,14 @@ let rec string_of_type t = match t with
   | Type.Tuple(t) -> "int*"
   | _ -> ""
 
+let rec type_for_union t = match t with
+  | Type.Unit -> "i"
+  | Type.Int -> "i"
+  | Type.Float -> "d"
+  | Type.Fun(l, r) -> "c"
+  | Type.Array(t') -> (type_for_union t') ^ "p"
+  | _ -> ""
+
 (*Used for typedefs*)
 let rec typedef_of_type t = match t with
   | Type.Unit -> "int"
@@ -123,7 +131,7 @@ let create_tuple xts y =
     
 (*This function will translate a single line of the OCaml intermediate code and decide the translated C version
   Change tp to rt -> directly pass the type of r*)
-let rec trans_exp r (rt : Type.t) (typedef_names : string list) (env_name : string) (func_name : string) = function
+let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_names : string list) (env_name : string) (func_name : string) = function
   | Unit -> Printf.sprintf "%s = 1;" r
   | Int(i) -> Printf.sprintf "%s = %d;" r i
   | Float(d) -> Printf.sprintf "%s = %f;" r d
@@ -136,16 +144,16 @@ let rec trans_exp r (rt : Type.t) (typedef_names : string list) (env_name : stri
   | FMul(x, y) -> Printf.sprintf "%s =  %s * %s;" r x y
   | FDiv(x, y) -> Printf.sprintf "%s = %s / %s;" r x y
   | IfEq(x, y, e1, e2) -> 
-     let t1 = (trans_exp r rt typedef_names env_name func_name e1) in
-     let t2 = (trans_exp r rt typedef_names env_name func_name e2) in
+     let t1 = (trans_exp r rt t_env typedef_names env_name func_name e1) in
+     let t2 = (trans_exp r rt t_env typedef_names env_name func_name e2) in
      Printf.sprintf "if(%s == %s){\n%s\n}\nelse{\n%s\n}" x y t1 t2
   | IfLE(x, y, e1, e2) ->
-     let t1 = (trans_exp r rt typedef_names env_name func_name e1) in
-     let t2 = (trans_exp r rt typedef_names env_name func_name e2) in
+     let t1 = (trans_exp r rt t_env typedef_names env_name func_name e1) in
+     let t2 = (trans_exp r rt t_env typedef_names env_name func_name e2) in
      Printf.sprintf "if(%s <= %s){\n%s\n}\nelse{\n%s\n}" x y t1 t2
   | Let((x, t), e1, e2) -> 
-     let t1 = (trans_exp x t typedef_names env_name func_name e1) in
-     let t2 = (trans_exp r rt typedef_names env_name func_name e2) in
+     let t1 = (trans_exp x t t_env typedef_names env_name func_name e1) in
+     let t2 = (trans_exp r rt ((x, t) :: t_env) typedef_names env_name func_name e2) in
      let variable = match type_of_string x with
        | "unit" | "" -> ""
        | _ -> Printf.sprintf "%s %s;\n" (string_of_type t) x in
@@ -162,7 +170,7 @@ let rec trans_exp r (rt : Type.t) (typedef_names : string list) (env_name : stri
             Printf.sprintf "%s%s_env[%d] = %s%s;\n" cls x i amp n') ys
    |> List.fold_left (fun acc s -> acc ^ "" ^ s) "") in
     let closure_creation = Printf.sprintf"Closure %s_cls = { (Function)%s, %s_env };\n" x l x in
-    Printf.sprintf "%s%s%s" environment_creation closure_creation (trans_exp r rt typedef_names (x ^ "_") func_name e)
+    Printf.sprintf "%s%s%s" environment_creation closure_creation (trans_exp r rt ((x, t) :: t_env) typedef_names (x ^ "_") func_name e)
   | AppCls(x, ys) ->
      if x = func_name then 
        Printf.sprintf "%s = %s(%s, env);" r x (list_params ys)
@@ -191,7 +199,7 @@ let rec trans_exp r (rt : Type.t) (typedef_names : string list) (env_name : stri
       | _ -> Printf.sprintf "%s = %s(%s, NULL);" r l params)
   | Tuple(xs) -> Printf.sprintf "%s[] = {%s};" r (list_params xs)
   | LetTuple(xts, y, e) -> 
-     let t = (trans_exp r rt typedef_names env_name func_name e) in
+     let t = (trans_exp r rt t_env typedef_names env_name func_name e) in
      Printf.sprintf "%s%s" (create_tuple xts y) t
   | Get(x, y) -> Printf.sprintf "%s = %s[%s];" r x y
   | Put(x, y, z) ->  Printf.sprintf "%s[%s] = %s;" x y z
@@ -218,12 +226,12 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 				      environment in
        let func_end = end_function "result" in
        Printf.sprintf "%s%s{\n%s result = NULL;\n%s%s%s\n\n%s" name signature (get_return_type t) (set_environment fv) 
-		      (trans_exp "result" t typedef_names "" l b) func_end (make_functions (List.tl f) typedef_names)  
+		      (trans_exp "result" t [] typedef_names "" l b) func_end (make_functions (List.tl f) typedef_names)  
      end
 
 (*This function creates the C main function*)
 let make_main r typedef_names body =
-  Printf.sprintf "int main(){\nint %s = 1;\n%s\nreturn %s;\n}\n" r (trans_exp r Type.Int typedef_names "" "main" body) r
+  Printf.sprintf "int main(){\nint %s = 1;\n%s\nreturn %s;\n}\n" r (trans_exp r Type.Int [] typedef_names "" "main" body) r
 
 (*Generates the intermediate code for use in debugging the translation*)
 let debug s =
