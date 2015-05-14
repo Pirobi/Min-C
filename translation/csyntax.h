@@ -22,6 +22,8 @@ typedef union Value{
   Closure* c;
   int* ip;
   double* dp;
+  int** ipp;
+  double** dpp;
 }Value;
 
 
