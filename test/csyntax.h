@@ -12,7 +12,7 @@ struct Closure;
 A Closure is defined as the following:
 <Function name, Environment>*/
 typedef struct Closure{
-  Function f;
+  Function fp;
   union Value* env;
 }Closure;
 
@@ -20,12 +20,17 @@ typedef union Value{
   int i;
   double d;
   Closure* c;
-  int* ip;
-  double* dp;
-  int** ipp;
-  double** dpp;
+  union Value* a;
+  union Value** aa;
 }Value;
 
+typedef enum{
+  INT,
+  DOUBLE,
+  CLOSURE,
+  INTP,
+  DOUBLEP
+}Type;
 
 
 #endif
