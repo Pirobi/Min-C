@@ -4,10 +4,6 @@ open Closure
 let make_header () =
   Printf.sprintf "#include\"csyntax.c\"\n\n"
 
-let array_of_type t = match t with
-  | Type.Array(t') -> "Value**"
-  | _ -> "Value*"
-
 (*Convert a Type.t type to a string*)
 (*Used for variables*)
 let rec string_of_type t = match t with
@@ -16,7 +12,7 @@ let rec string_of_type t = match t with
   | Type.Bool -> "bool"
   | Type.Float -> "double"
   | Type.Fun(l, r) -> "Closure*"
-  | Type.Array(t') -> array_of_type t'
+  | Type.Array(t') -> "Value*"
   | Type.Tuple(xs) -> string_of_type (List.hd xs) ^ "*"
   | _ -> ""
 
@@ -27,6 +23,15 @@ let rec type_for_union t = match t with
   | Type.Fun(l, r) -> "c"
   | Type.Array(t') -> "a"
   | Type.Tuple(xs) -> type_for_union (List.hd xs) ^ "p"
+  | _ -> ""
+
+let type_for_array t = match t with
+  | Type.Unit -> "INT"
+  | Type.Int -> "INT"
+  | Type.Float -> "DOUBLE"
+  | Type.Fun(l, r) -> "CLOSURE"
+  | Type.Array(t') -> "ARRAY"
+  | Type.Tuple(xs) -> "ARRAY"
   | _ -> ""
 
 (*Used for typedefs*)
@@ -51,7 +56,7 @@ let rec get_return_type t = match t with
   | Type.Bool -> "bool"
   | Type.Float -> "double"
   | Type.Fun(l, r) -> string_of_type r
-  | Type.Array(t') -> array_of_type t'
+  | Type.Array(t') -> "Value*"
   | Type.Tuple(xs) -> string_of_type (List.hd xs) ^ "*"
   | _ -> ""
 
@@ -222,7 +227,7 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
         let cls = 
           if (string_of_type init_typ) = "Closure*" then make_closure (Printf.sprintf "%s" init) init "env"
           else "" in 
-        Printf.sprintf "Value %s;\n%s%s.%s = %s;\nmake_array(&%s, %s, %s);" name cls name (type_for_union init_typ) init r size name
+        Printf.sprintf "Value %s;\n%s%s.%s = %s;\nmake_array(&%s, %s, %s, %s);" name cls name (type_for_union init_typ) init r size name (type_for_array init_typ)
       | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
       | "min_caml_print_endline" -> Printf.sprintf "printf(\"%%s\\n\", %s);" params
       | "min_caml_truncate" -> Printf.sprintf "%s = (%s) %s;" r (type_of_string r) params

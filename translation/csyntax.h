@@ -28,8 +28,7 @@ typedef enum{
   INT,
   DOUBLE,
   CLOSURE,
-  INTP,
-  DOUBLEP
+  ARRAY
 }Type;
 
 
