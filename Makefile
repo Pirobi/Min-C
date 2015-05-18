@@ -10,7 +10,7 @@ CFLAGS = -g -O2 -Wall
 
 FLAG = -I ./translation translation/csyntax.o
 
-default: debug-code top $(RESULT) do_test
+default: debug-code top $(RESULT) do_test 
 $(RESULT): debug-code top
 ## [自分（住井）用の注]
 ## ・OCamlMakefileや古いGNU Makeのバグ(?)で上のような定義が必要(??)
@@ -34,6 +34,10 @@ adder funcomp cls-rec cls-bug cls-bug2 \
 shuffle spill spill2 spill3 join-stack join-stack2 join-stack3 \
 join-reg join-reg2 non-tail-if non-tail-if2 \
 inprod inprod-rec inprod-loop matmul matmul-flat
+
+do_all: 
+	find ./test -type f -and -not -name "*.ml" -and -not -name "*.c" \
+	-exec printf "\n" \; -exec echo {} \; -exec {} \; 
 
 do_test: $(TESTS:%=test/%)#.cmp)
 
