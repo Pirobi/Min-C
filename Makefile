@@ -36,23 +36,17 @@ join-reg join-reg2 non-tail-if non-tail-if2 \
 inprod inprod-rec inprod-loop matmul matmul-flat
 
 do_all: 
-	find ./test -type f -and -not -name "*.ml" -and -not -name "*.c" \
-	-exec printf "\n" \; -exec echo {} \; -exec {} \; 
+	find ./test -type f -and -not -name "*.*" \
+	-exec printf "\n" \; -exec echo {} \; -exec {} \;
 
-do_test: $(TESTS:%=test/%)#.cmp)
+do_test: $(TESTS:%=test/%)
 
-.PRECIOUS: test/%.s test/% #test/%.res test/%.ans test/%.cmp
-TRASH = $(TESTS:%=test/%.s) $(TESTS:%=test/%) $(TESTS:%=test/%.res) $(TESTS:%=test/%.ans) $(TESTS:%=test/%.cmp) $(TESTS:%=test/%.ml.c)
+.PRECIOUS: test/%.s test/%
+TRASH = $(TESTS:%=test/%.s) $(TESTS:%=test/%) $(TESTS:%=test/%.ml.c)
 
 test/%: $(RESULT) test/%.ml translation/csyntax.o
 	./$(RESULT) test/$*.ml
 	$(CC) $(FLAG) -o test/$* test/$*.ml.c
-#test/%.res: test/%
-#	$< > $@
-#test/%.ans: test/%.ml
-#	ocaml $< > $@
-#test/%.cmp: test/%.res test/%.ans
-#	diff $^ > $@
 
 min-caml.html: main.mli main.ml id.ml m.ml s.ml \
 		syntax.ml type.ml parser.mly lexer.mll typing.mli typing.ml kNormal.mli kNormal.ml \

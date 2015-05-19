@@ -21,7 +21,6 @@ typedef union Value{
   double d;
   Closure* c;
   union Value* a;
-  union Value** aa;
 }Value;
 
 typedef enum{

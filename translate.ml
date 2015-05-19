@@ -3,7 +3,7 @@ open Closure
 (*Create the header of the output *.c file*)
 let make_header () =
   Printf.sprintf "#include\"csyntax.c\"\n\n"
-
+		 
 (*Convert a Type.t type to a string*)
 (*Used for variables*)
 let rec string_of_type t = match t with
@@ -16,6 +16,7 @@ let rec string_of_type t = match t with
   | Type.Tuple(xs) -> string_of_type (List.hd xs) ^ "*"
   | _ -> ""
 
+(*Used to get the value from a Value union*)
 let rec type_for_union t = match t with
   | Type.Unit -> "i"
   | Type.Int -> "i"
@@ -26,12 +27,12 @@ let rec type_for_union t = match t with
   | _ -> ""
 
 let type_for_array t = match t with
-  | Type.Unit -> "INT"
-  | Type.Int -> "INT"
-  | Type.Float -> "DOUBLE"
-  | Type.Fun(l, r) -> "CLOSURE"
-  | Type.Array(t') -> "ARRAY"
-  | Type.Tuple(xs) -> "ARRAY"
+  | Type.Unit -> "int"
+  | Type.Int -> "int"
+  | Type.Float -> "double"
+  | Type.Fun(l, r) -> "closure"
+  | Type.Array(t') -> "multi"
+  | Type.Tuple(xs) -> "multi"
   | _ -> ""
 
 (*Used for typedefs*)
@@ -127,10 +128,10 @@ let rec make_typedefs(f : fundef list) (g : string list) (h : string list) =
        let a = elem.args in
        let environment = ", Value *env" in
        let signature = Printf.sprintf "(%s%s)"  
-	   (List.fold_left(fun acc (s, typ) -> match acc with 
-	       | "" -> acc ^ (string_of_type typ) ^ " " ^ s 
-	| _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s) "" a) 
-    environment in
+				      (List.fold_left(fun acc (s, typ) -> match acc with 
+					       | "" -> acc ^ (string_of_type typ) ^ " " ^ s 
+	       | _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s) "" a) 
+	   environment in
        let name = "fun_" ^ (typedef_of_type t) ^ "_" ^ 
 		  (List.fold_left(fun acc (s, typ) -> match acc with
 		     | "" -> (typedef_of_type typ)
@@ -223,11 +224,10 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
       | "min_caml_create_float_array" | "min_caml_create_array" -> 
         let (size, init) = ((List.nth xs 0), (List.nth xs 1)) in
         let(init_n, init_typ) = List.find (fun (n, t) -> n = init) t_env in
-        let name = init ^ "_val" in
         let cls = 
-          if (string_of_type init_typ) = "Closure*" then make_closure (Printf.sprintf "%s" init) init "env"
+          if (string_of_type init_typ) = "Closure*" then make_closure init init "env"
           else "" in 
-        Printf.sprintf "Value %s;\n%s%s.%s = %s;\nmake_array(&%s, %s, %s, %s);" name cls name (type_for_union init_typ) init r size name (type_for_array init_typ)
+        Printf.sprintf "%smake_%s_array(&%s, %s, %s);" cls (type_for_array init_typ) r size init_n
       | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
       | "min_caml_print_endline" -> Printf.sprintf "printf(\"%%s\\n\", %s);" params
       | "min_caml_truncate" -> Printf.sprintf "%s = (%s) %s;" r (type_of_string r) params
