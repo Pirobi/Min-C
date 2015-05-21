@@ -96,6 +96,7 @@ let set_environment fv =
         end) fv 
      |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
 
+(*Set each value of the tuple to a spot in the array*)
 let set_tuple r xs =
   match xs with
   | [] -> ""
@@ -103,6 +104,7 @@ let set_tuple r xs =
     List.mapi(fun i l -> Printf.sprintf "%s[%d] = %s;\n" r i l) xs
     |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
     
+(*Print the C statements used to create a Closure*)
 let make_closure r f env = 
   Printf.sprintf "Closure* %s = malloc(sizeof(Closure));\n%s -> fp = (Function)%s_fun;\n%s -> env = %s;\n" r r f r env
    
@@ -156,8 +158,7 @@ let create_tuple xts y =
     ) xts
   |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
     
-(*This function will translate a single line of the OCaml intermediate code and decide the translated C version
-  Change tp to rt -> directly pass the type of r*)
+(*This function will translate a single line of the OCaml intermediate code and decide the translated C version*)
 let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_names : string list) (env_name : string) (func_name : string) = function
   | Unit -> Printf.sprintf "%s = 1;" r
   | Int(i) -> Printf.sprintf "%s = %d;" r i
@@ -206,10 +207,11 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
        Printf.sprintf "%s = %s_fun(%s, env);" r x (list_params ys)
      else
        begin
-	 let types = "fun_" ^ (typedef_of_type rt) ^ "_" ^ (List.fold_left (fun acc x -> 
-									    match acc with 
-									    | "" -> acc ^ "" ^ (type_of_string x) 
-									    | _ -> acc ^ "_" ^ (type_of_string x)) "" ys) ^ "_Value" in
+	 let types = "fun_" ^ (typedef_of_type rt) ^ "_" ^ 
+		       (List.fold_left (fun acc x -> 
+					match acc with 
+					| "" -> acc ^ "" ^ (type_of_string x) 
+					| _ -> acc ^ "_" ^ (type_of_string x)) "" ys) ^ "_Value" in
 	 try
 	   let typedef_type = List.find (fun typ -> typ = types) typedef_names in 
 	   Printf.sprintf "%s = ((%s*)%s -> fp)(%s, %s -> env);" r typedef_type x (list_params ys) x
@@ -238,9 +240,9 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
      Printf.sprintf "%s%s" (create_tuple xts y) t
   | Get(x, y) -> Printf.sprintf "%s = %s[%s].%s;" r x y (type_for_union rt)
   | Put(x, y, z) ->  
-    let (name, typ) = 
-      List.find (fun (n, t) -> n = z) t_env in
-    Printf.sprintf "%s[%s].%s = %s;" x y (type_for_union typ) z
+     let (name, typ) = 
+       List.find (fun (n, t) -> n = z) t_env in
+     Printf.sprintf "%s[%s].%s = %s;" x y (type_for_union typ) z
   | ExtArray(_) -> ""(*Will evaluate when working with the ray tracer*)
 
 
@@ -299,7 +301,7 @@ let translate s =
   let (typedef_names, typedefs) = make_typedefs funcs [] [] in
   Format.eprintf "Translating intermediate code to C...@.";
   make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
-
+																	     
 (*Reads a file and translates the Min-Caml code*)
 let main file = 
   Format.eprintf "Reading file %s...@." file;
@@ -317,7 +319,7 @@ let main file =
     output_string out_channel result;
     close_out out_channel;
     Format.eprintf "Translation complete.@."
-
+		   
 let () =
   if Array.length Sys.argv = 1
   then begin Format.printf "Usage: min-caml filename@."; exit 0 end
