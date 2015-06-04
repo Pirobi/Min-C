@@ -1,6 +1,7 @@
 #include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 #include"csyntax.h"
 
 static inline void make_int_array(Value **array, int size, int initial_value){

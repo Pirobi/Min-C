@@ -320,8 +320,8 @@ let main file =
     close_out out_channel;
     Format.eprintf "Translation complete.@."
 		   
-let () =
-  if Array.length Sys.argv = 1
-  then begin Format.printf "Usage: min-caml filename@."; exit 0 end
-  else main Sys.argv.(1)
+(* let () = *)
+(*   if Array.length Sys.argv = 1 *)
+(*   then begin Format.printf "Usage: min-caml filename@."; exit 0 end *)
+(*   else main Sys.argv.(1) *)
       
