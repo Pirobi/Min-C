@@ -226,7 +226,7 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
   | AppDir(Id.L l, xs) ->
      let params = list_params xs in
      (match l with
-      | "min_caml_print_int" -> Printf.sprintf "printf(\"%%d\", %s);" params
+      | "min_caml_print_int" | "min_caml_print_byte" -> Printf.sprintf "printf(\"%%d\", %s);" params
       | "min_caml_print_float" -> Printf.sprintf "printf(\"%%s\", %s);" params
       | "min_caml_create_float_array" | "min_caml_create_array" -> 
         let (size, init) = ((List.nth xs 0), (List.nth xs 1)) in
@@ -249,6 +249,7 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
       | "min_caml_read_float" -> Printf.sprintf "printf(\"Enter a float: \");\nscanf(\"%%d\\n\", &%s);" params
       | "float_0" -> "%s = 0;" r
       | "float_1" -> "%s = 1;" r
+      | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> "fprintf(stderr, %s);" params
       | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r l params)
   | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(%s));\n%s" r (List.length xs) (tuple_of_type rt) (set_tuple r xs)
   | LetTuple(xts, y, e) -> 
