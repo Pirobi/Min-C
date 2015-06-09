@@ -17,15 +17,17 @@ typedef struct Closure{
 }Closure;
 
 typedef union Value{
-  int i;
-  double d;
-  Closure* c;
-  union Value* a;
+    int i;
+    double d;
+    bool b;
+    Closure* c;
+    union Value* a;
 }Value;
 
 typedef enum{
   INT,
   DOUBLE,
+  BOOL,
   CLOSURE,
   ARRAY
 }Type;

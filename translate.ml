@@ -20,6 +20,7 @@ let rec string_of_type t = match t with
 let rec type_for_union t = match t with
   | Type.Unit -> "i"
   | Type.Int -> "i"
+  | Type.Bool -> "b"
   | Type.Float -> "d"
   | Type.Fun(l, r) -> "c"
   | Type.Array(t') -> "a"
@@ -29,6 +30,7 @@ let rec type_for_union t = match t with
 let type_for_array t = match t with
   | Type.Unit -> "int"
   | Type.Int -> "int"
+  | Type.Bool -> "bool"
   | Type.Float -> "double"
   | Type.Fun(l, r) -> "closure"
   | Type.Array(t') -> "multi"
