@@ -237,7 +237,18 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
         Printf.sprintf "%smake_%s_array(&%s, %s, %s);" cls (type_for_array init_typ) r size init_n
       | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
       | "min_caml_print_endline" -> Printf.sprintf "printf(\"%%s\\n\", %s);" params
-      | "min_caml_truncate" -> Printf.sprintf "%s = (%s) %s;" r (type_of_string r) params
+      | "min_caml_truncate"  | "min_caml_int_of_float" | "min_caml_float_of_int" -> 
+							  Printf.sprintf "%s = (%s) %s;" r (type_of_string r) params
+      | "min_caml_cos" -> Printf.sprintf "%s = cos(%s);" r params
+      | "min_caml_sin" -> Printf.sprintf "%s = sin(%s);" r params
+      | "min_caml_atan" -> Printf.sprintf "%s = atan(%s);" r params
+      | "min_caml_sqrt" -> Printf.sprintf "%s = sqrt(%s);" r params
+      | "min_caml_floor" -> Printf.sprintf "%s = floor(%s);" r params
+      | "min_caml_abs_float" -> Printf.sprintf "%s = fabs(%s);" r params
+      | "min_caml_read_int" -> Printf.sprintf "printf(\"Enter an integer: \");\nscanf(\"%%i\\n\", &%s);" params
+      | "min_caml_read_float" -> Printf.sprintf "printf(\"Enter a float: \");\nscanf(\"%%d\\n\", &%s);" params
+      | "float_0" -> "%s = 0;" r
+      | "float_1" -> "%s = 1;" r
       | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r l params)
   | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(%s));\n%s" r (List.length xs) (tuple_of_type rt) (set_tuple r xs)
   | LetTuple(xts, y, e) -> 
