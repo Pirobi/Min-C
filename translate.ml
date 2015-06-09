@@ -22,9 +22,12 @@ let rec type_for_union t = match t with
   | Type.Int -> "i"
   | Type.Bool -> "b"
   | Type.Float -> "d"
-  | Type.Fun(l, r) -> "c"
+  | Type.Fun(l, r) -> 
+     (match r with 
+      | Type.Fun(l', r') -> "c"
+      | _ -> type_for_union r)
   | Type.Array(t') -> "a"
-  | Type.Tuple(xs) -> type_for_union (List.hd xs) ^ "p"
+  | Type.Tuple(xs) -> "a"
   | _ -> ""
 
 let type_for_array t = match t with
