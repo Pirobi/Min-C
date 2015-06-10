@@ -247,9 +247,9 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
       | "min_caml_abs_float" -> Printf.sprintf "%s = fabs(%s);" r params
       | "min_caml_read_int" -> Printf.sprintf "printf(\"Enter an integer: \");\nscanf(\"%%i\\n\", &%s);" params
       | "min_caml_read_float" -> Printf.sprintf "printf(\"Enter a float: \");\nscanf(\"%%d\\n\", &%s);" params
-      | "float_0" -> "%s = 0;" r
-      | "float_1" -> "%s = 1;" r
-      | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> "fprintf(stderr, %s);" params
+      | "float_0" -> Printf.sprintf "%s = 0;" r
+      | "float_1" -> Printf.sprintf "%s = 1;" r
+      | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> Printf.sprintf "fprintf(stderr, %s);" params
       | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r l params)
   | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(%s));\n%s" r (List.length xs) (tuple_of_type rt) (set_tuple r xs)
   | LetTuple(xts, y, e) -> 
@@ -294,15 +294,17 @@ let make_main r typedef_names body =
 
 (*Generates the intermediate code for use in debugging the translation*)
 let debug s =
-  let (funcs, mainf) = Lexing.from_string s
-		       |> Parser.exp Lexer.token
-		       |> Typing.f 
-		       |> KNormal.f
-		       |> Assoc.f
-		       |> Inline.f
-		       |> Elim.f
-		       |> Closure.f
-		       |> (fun (Prog (p, t)) -> (p, t)) in (funcs, mainf)
+  let result = Lexing.from_string s
+	       |> Parser.exp Lexer.token
+	       |> Typing.f 
+	       |> KNormal.f
+	       |> Assoc.f
+	       |> Inline.f
+	       |> Elim.f
+	       |> Closure.f
+	       |> (fun (Prog (p, t)) -> (p, t))
+	       |> Printf.sprintf "%a%a" in result
+							 
 							     
 (*Compiles Min-Caml code through closure conversion, then translates the resulting intermediate code into C*)
 let translate s =
@@ -336,6 +338,23 @@ let main file =
     output_string out_channel result;
     close_out out_channel;
     Format.eprintf "Translation complete.@."
+
+let dmain file =
+  Format.eprintf "Reading file %s...@." file;
+  let lines = ref "" in
+  let in_channel = open_in file in
+  try
+    while true do 
+      lines := Printf.sprintf "%s%s\n" !lines (input_line in_channel)
+    done;
+  with End_of_file ->
+    close_in in_channel;
+    let out_channel = open_out (file ^ ".txt") in
+    let result = debug !lines in
+    Format.eprintf "Outputting intermediate code to %s.txt...@." file;
+    output_string out_channel result;
+    close_out out_channel;
+    Format.eprintf "Intermediate code generated.@."
 		   
 (* let () = *)
 (*   if Array.length Sys.argv = 1 *)
