@@ -6,10 +6,12 @@ let make_header () =
 
 let alpha_convert r = 
   let r' = if String.contains r '.' then 
-	     let index = String.index r '.' in
-	     let index1 = index + 1 in
-	     let len = (String.length r) in
-	     (String.sub r' 0 index) ^ (String.sub r' index1 (len - index1))
+	     begin
+	       let index = String.index r '.' in
+	       let index1 = index + 1 in
+	       let len = (String.length r) in
+	       (String.sub r 0 index) ^ (String.sub r index1 (len - index1))
+	     end
 	   else r in Printf.sprintf "%s" r'
 		 
 (*Convert a Type.t type to a string*)
@@ -92,6 +94,14 @@ let type_of_string s =
     | _ -> "int"
   else "int"
 
+let generate_extenv r = 
+  if not (M.is_empty !Typing.extenv) then 
+    M.iter (fun x t -> 
+	    (match t with 
+	     | Type.Fun _ -> ()
+	     | _ -> r := !r ^ Printf.sprintf "%s %s;\n" (string_of_type t) x)) !Typing.extenv
+  else Printf.printf "No extenv" 
+
 (*If the return variable has already been declared, omit the type*)
 let include_type r rt = 
   match r with
@@ -143,12 +153,10 @@ let rec make_typedefs(f : fundef list) (g : string list) (h : string list) =
        let elem = List.hd f in 
        let (Id.L l, t) = elem.name in
        let a = elem.args in
-       let environment = ", Value *env" in
-       let signature = Printf.sprintf "(%s%s)"  
+       let signature = Printf.sprintf "(%s, Value *env)"  
 				      (List.fold_left(fun acc (s, typ) -> match acc with 
-					       | "" -> acc ^ (string_of_type typ) ^ " " ^ s 
-	       | _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s) "" a) 
-	   environment in
+					       | "" -> acc ^ (string_of_type typ) ^ " " ^ (alpha_convert s) 
+	       | _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ (alpha_convert s)) "" a) in
        let name = "fun_" ^ (typedef_of_type t) ^ "_" ^ 
 		  (List.fold_left(fun acc (s, typ) -> match acc with
 		     | "" -> (typedef_of_type typ)
@@ -174,13 +182,13 @@ let create_tuple xts y =
   |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
     
 (*This function will translate a single line of the OCaml intermediate code and decide the translated C version*)
-let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_names : string list) (env_name : string) (func_name : string) = 
+let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_names : string list) (env_name : string) (func_name : string) = 
   let r =  alpha_convert r' in
   function
   | Unit -> Printf.sprintf "%s = 1;" r
   | Int(i) -> Printf.sprintf "%s = %d;" r i
   | Float(d) -> Printf.sprintf "%s = %f;" r d
-  | Neg(n) -> Printf.sprintf "%s = -%s;" r n
+  | Neg(n) -> Printf.sprintf "%s = -%s;" r (alpha_convert n)
   | Add(x, y) -> 
      let x' = alpha_convert x in 
      let y' = alpha_convert y in 
@@ -223,9 +231,8 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
   | Let((x, t), e1, e2) ->
      let x' = alpha_convert x in
      let t1 = (trans_exp x' t t_env typedef_names env_name func_name e1) in
-     let t2 = (trans_exp r rt ((x', t) :: t_env) typedef_names env_name func_name e2) in
-     let variable = if rt = Closure.Unit then "" 
-		    else Printf.sprintf "%s %s;\n" (string_of_type t) x' in
+     let t2 = (trans_exp r rt ((x, t) :: t_env) typedef_names env_name func_name e2) in
+     let variable = Printf.sprintf "%s %s;\n" (string_of_type t) x' in
      Printf.sprintf "%s%s\n%s" variable t1 t2
   | Var(x) -> 
      let x' = alpha_convert x in
@@ -237,7 +244,7 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
         let environment_creation = Printf.sprintf "Value *%s_env;\nsafe_malloc(&%s_env, %d);\n%s" x' x' (List.length ys)
 	    (List.mapi (fun i n -> 
 			let n' = alpha_convert n in
-			let (name, typ) = List.find (fun (a, b) -> a = n') t_env in
+			let (name, typ) = List.find (fun (a, b) -> a = n) t_env in
 			let cls = 
 			  if n' = func_name then 
 			    make_closure n' n' "env"
@@ -245,9 +252,9 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
 			Printf.sprintf "%s%s_env[%d].%s = %s;\n" cls x' i (type_for_union typ) n') ys
 	     |> List.fold_left (fun acc s -> acc ^ "" ^ s) "") in
         let closure_creation = make_closure x' l (x' ^ "_env") in
-        Printf.sprintf "%s%s%s" environment_creation closure_creation (trans_exp r rt ((x', t) :: t_env) typedef_names (x' ^ "_") func_name e)
+        Printf.sprintf "%s%s%s" environment_creation closure_creation (trans_exp r rt ((x, t) :: t_env) typedef_names (x' ^ "_") func_name e)
       with Not_found -> print_endline ("ys: " ^ (List.fold_left (fun acc s -> acc ^ ", " ^ s) "" ys)); 
-			Printf.sprintf "t_env: %s" (List.fold_left (fun acc (x, y) -> acc ^ "," ^ x) "" t_env); 
+			Printf.sprintf "t_env: %s" (List.fold_left (fun acc (x, y) -> acc ^ "," ^ x) "" t_env); assert false;
     end
   | AppCls(x, ys) ->
      let x' = alpha_convert x in
@@ -277,7 +284,7 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
         let cls = 
           if (string_of_type init_typ) = "Closure*" then make_closure init init "env"
           else "" in 
-        Printf.sprintf "%smake_%s_array(&%s, %s, %s);" cls (type_for_array init_typ) r size init_n
+        Printf.sprintf "%smake_%s_array(&%s, %s, %s);" cls (type_for_array init_typ) r (alpha_convert size) (alpha_convert init_n)
       | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
       | "min_caml_print_endline" -> Printf.sprintf "printf(\"%%s\\n\", %s);" params
       | "min_caml_truncate"  | "min_caml_int_of_float" | "min_caml_float_of_int" -> 
@@ -302,7 +309,7 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
   | Put(x, y, z) ->
      let z' = alpha_convert z in  
      let (name, typ) = 
-       List.find (fun (n, t) -> n = z') t_env in
+       List.find (fun (n, t) -> n = z) t_env in
      Printf.sprintf "%s[%s].%s = %s;" (alpha_convert x) (alpha_convert y) (type_for_union typ) z'
   | ExtArray(Id.L s) -> Printf.sprintf "%s = %s;" r (alpha_convert s)
 
@@ -318,16 +325,14 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
        let l = (alpha_convert l') in
        let a = elem.args in
        let fv = elem.formal_fv in
-       let environment = ", Value *env" in
        let b = elem.body in
        let name = Printf.sprintf "%s %s_fun" (get_return_type t) l in
-       let signature = Printf.sprintf "(%s%s)"  
+       let signature = Printf.sprintf "(%s, Value *env)"  
 				      (List.fold_left(fun acc (s, typ) -> 
 						      let s' = alpha_convert s in 
 						      match acc with 
 						      | "" -> acc ^ (string_of_type typ) ^ " " ^ s' 
-						      | _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s') "" a) 
-				      environment in
+						      | _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s') "" a) in
        let func_end = end_function "result" in
        let t_env = (l, t) :: (List.append fv a) in
        let return_typ = get_return_type t in
@@ -363,8 +368,10 @@ let translate s =
 		       |> Closure.f
 		       |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
   let (typedef_names, typedefs) = make_typedefs funcs [] [] in
+  let r = ref "" in
+  let () = generate_extenv r in
   Format.eprintf "Translating intermediate code to C...@.";
-  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
+  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ !r ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
 																	     
 (*Reads a file and translates the Min-Caml code*)
 let main file = 

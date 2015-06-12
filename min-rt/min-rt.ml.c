@@ -1,5506 +1,5540 @@
 #include"csyntax.c"
 
-typedef int fun_int_int_int_bool_Value(int size_x.11020, int size_y.11021, bool debug_p.11022, Value *env);
-typedef int fun_int_int_double_Value(int nref.11007, double energy.11008, Value *env);
-typedef int fun_int_array_array_double_Value(Value* v1.11003, Value* v2.11004, double w.11005, Value *env);
-typedef double fun_double_array_array_Value(Value* v1.11000, Value* v2.11001, Value *env);
-typedef bool fun_bool_array_array_Value(Value* viewpoint.10981, Value* vscan.10982, Value *env);
-typedef int fun_int_int_array_Value(int iand_ofs.10972, Value* and_group.10973, Value *env);
-typedef bool fun_bool_int_array_array_Value(int iand_ofs.10960, Value* and_group.10961, Value* p.10962, Value *env);
-typedef bool fun_bool_int_array_Value(int ofs.10957, Value* iand.10958, Value *env);
-typedef int fun_int_int_array_array_Value(int index.10945, Value* l.10946, Value* p.10947, Value *env);
-typedef double fun_double_tuple_array_Value(int* m.10930, Value* v.10931, Value *env);
-typedef int fun_int_tuple_array_Value(int* m.10924, Value* l.10925, Value *env);
-typedef Value* fun_array_int_Value(int length.10918, Value *env);
-typedef bool fun_bool_int_Value(int n.10910, Value *env);
-typedef int fun_int_int_Value(int Tu8881.10908, Value *env);
-typedef int fun_int_array_bool_Value(Value* v.10901, bool inv.10902, Value *env);
-typedef double fun_double_tuple_Value(int* m.10873, Value *env);
-typedef bool fun_bool_tuple_Value(int* m.10869, Value *env);
-typedef int fun_int_tuple_Value(int* m.10863, Value *env);
-typedef double fun_double_double_Value(double x.10859, Value *env);
-typedef bool fun_bool_bool_bool_Value(bool x.10856, bool y.10857, Value *env);
-
-bool xor.10855_fun(bool x.10856, bool y.10857, Value *env){
-bool result;
-int Ti10853.13316;
-Ti10853_13316 = 0;
-if(x.10856 == Ti10853.13316){
-result = y.10857;
-}
-else{
-int Ti10854.13317;
-Ti10854_13317 = 0;
-if(y.10857 == Ti10854.13317){
-result = 1;
-}
-else{
-result = 0;
-}
-}
-return result;
-}
-
-double fsqr.10858_fun(double x.10859, Value *env){
-double result;
-result =  x.10859 * x.10859;
-return result;
-}
-
-double fhalf.10860_fun(double x.10861, Value *env){
-double result;
-double Td10852.13315;
-Td10852_13315 = 2.000000;
-result = x.10861 / Td10852.13315;
-return result;
-}
-
-int o_texturetype.10862_fun(int* m.10863, Value *env){
-int result;
-int m_tex.13305 = m.10863[0];
-int xm_shape.13306 = m.10863[1];
-int xm_surface.13307 = m.10863[2];
-int xm_isrot.13308 = m.10863[3];
-Value* xm_abc.13309 = m.10863[4];
-Value* xm_xyz.13310 = m.10863[5];
-bool xm_invert.13311 = m.10863[6];
-Value* xm_surfparams.13312 = m.10863[7];
-Value* xm_color.13313 = m.10863[8];
-Value* xm_rot123.13314 = m.10863[9];
-result = m_tex.13305;
-return result;
-}
-
-int o_form.10864_fun(int* m.10865, Value *env){
-int result;
-int xm_tex.13295 = m.10865[0];
-int m_shape.13296 = m.10865[1];
-int xm_surface.13297 = m.10865[2];
-int xm_isrot.13298 = m.10865[3];
-Value* xm_abc.13299 = m.10865[4];
-Value* xm_xyz.13300 = m.10865[5];
-bool xm_invert.13301 = m.10865[6];
-Value* xm_surfparams.13302 = m.10865[7];
-Value* xm_color.13303 = m.10865[8];
-Value* xm_rot123.13304 = m.10865[9];
-result = m_shape.13296;
-return result;
-}
-
-int o_reflectiontype.10866_fun(int* m.10867, Value *env){
-int result;
-int xm_tex.13285 = m.10867[0];
-int xm_shape.13286 = m.10867[1];
-int m_surface.13287 = m.10867[2];
-int xm_isrot.13288 = m.10867[3];
-Value* xm_abc.13289 = m.10867[4];
-Value* xm_xyz.13290 = m.10867[5];
-bool xm_invert.13291 = m.10867[6];
-Value* xm_surfparams.13292 = m.10867[7];
-Value* xm_color.13293 = m.10867[8];
-Value* xm_rot123.13294 = m.10867[9];
-result = m_surface.13287;
-return result;
-}
-
-bool o_isinvert.10868_fun(int* m.10869, Value *env){
-bool result;
-int m_tex.13275 = m.10869[0];
-int m_shape.13276 = m.10869[1];
-int m_surface.13277 = m.10869[2];
-int m_isrot.13278 = m.10869[3];
-Value* xm_abc.13279 = m.10869[4];
-Value* xm_xyz.13280 = m.10869[5];
-bool m_invert.13281 = m.10869[6];
-Value* xm_surfparams.13282 = m.10869[7];
-Value* xm_color.13283 = m.10869[8];
-Value* xm_rot123.13284 = m.10869[9];
-result = m_invert.13281;
-return result;
-}
-
-int o_isrot.10870_fun(int* m.10871, Value *env){
-int result;
-int xm_tex.13265 = m.10871[0];
-int xm_shape.13266 = m.10871[1];
-int xm_surface.13267 = m.10871[2];
-int m_isrot.13268 = m.10871[3];
-Value* xm_abc.13269 = m.10871[4];
-Value* xm_xyz.13270 = m.10871[5];
-bool xm_invert.13271 = m.10871[6];
-Value* xm_surfparams.13272 = m.10871[7];
-Value* xm_color.13273 = m.10871[8];
-Value* xm_rot123.13274 = m.10871[9];
-result = m_isrot.13268;
-return result;
-}
-
-double o_param_a.10872_fun(int* m.10873, Value *env){
-double result;
-int xm_tex.13254 = m.10873[0];
-int xm_shape.13255 = m.10873[1];
-int xm_surface.13256 = m.10873[2];
-int xm_isrot.13257 = m.10873[3];
-Value* m_abc.13258 = m.10873[4];
-Value* xm_xyz.13259 = m.10873[5];
-bool xm_invert.13260 = m.10873[6];
-Value* xm_surfparams.13261 = m.10873[7];
-Value* xm_color.13262 = m.10873[8];
-Value* xm_rot123.13263 = m.10873[9];
-int Ti10851.13264;
-Ti10851_13264 = 0;
-result = m_abc.13258[Ti10851.13264].d;
-return result;
-}
-
-double o_param_b.10874_fun(int* m.10875, Value *env){
-double result;
-int xm_tex.13243 = m.10875[0];
-int xm_shape.13244 = m.10875[1];
-int xm_surface.13245 = m.10875[2];
-int xm_isrot.13246 = m.10875[3];
-Value* m_abc.13247 = m.10875[4];
-Value* xm_xyz.13248 = m.10875[5];
-bool xm_invert.13249 = m.10875[6];
-Value* xm_surfparams.13250 = m.10875[7];
-Value* xm_color.13251 = m.10875[8];
-Value* xm_rot123.13252 = m.10875[9];
-int Ti10850.13253;
-Ti10850_13253 = 1;
-result = m_abc.13247[Ti10850.13253].d;
-return result;
-}
-
-double o_param_c.10876_fun(int* m.10877, Value *env){
-double result;
-int xm_tex.13232 = m.10877[0];
-int xm_shape.13233 = m.10877[1];
-int xm_surface.13234 = m.10877[2];
-int xm_isrot.13235 = m.10877[3];
-Value* m_abc.13236 = m.10877[4];
-Value* xm_xyz.13237 = m.10877[5];
-bool xm_invert.13238 = m.10877[6];
-Value* xm_surfparams.13239 = m.10877[7];
-Value* xm_color.13240 = m.10877[8];
-Value* xm_rot123.13241 = m.10877[9];
-int Ti10849.13242;
-Ti10849_13242 = 2;
-result = m_abc.13236[Ti10849.13242].d;
-return result;
-}
-
-double o_param_x.10878_fun(int* m.10879, Value *env){
-double result;
-int xm_tex.13221 = m.10879[0];
-int xm_shape.13222 = m.10879[1];
-int xm_surface.13223 = m.10879[2];
-int xm_isrot.13224 = m.10879[3];
-Value* xm_abc.13225 = m.10879[4];
-Value* m_xyz.13226 = m.10879[5];
-bool xm_invert.13227 = m.10879[6];
-Value* xm_surfparams.13228 = m.10879[7];
-Value* xm_color.13229 = m.10879[8];
-Value* xm_rot123.13230 = m.10879[9];
-int Ti10848.13231;
-Ti10848_13231 = 0;
-result = m_xyz.13226[Ti10848.13231].d;
-return result;
-}
-
-double o_param_y.10880_fun(int* m.10881, Value *env){
-double result;
-int xm_tex.13210 = m.10881[0];
-int xm_shape.13211 = m.10881[1];
-int xm_surface.13212 = m.10881[2];
-int xm_isrot.13213 = m.10881[3];
-Value* xm_abc.13214 = m.10881[4];
-Value* m_xyz.13215 = m.10881[5];
-bool xm_invert.13216 = m.10881[6];
-Value* xm_surfparams.13217 = m.10881[7];
-Value* xm_color.13218 = m.10881[8];
-Value* xm_rot123.13219 = m.10881[9];
-int Ti10847.13220;
-Ti10847_13220 = 1;
-result = m_xyz.13215[Ti10847.13220].d;
-return result;
-}
-
-double o_param_z.10882_fun(int* m.10883, Value *env){
-double result;
-int xm_tex.13199 = m.10883[0];
-int xm_shape.13200 = m.10883[1];
-int xm_surface.13201 = m.10883[2];
-int xm_isrot.13202 = m.10883[3];
-Value* xm_abc.13203 = m.10883[4];
-Value* m_xyz.13204 = m.10883[5];
-bool xm_invert.13205 = m.10883[6];
-Value* xm_surfparams.13206 = m.10883[7];
-Value* xm_color.13207 = m.10883[8];
-Value* xm_rot123.13208 = m.10883[9];
-int Ti10846.13209;
-Ti10846_13209 = 2;
-result = m_xyz.13204[Ti10846.13209].d;
-return result;
-}
-
-double o_diffuse.10884_fun(int* m.10885, Value *env){
-double result;
-int xm_tex.13188 = m.10885[0];
-int xm_shape.13189 = m.10885[1];
-int xm_surface.13190 = m.10885[2];
-int xm_isrot.13191 = m.10885[3];
-Value* xm_abc.13192 = m.10885[4];
-Value* xm_xyz.13193 = m.10885[5];
-bool xm_invert.13194 = m.10885[6];
-Value* m_surfparams.13195 = m.10885[7];
-Value* xm_color.13196 = m.10885[8];
-Value* xm_rot123.13197 = m.10885[9];
-int Ti10845.13198;
-Ti10845_13198 = 0;
-result = m_surfparams.13195[Ti10845.13198].d;
-return result;
-}
-
-double o_hilight.10886_fun(int* m.10887, Value *env){
-double result;
-int xm_tex.13177 = m.10887[0];
-int xm_shape.13178 = m.10887[1];
-int xm_surface.13179 = m.10887[2];
-int xm_isrot.13180 = m.10887[3];
-Value* xm_abc.13181 = m.10887[4];
-Value* xm_xyz.13182 = m.10887[5];
-bool xm_invert.13183 = m.10887[6];
-Value* m_surfparams.13184 = m.10887[7];
-Value* xm_color.13185 = m.10887[8];
-Value* xm_rot123.13186 = m.10887[9];
-int Ti10844.13187;
-Ti10844_13187 = 1;
-result = m_surfparams.13184[Ti10844.13187].d;
-return result;
-}
-
-double o_color_red.10888_fun(int* m.10889, Value *env){
-double result;
-int xm_tex.13166 = m.10889[0];
-int xm_shape.13167 = m.10889[1];
-int m_surface.13168 = m.10889[2];
-int xm_isrot.13169 = m.10889[3];
-Value* xm_abc.13170 = m.10889[4];
-Value* xm_xyz.13171 = m.10889[5];
-bool xm_invert.13172 = m.10889[6];
-Value* xm_surfparams.13173 = m.10889[7];
-Value* m_color.13174 = m.10889[8];
-Value* xm_rot123.13175 = m.10889[9];
-int Ti10843.13176;
-Ti10843_13176 = 0;
-result = m_color.13174[Ti10843.13176].d;
-return result;
-}
-
-double o_color_green.10890_fun(int* m.10891, Value *env){
-double result;
-int xm_tex.13155 = m.10891[0];
-int xm_shape.13156 = m.10891[1];
-int m_surface.13157 = m.10891[2];
-int xm_isrot.13158 = m.10891[3];
-Value* xm_abc.13159 = m.10891[4];
-Value* xm_xyz.13160 = m.10891[5];
-bool xm_invert.13161 = m.10891[6];
-Value* xm_surfparams.13162 = m.10891[7];
-Value* m_color.13163 = m.10891[8];
-Value* xm_rot123.13164 = m.10891[9];
-int Ti10842.13165;
-Ti10842_13165 = 1;
-result = m_color.13163[Ti10842.13165].d;
-return result;
-}
-
-double o_color_blue.10892_fun(int* m.10893, Value *env){
-double result;
-int xm_tex.13144 = m.10893[0];
-int xm_shape.13145 = m.10893[1];
-int m_surface.13146 = m.10893[2];
-int xm_isrot.13147 = m.10893[3];
-Value* xm_abc.13148 = m.10893[4];
-Value* xm_xyz.13149 = m.10893[5];
-bool xm_invert.13150 = m.10893[6];
-Value* xm_surfparams.13151 = m.10893[7];
-Value* m_color.13152 = m.10893[8];
-Value* xm_rot123.13153 = m.10893[9];
-int Ti10841.13154;
-Ti10841_13154 = 2;
-result = m_color.13152[Ti10841.13154].d;
-return result;
-}
-
-double o_param_r1.10894_fun(int* m.10895, Value *env){
-double result;
-int xm_tex.13133 = m.10895[0];
-int xm_shape.13134 = m.10895[1];
-int xm_surface.13135 = m.10895[2];
-int xm_isrot.13136 = m.10895[3];
-Value* xm_abc.13137 = m.10895[4];
-Value* xm_xyz.13138 = m.10895[5];
-bool xm_invert.13139 = m.10895[6];
-Value* xm_surfparams.13140 = m.10895[7];
-Value* xm_color.13141 = m.10895[8];
-Value* m_rot123.13142 = m.10895[9];
-int Ti10840.13143;
-Ti10840_13143 = 0;
-result = m_rot123.13142[Ti10840.13143].d;
-return result;
-}
-
-double o_param_r2.10896_fun(int* m.10897, Value *env){
-double result;
-int xm_tex.13122 = m.10897[0];
-int xm_shape.13123 = m.10897[1];
-int xm_surface.13124 = m.10897[2];
-int xm_isrot.13125 = m.10897[3];
-Value* xm_abc.13126 = m.10897[4];
-Value* xm_xyz.13127 = m.10897[5];
-bool xm_invert.13128 = m.10897[6];
-Value* xm_surfparams.13129 = m.10897[7];
-Value* xm_color.13130 = m.10897[8];
-Value* m_rot123.13131 = m.10897[9];
-int Ti10839.13132;
-Ti10839_13132 = 1;
-result = m_rot123.13131[Ti10839.13132].d;
-return result;
-}
-
-double o_param_r3.10898_fun(int* m.10899, Value *env){
-double result;
-int xm_tex.13111 = m.10899[0];
-int xm_shape.13112 = m.10899[1];
-int xm_surface.13113 = m.10899[2];
-int xm_isrot.13114 = m.10899[3];
-Value* xm_abc.13115 = m.10899[4];
-Value* xm_xyz.13116 = m.10899[5];
-bool xm_invert.13117 = m.10899[6];
-Value* xm_surfparams.13118 = m.10899[7];
-Value* xm_color.13119 = m.10899[8];
-Value* m_rot123.13120 = m.10899[9];
-int Ti10838.13121;
-Ti10838_13121 = 2;
-result = m_rot123.13120[Ti10838.13121].d;
-return result;
-}
-
-int normalize_vector.10900_fun(Value* v.10901, bool inv.10902, Value *env){
-int result;
-int Ti10814.13110;
-Ti10814_13110 = 0;
-double Td10815.13109;
-Td10815_13109 = v.10901[Ti10814.13110].d;
-double Td10816.13105;
-Td10816_13105 = fsqr.10858_fun(Td10815.13109, NULL);
-int Ti10817.13108;
-Ti10817_13108 = 1;
-double Td10818.13107;
-Td10818_13107 = v.10901[Ti10817.13108].d;
-double Td10819.13106;
-Td10819_13106 = fsqr.10858_fun(Td10818.13107, NULL);
-double Td10820.13101;
-Td10820_13101 = Td10816.13105 + Td10819.13106;
-int Ti10821.13104;
-Ti10821_13104 = 2;
-double Td10822.13103;
-Td10822_13103 = v.10901[Ti10821.13104].d;
-double Td10823.13102;
-Td10823_13102 = fsqr.10858_fun(Td10822.13103, NULL);
-double Td10824.13100;
-Td10824_13100 = Td10820.13101 + Td10823.13102;
-double n0.13083;
-n0_13083 = sqrt(Td10824.13100);
-int Ti10825.13099;
-Ti10825_13099 = 0;
-double n.13084;
-if(inv.10902 == Ti10825.13099){
-n_13084 = n0.13083;
-}
-else{
-n_13084 = -n0.13083;
-}
-int Ti10826.13095;
-Ti10826_13095 = 0;
-int Ti10827.13098;
-Ti10827_13098 = 0;
-double Td10828.13097;
-Td10828_13097 = v.10901[Ti10827.13098].d;
-double Td10829.13096;
-Td10829_13096 = Td10828.13097 / n.13084;
-int Tu8880.13085;
-v.10901[Ti10826.13095].d = Td10829.13096;
-int Ti10830.13091;
-Ti10830_13091 = 1;
-int Ti10831.13094;
-Ti10831_13094 = 1;
-double Td10832.13093;
-Td10832_13093 = v.10901[Ti10831.13094].d;
-double Td10833.13092;
-Td10833_13092 = Td10832.13093 / n.13084;
-int Tu8879.13086;
-v.10901[Ti10830.13091].d = Td10833.13092;
-int Ti10834.13087;
-Ti10834_13087 = 2;
-int Ti10835.13090;
-Ti10835_13090 = 2;
-double Td10836.13089;
-Td10836_13089 = v.10901[Ti10835.13090].d;
-double Td10837.13088;
-Td10837_13088 = Td10836.13089 / n.13084;
-v.10901[Ti10834.13087].d = Td10837.13088;
-return result;
-}
-
-double sgn.10903_fun(double x.10904, Value *env){
-double result;
-double Td10813.13082;
-Td10813_13082 = 0.000000;
-if(x.10904 <= Td10813.13082){
-result = -1.000000;
-}
-else{
-result = 1.000000;
-}
-return result;
-}
-
-double rad.10905_fun(double x.10906, Value *env){
-double result;
-double Td10812.13081;
-Td10812_13081 = 0.017453;
-result =  x.10906 * Td10812.13081;
-return result;
-}
-
-int read_environ.10907_fun(int Tu8881.10908, Value *env){
-int result;
-Value* Ta10709.13077;
-Ta10709_13077 = screen;
-int Ti10710.13078;
-Ti10710_13078 = 0;
-int Tu10711.13080;
-Tu10711_13080 = 1;
-double Td10712.13079;
-printf("Enter a float: ");
-scanf("%d\n", &Td10712_13079);
-int Tu8897.12953;
-Ta10709.13077[Ti10710.13078].d = Td10712.13079;
-Value* Ta10713.13073;
-Ta10713_13073 = screen;
-int Ti10714.13074;
-Ti10714_13074 = 1;
-int Tu10715.13076;
-Tu10715_13076 = 1;
-double Td10716.13075;
-printf("Enter a float: ");
-scanf("%d\n", &Td10716_13075);
-int Tu8896.12954;
-Ta10713.13073[Ti10714.13074].d = Td10716.13075;
-Value* Ta10717.13069;
-Ta10717_13069 = screen;
-int Ti10718.13070;
-Ti10718_13070 = 2;
-int Tu10719.13072;
-Tu10719_13072 = 1;
-double Td10720.13071;
-printf("Enter a float: ");
-scanf("%d\n", &Td10720_13071);
-int Tu8895.12955;
-Ta10717.13069[Ti10718.13070].d = Td10720.13071;
-int Tu10721.13068;
-Tu10721_13068 = 1;
-double Td10722.13067;
-printf("Enter a float: ");
-scanf("%d\n", &Td10722_13067);
-double v1.12956;
-v1_12956 = rad.10905_fun(Td10722.13067, NULL);
-Value* Ta10723.13064;
-Ta10723_13064 = cos_v;
-int Ti10724.13065;
-Ti10724_13065 = 0;
-double Td10725.13066;
-Td10725_13066 = cos(v1.12956);
-int Tu8894.12957;
-Ta10723.13064[Ti10724.13065].d = Td10725.13066;
-Value* Ta10726.13061;
-Ta10726_13061 = sin_v;
-int Ti10727.13062;
-Ti10727_13062 = 0;
-double Td10728.13063;
-Td10728_13063 = sin(v1.12956);
-int Tu8893.12958;
-Ta10726.13061[Ti10727.13062].d = Td10728.13063;
-int Tu10729.13060;
-Tu10729_13060 = 1;
-double Td10730.13059;
-printf("Enter a float: ");
-scanf("%d\n", &Td10730_13059);
-double v2.12959;
-v2_12959 = rad.10905_fun(Td10730.13059, NULL);
-Value* Ta10731.13056;
-Ta10731_13056 = cos_v;
-int Ti10732.13057;
-Ti10732_13057 = 1;
-double Td10733.13058;
-Td10733_13058 = cos(v2.12959);
-int Tu8892.12960;
-Ta10731.13056[Ti10732.13057].d = Td10733.13058;
-Value* Ta10734.13053;
-Ta10734_13053 = sin_v;
-int Ti10735.13054;
-Ti10735_13054 = 1;
-double Td10736.13055;
-Td10736_13055 = sin(v2.12959);
-int Tu8891.12961;
-Ta10734.13053[Ti10735.13054].d = Td10736.13055;
-int Tu10737.13052;
-Tu10737_13052 = 1;
-double nl.12962;
-printf("Enter a float: ");
-scanf("%d\n", &nl_12962);
-int Tu10738.13051;
-Tu10738_13051 = 1;
-double Td10739.13050;
-printf("Enter a float: ");
-scanf("%d\n", &Td10739_13050);
-double l1.12963;
-l1_12963 = rad.10905_fun(Td10739.13050, NULL);
-double sl1.12964;
-sl1_12964 = sin(l1.12963);
-Value* Ta10740.13047;
-Ta10740_13047 = light;
-int Ti10741.13048;
-Ti10741_13048 = 1;
-double Td10742.13049;
-Td10742_13049 = -sl1.12964;
-int Tu8890.12965;
-Ta10740.13047[Ti10741.13048].d = Td10742.13049;
-int Tu10743.13046;
-Tu10743_13046 = 1;
-double Td10744.13045;
-printf("Enter a float: ");
-scanf("%d\n", &Td10744_13045);
-double l2.12966;
-l2_12966 = rad.10905_fun(Td10744.13045, NULL);
-double cl1.12967;
-cl1_12967 = cos(l1.12963);
-double sl2.12968;
-sl2_12968 = sin(l2.12966);
-Value* Ta10745.13042;
-Ta10745_13042 = light;
-int Ti10746.13043;
-Ti10746_13043 = 0;
-double Td10747.13044;
-Td10747_13044 =  cl1.12967 * sl2.12968;
-int Tu8889.12969;
-Ta10745.13042[Ti10746.13043].d = Td10747.13044;
-double cl2.12970;
-cl2_12970 = cos(l2.12966);
-Value* Ta10748.13039;
-Ta10748_13039 = light;
-int Ti10749.13040;
-Ti10749_13040 = 2;
-double Td10750.13041;
-Td10750_13041 =  cl1.12967 * cl2.12970;
-int Tu8888.12971;
-Ta10748.13039[Ti10749.13040].d = Td10750.13041;
-Value* Ta10751.13035;
-Ta10751_13035 = beam;
-int Ti10752.13036;
-Ti10752_13036 = 0;
-int Tu10753.13038;
-Tu10753_13038 = 1;
-double Td10754.13037;
-printf("Enter a float: ");
-scanf("%d\n", &Td10754_13037);
-int Tu8887.12972;
-Ta10751.13035[Ti10752.13036].d = Td10754.13037;
-Value* Ta10755.13024;
-Ta10755_13024 = vp;
-int Ti10756.13025;
-Ti10756_13025 = 0;
-Value* Ta10757.13033;
-Ta10757_13033 = cos_v;
-int Ti10758.13034;
-Ti10758_13034 = 0;
-double Td10759.13029;
-Td10759_13029 = Ta10757.13033[Ti10758.13034].d;
-Value* Ta10760.13031;
-Ta10760_13031 = sin_v;
-int Ti10761.13032;
-Ti10761_13032 = 1;
-double Td10762.13030;
-Td10762_13030 = Ta10760.13031[Ti10761.13032].d;
-double Td10763.13027;
-Td10763_13027 =  Td10759.13029 * Td10762.13030;
-double Td10764.13028;
-Td10764_13028 = -200.000000;
-double Td10765.13026;
-Td10765_13026 =  Td10763.13027 * Td10764.13028;
-int Tu8886.12973;
-Ta10755.13024[Ti10756.13025].d = Td10765.13026;
-Value* Ta10766.13016;
-Ta10766_13016 = vp;
-int Ti10767.13017;
-Ti10767_13017 = 1;
-Value* Ta10768.13022;
-Ta10768_13022 = sin_v;
-int Ti10769.13023;
-Ti10769_13023 = 0;
-double Td10770.13021;
-Td10770_13021 = Ta10768.13022[Ti10769.13023].d;
-double Td10771.13019;
-Td10771_13019 = -Td10770.13021;
-double Td10772.13020;
-Td10772_13020 = -200.000000;
-double Td10773.13018;
-Td10773_13018 =  Td10771.13019 * Td10772.13020;
-int Tu8885.12974;
-Ta10766.13016[Ti10767.13017].d = Td10773.13018;
-Value* Ta10774.13005;
-Ta10774_13005 = vp;
-int Ti10775.13006;
-Ti10775_13006 = 2;
-Value* Ta10776.13014;
-Ta10776_13014 = cos_v;
-int Ti10777.13015;
-Ti10777_13015 = 0;
-double Td10778.13010;
-Td10778_13010 = Ta10776.13014[Ti10777.13015].d;
-Value* Ta10779.13012;
-Ta10779_13012 = cos_v;
-int Ti10780.13013;
-Ti10780_13013 = 1;
-double Td10781.13011;
-Td10781_13011 = Ta10779.13012[Ti10780.13013].d;
-double Td10782.13008;
-Td10782_13008 =  Td10778.13010 * Td10781.13011;
-double Td10783.13009;
-Td10783_13009 = -200.000000;
-double Td10784.13007;
-Td10784_13007 =  Td10782.13008 * Td10783.13009;
-int Tu8884.12975;
-Ta10774.13005[Ti10775.13006].d = Td10784.13007;
-Value* Ta10785.12996;
-Ta10785_12996 = view;
-int Ti10786.12997;
-Ti10786_12997 = 0;
-Value* Ta10787.13003;
-Ta10787_13003 = vp;
-int Ti10788.13004;
-Ti10788_13004 = 0;
-double Td10789.12999;
-Td10789_12999 = Ta10787.13003[Ti10788.13004].d;
-Value* Ta10790.13001;
-Ta10790_13001 = screen;
-int Ti10791.13002;
-Ti10791_13002 = 0;
-double Td10792.13000;
-Td10792_13000 = Ta10790.13001[Ti10791.13002].d;
-double Td10793.12998;
-Td10793_12998 = Td10789.12999 + Td10792.13000;
-int Tu8883.12976;
-Ta10785.12996[Ti10786.12997].d = Td10793.12998;
-Value* Ta10794.12987;
-Ta10794_12987 = view;
-int Ti10795.12988;
-Ti10795_12988 = 1;
-Value* Ta10796.12994;
-Ta10796_12994 = vp;
-int Ti10797.12995;
-Ti10797_12995 = 1;
-double Td10798.12990;
-Td10798_12990 = Ta10796.12994[Ti10797.12995].d;
-Value* Ta10799.12992;
-Ta10799_12992 = screen;
-int Ti10800.12993;
-Ti10800_12993 = 1;
-double Td10801.12991;
-Td10801_12991 = Ta10799.12992[Ti10800.12993].d;
-double Td10802.12989;
-Td10802_12989 = Td10798.12990 + Td10801.12991;
-int Tu8882.12977;
-Ta10794.12987[Ti10795.12988].d = Td10802.12989;
-Value* Ta10803.12978;
-Ta10803_12978 = view;
-int Ti10804.12979;
-Ti10804_12979 = 2;
-Value* Ta10805.12985;
-Ta10805_12985 = vp;
-int Ti10806.12986;
-Ti10806_12986 = 2;
-double Td10807.12981;
-Td10807_12981 = Ta10805.12985[Ti10806.12986].d;
-Value* Ta10808.12983;
-Ta10808_12983 = screen;
-int Ti10809.12984;
-Ti10809_12984 = 2;
-double Td10810.12982;
-Td10810_12982 = Ta10808.12983[Ti10809.12984].d;
-double Td10811.12980;
-Td10811_12980 = Td10807.12981 + Td10810.12982;
-Ta10803.12978[Ti10804.12979].d = Td10811.12980;
-return result;
-}
-
-bool read_nth_object.10909_fun(int n.10910, Value *env){
-bool result;
-int Tu10319.12952;
-Tu10319_12952 = 1;
-int texture.12506;
-printf("Enter an integer: ");
-scanf("%i\n", &texture_12506);
-int Ti10320.12951;
-Ti10320_12951 = 1;
-int Ti10321.12507;
-Ti10321_12507 = -Ti10320.12951;
-if(texture.12506 == Ti10321.12507){
-result = 0;
-}
-else{
-int Tu10322.12950;
-Tu10322_12950 = 1;
-int form.12508;
-printf("Enter an integer: ");
-scanf("%i\n", &form_12508);
-int Tu10323.12949;
-Tu10323_12949 = 1;
-int refltype.12509;
-printf("Enter an integer: ");
-scanf("%i\n", &refltype_12509);
-int Tu10324.12948;
-Tu10324_12948 = 1;
-int isrot_p.12510;
-printf("Enter an integer: ");
-scanf("%i\n", &isrot_p_12510);
-int Ti10325.12946;
-Ti10325_12946 = 3;
-double Td10326.12947;
-Td10326_12947 = 0.000000;
-Value* abc.12511;
-make_double_array(&abc_12511, Ti10325.12946, Td10326.12947);
-int Ti10327.12943;
-Ti10327_12943 = 0;
-int Tu10328.12945;
-Tu10328_12945 = 1;
-double Td10329.12944;
-printf("Enter a float: ");
-scanf("%d\n", &Td10329_12944);
-int Tu8936.12512;
-abc.12511[Ti10327.12943].d = Td10329.12944;
-int Ti10330.12940;
-Ti10330_12940 = 1;
-int Tu10331.12942;
-Tu10331_12942 = 1;
-double Td10332.12941;
-printf("Enter a float: ");
-scanf("%d\n", &Td10332_12941);
-int Tu8935.12513;
-abc.12511[Ti10330.12940].d = Td10332.12941;
-int Ti10333.12937;
-Ti10333_12937 = 2;
-int Tu10334.12939;
-Tu10334_12939 = 1;
-double Td10335.12938;
-printf("Enter a float: ");
-scanf("%d\n", &Td10335_12938);
-int Tu8934.12514;
-abc.12511[Ti10333.12937].d = Td10335.12938;
-int Ti10336.12935;
-Ti10336_12935 = 3;
-double Td10337.12936;
-Td10337_12936 = 0.000000;
-Value* xyz.12515;
-make_double_array(&xyz_12515, Ti10336.12935, Td10337.12936);
-int Ti10338.12932;
-Ti10338_12932 = 0;
-int Tu10339.12934;
-Tu10339_12934 = 1;
-double Td10340.12933;
-printf("Enter a float: ");
-scanf("%d\n", &Td10340_12933);
-int Tu8933.12516;
-xyz.12515[Ti10338.12932].d = Td10340.12933;
-int Ti10341.12929;
-Ti10341_12929 = 1;
-int Tu10342.12931;
-Tu10342_12931 = 1;
-double Td10343.12930;
-printf("Enter a float: ");
-scanf("%d\n", &Td10343_12930);
-int Tu8932.12517;
-xyz.12515[Ti10341.12929].d = Td10343.12930;
-int Ti10344.12926;
-Ti10344_12926 = 2;
-int Tu10345.12928;
-Tu10345_12928 = 1;
-double Td10346.12927;
-printf("Enter a float: ");
-scanf("%d\n", &Td10346_12927);
-int Tu8931.12518;
-xyz.12515[Ti10344.12926].d = Td10346.12927;
-double Td10347.12923;
-Td10347_12923 = 0.000000;
-int Tu10348.12925;
-Tu10348_12925 = 1;
-double Td10349.12924;
-printf("Enter a float: ");
-scanf("%d\n", &Td10349_12924);
-bool m_invert.12519;
-if(Td10347.12923 <= Td10349.12924){
-m_invert_12519 = 0;
-}
-else{
-m_invert_12519 = 1;
-}
-int Ti10350.12921;
-Ti10350_12921 = 2;
-double Td10351.12922;
-Td10351_12922 = 0.000000;
-Value* reflparam.12520;
-make_double_array(&reflparam_12520, Ti10350.12921, Td10351.12922);
-int Ti10352.12918;
-Ti10352_12918 = 0;
-int Tu10353.12920;
-Tu10353_12920 = 1;
-double Td10354.12919;
-printf("Enter a float: ");
-scanf("%d\n", &Td10354_12919);
-int Tu8930.12521;
-reflparam.12520[Ti10352.12918].d = Td10354.12919;
-int Ti10355.12915;
-Ti10355_12915 = 1;
-int Tu10356.12917;
-Tu10356_12917 = 1;
-double Td10357.12916;
-printf("Enter a float: ");
-scanf("%d\n", &Td10357_12916);
-int Tu8929.12522;
-reflparam.12520[Ti10355.12915].d = Td10357.12916;
-int Ti10358.12913;
-Ti10358_12913 = 3;
-double Td10359.12914;
-Td10359_12914 = 0.000000;
-Value* color.12523;
-make_double_array(&color_12523, Ti10358.12913, Td10359.12914);
-int Ti10360.12910;
-Ti10360_12910 = 0;
-int Tu10361.12912;
-Tu10361_12912 = 1;
-double Td10362.12911;
-printf("Enter a float: ");
-scanf("%d\n", &Td10362_12911);
-int Tu8928.12524;
-color.12523[Ti10360.12910].d = Td10362.12911;
-int Ti10363.12907;
-Ti10363_12907 = 1;
-int Tu10364.12909;
-Tu10364_12909 = 1;
-double Td10365.12908;
-printf("Enter a float: ");
-scanf("%d\n", &Td10365_12908);
-int Tu8927.12525;
-color.12523[Ti10363.12907].d = Td10365.12908;
-int Ti10366.12904;
-Ti10366_12904 = 2;
-int Tu10367.12906;
-Tu10367_12906 = 1;
-double Td10368.12905;
-printf("Enter a float: ");
-scanf("%d\n", &Td10368_12905);
-int Tu8926.12526;
-color.12523[Ti10366.12904].d = Td10368.12905;
-int Ti10369.12902;
-Ti10369_12902 = 3;
-double Td10370.12903;
-Td10370_12903 = 0.000000;
-Value* rotation.12527;
-make_double_array(&rotation_12527, Ti10369.12902, Td10370.12903);
-int Ti10371.12887;
-Ti10371_12887 = 0;
-int Tu8925.12528;
-if(isrot_p.12510 == Ti10371.12887){
-Tu8925_12528 = 1;
-}
-else{
-int Ti10372.12898;
-Ti10372_12898 = 0;
-int Tu10373.12901;
-Tu10373_12901 = 1;
-double Td10374.12900;
-printf("Enter a float: ");
-scanf("%d\n", &Td10374_12900);
-double Td10375.12899;
-Td10375_12899 = rad.10905_fun(Td10374.12900, NULL);
-int Tu8899.12888;
-rotation.12527[Ti10372.12898].d = Td10375.12899;
-int Ti10376.12894;
-Ti10376_12894 = 1;
-int Tu10377.12897;
-Tu10377_12897 = 1;
-double Td10378.12896;
-printf("Enter a float: ");
-scanf("%d\n", &Td10378_12896);
-double Td10379.12895;
-Td10379_12895 = rad.10905_fun(Td10378.12896, NULL);
-int Tu8898.12889;
-rotation.12527[Ti10376.12894].d = Td10379.12895;
-int Ti10380.12890;
-Ti10380_12890 = 2;
-int Tu10381.12893;
-Tu10381_12893 = 1;
-double Td10382.12892;
-printf("Enter a float: ");
-scanf("%d\n", &Td10382_12892);
-double Td10383.12891;
-Td10383_12891 = rad.10905_fun(Td10382.12892, NULL);
-rotation.12527[Ti10380.12890].d = Td10383.12891;
-}
-int Ti10384.12886;
-Ti10384_12886 = 2;
-bool m_invert2.12529;
-if(form.12508 == Ti10384.12886){
-m_invert2_12529 = 1;
-}
-else{
-m_invert2_12529 = m_invert.12519;
-}
-int* obj.12530;
-obj_12530 = malloc(10 * sizeof(int));
-obj_12530[0] = texture.12506;
-obj_12530[1] = form.12508;
-obj_12530[2] = refltype.12509;
-obj_12530[3] = isrot_p.12510;
-obj_12530[4] = abc.12511;
-obj_12530[5] = xyz.12515;
-obj_12530[6] = m_invert2.12529;
-obj_12530[7] = reflparam.12520;
-obj_12530[8] = color.12523;
-obj_12530[9] = rotation.12527;
-
-Value* Ta10385.12885;
-Ta10385_12885 = objects;
-int Tu8924.12531;
-Ta10385.12885[n.10910].a = obj.12530;
-int Ti10386.12858;
-Ti10386_12858 = 3;
-int Tu8923.12532;
-if(form.12508 == Ti10386.12858){
-int Ti10387.12884;
-Ti10387_12884 = 0;
-double a.12862;
-a_12862 = abc.12511[Ti10387.12884].d;
-int Ti10388.12879;
-Ti10388_12879 = 0;
-double Td10389.12881;
-Td10389_12881 = 0.000000;
-double Td10392.12880;
-if(Td10389.12881 == a.12862){
-Td10392_12880 = 0.000000;
-}
-else{
-double Td10390.12882;
-Td10390_12882 = sgn.10903_fun(a.12862, NULL);
-double Td10391.12883;
-Td10391_12883 = fsqr.10858_fun(a.12862, NULL);
-Td10392_12880 = Td10390.12882 / Td10391.12883;
-}
-int Tu8901.12863;
-abc.12511[Ti10388.12879].d = Td10392.12880;
-int Ti10393.12878;
-Ti10393_12878 = 1;
-double b.12864;
-b_12864 = abc.12511[Ti10393.12878].d;
-int Ti10394.12873;
-Ti10394_12873 = 1;
-double Td10395.12875;
-Td10395_12875 = 0.000000;
-double Td10398.12874;
-if(Td10395.12875 == b.12864){
-Td10398_12874 = 0.000000;
-}
-else{
-double Td10396.12876;
-Td10396_12876 = sgn.10903_fun(b.12864, NULL);
-double Td10397.12877;
-Td10397_12877 = fsqr.10858_fun(b.12864, NULL);
-Td10398_12874 = Td10396.12876 / Td10397.12877;
-}
-int Tu8900.12865;
-abc.12511[Ti10394.12873].d = Td10398.12874;
-int Ti10399.12872;
-Ti10399_12872 = 2;
-double c.12866;
-c_12866 = abc.12511[Ti10399.12872].d;
-int Ti10400.12867;
-Ti10400_12867 = 2;
-double Td10401.12869;
-Td10401_12869 = 0.000000;
-double Td10404.12868;
-if(Td10401.12869 == c.12866){
-Td10404_12868 = 0.000000;
-}
-else{
-double Td10402.12870;
-Td10402_12870 = sgn.10903_fun(c.12866, NULL);
-double Td10403.12871;
-Td10403_12871 = fsqr.10858_fun(c.12866, NULL);
-Td10404_12868 = Td10402.12870 / Td10403.12871;
-}
-abc.12511[Ti10400.12867].d = Td10404.12868;
-}
-else{
-int Ti10405.12859;
-Ti10405_12859 = 2;
-if(form.12508 == Ti10405.12859){
-int Ti10406.12861;
-Ti10406_12861 = 0;
-int Ti10407.12860;
-if(m_invert.12519 == Ti10406.12861){
-Ti10407_12860 = 1;
-}
-else{
-Ti10407_12860 = 0;
-}
-Tu8923_12532 = normalize_vector.10900_fun(abc.12511, Ti10407.12860, NULL);
-}
-else{
-Tu8923_12532 = 1;
-}
-}
-int Ti10408.12534;
-Ti10408_12534 = 0;
-int Tu8922.12533;
-if(isrot_p.12510 == Ti10408.12534){
-Tu8922_12533 = 1;
-}
-else{
-Value* Ta10409.12853;
-Ta10409_12853 = cs_temp;
-int Ti10410.12854;
-Ti10410_12854 = 10;
-int Ti10411.12857;
-Ti10411_12857 = 0;
-double Td10412.12856;
-Td10412_12856 = rotation.12527[Ti10411.12857].d;
-double Td10413.12855;
-Td10413_12855 = cos(Td10412.12856);
-int Tu8921.12535;
-Ta10409.12853[Ti10410.12854].d = Td10413.12855;
-Value* Ta10414.12848;
-Ta10414_12848 = cs_temp;
-int Ti10415.12849;
-Ti10415_12849 = 11;
-int Ti10416.12852;
-Ti10416_12852 = 0;
-double Td10417.12851;
-Td10417_12851 = rotation.12527[Ti10416.12852].d;
-double Td10418.12850;
-Td10418_12850 = sin(Td10417.12851);
-int Tu8920.12536;
-Ta10414.12848[Ti10415.12849].d = Td10418.12850;
-Value* Ta10419.12843;
-Ta10419_12843 = cs_temp;
-int Ti10420.12844;
-Ti10420_12844 = 12;
-int Ti10421.12847;
-Ti10421_12847 = 1;
-double Td10422.12846;
-Td10422_12846 = rotation.12527[Ti10421.12847].d;
-double Td10423.12845;
-Td10423_12845 = cos(Td10422.12846);
-int Tu8919.12537;
-Ta10419.12843[Ti10420.12844].d = Td10423.12845;
-Value* Ta10424.12838;
-Ta10424_12838 = cs_temp;
-int Ti10425.12839;
-Ti10425_12839 = 13;
-int Ti10426.12842;
-Ti10426_12842 = 1;
-double Td10427.12841;
-Td10427_12841 = rotation.12527[Ti10426.12842].d;
-double Td10428.12840;
-Td10428_12840 = sin(Td10427.12841);
-int Tu8918.12538;
-Ta10424.12838[Ti10425.12839].d = Td10428.12840;
-Value* Ta10429.12833;
-Ta10429_12833 = cs_temp;
-int Ti10430.12834;
-Ti10430_12834 = 14;
-int Ti10431.12837;
-Ti10431_12837 = 2;
-double Td10432.12836;
-Td10432_12836 = rotation.12527[Ti10431.12837].d;
-double Td10433.12835;
-Td10433_12835 = cos(Td10432.12836);
-int Tu8917.12539;
-Ta10429.12833[Ti10430.12834].d = Td10433.12835;
-Value* Ta10434.12828;
-Ta10434_12828 = cs_temp;
-int Ti10435.12829;
-Ti10435_12829 = 15;
-int Ti10436.12832;
-Ti10436_12832 = 2;
-double Td10437.12831;
-Td10437_12831 = rotation.12527[Ti10436.12832].d;
-double Td10438.12830;
-Td10438_12830 = sin(Td10437.12831);
-int Tu8916.12540;
-Ta10434.12828[Ti10435.12829].d = Td10438.12830;
-Value* Ta10439.12819;
-Ta10439_12819 = cs_temp;
-int Ti10440.12820;
-Ti10440_12820 = 0;
-Value* Ta10441.12826;
-Ta10441_12826 = cs_temp;
-int Ti10442.12827;
-Ti10442_12827 = 12;
-double Td10443.12822;
-Td10443_12822 = Ta10441.12826[Ti10442.12827].d;
-Value* Ta10444.12824;
-Ta10444_12824 = cs_temp;
-int Ti10445.12825;
-Ti10445_12825 = 14;
-double Td10446.12823;
-Td10446_12823 = Ta10444.12824[Ti10445.12825].d;
-double Td10447.12821;
-Td10447_12821 =  Td10443.12822 * Td10446.12823;
-int Tu8915.12541;
-Ta10439.12819[Ti10440.12820].d = Td10447.12821;
-Value* Ta10448.12798;
-Ta10448_12798 = cs_temp;
-int Ti10449.12799;
-Ti10449_12799 = 1;
-Value* Ta10450.12817;
-Ta10450_12817 = cs_temp;
-int Ti10451.12818;
-Ti10451_12818 = 11;
-double Td10452.12813;
-Td10452_12813 = Ta10450.12817[Ti10451.12818].d;
-Value* Ta10453.12815;
-Ta10453_12815 = cs_temp;
-int Ti10454.12816;
-Ti10454_12816 = 13;
-double Td10455.12814;
-Td10455_12814 = Ta10453.12815[Ti10454.12816].d;
-double Td10456.12809;
-Td10456_12809 =  Td10452.12813 * Td10455.12814;
-Value* Ta10457.12811;
-Ta10457_12811 = cs_temp;
-int Ti10458.12812;
-Ti10458_12812 = 14;
-double Td10459.12810;
-Td10459_12810 = Ta10457.12811[Ti10458.12812].d;
-double Td10460.12801;
-Td10460_12801 =  Td10456.12809 * Td10459.12810;
-Value* Ta10461.12807;
-Ta10461_12807 = cs_temp;
-int Ti10462.12808;
-Ti10462_12808 = 10;
-double Td10463.12803;
-Td10463_12803 = Ta10461.12807[Ti10462.12808].d;
-Value* Ta10464.12805;
-Ta10464_12805 = cs_temp;
-int Ti10465.12806;
-Ti10465_12806 = 15;
-double Td10466.12804;
-Td10466_12804 = Ta10464.12805[Ti10465.12806].d;
-double Td10467.12802;
-Td10467_12802 =  Td10463.12803 * Td10466.12804;
-double Td10468.12800;
-Td10468_12800 = Td10460.12801 - Td10467.12802;
-int Tu8914.12542;
-Ta10448.12798[Ti10449.12799].d = Td10468.12800;
-Value* Ta10469.12777;
-Ta10469_12777 = cs_temp;
-int Ti10470.12778;
-Ti10470_12778 = 2;
-Value* Ta10471.12796;
-Ta10471_12796 = cs_temp;
-int Ti10472.12797;
-Ti10472_12797 = 10;
-double Td10473.12792;
-Td10473_12792 = Ta10471.12796[Ti10472.12797].d;
-Value* Ta10474.12794;
-Ta10474_12794 = cs_temp;
-int Ti10475.12795;
-Ti10475_12795 = 13;
-double Td10476.12793;
-Td10476_12793 = Ta10474.12794[Ti10475.12795].d;
-double Td10477.12788;
-Td10477_12788 =  Td10473.12792 * Td10476.12793;
-Value* Ta10478.12790;
-Ta10478_12790 = cs_temp;
-int Ti10479.12791;
-Ti10479_12791 = 14;
-double Td10480.12789;
-Td10480_12789 = Ta10478.12790[Ti10479.12791].d;
-double Td10481.12780;
-Td10481_12780 =  Td10477.12788 * Td10480.12789;
-Value* Ta10482.12786;
-Ta10482_12786 = cs_temp;
-int Ti10483.12787;
-Ti10483_12787 = 11;
-double Td10484.12782;
-Td10484_12782 = Ta10482.12786[Ti10483.12787].d;
-Value* Ta10485.12784;
-Ta10485_12784 = cs_temp;
-int Ti10486.12785;
-Ti10486_12785 = 15;
-double Td10487.12783;
-Td10487_12783 = Ta10485.12784[Ti10486.12785].d;
-double Td10488.12781;
-Td10488_12781 =  Td10484.12782 * Td10487.12783;
-double Td10489.12779;
-Td10489_12779 = Td10481.12780 + Td10488.12781;
-int Tu8913.12543;
-Ta10469.12777[Ti10470.12778].d = Td10489.12779;
-Value* Ta10490.12768;
-Ta10490_12768 = cs_temp;
-int Ti10491.12769;
-Ti10491_12769 = 3;
-Value* Ta10492.12775;
-Ta10492_12775 = cs_temp;
-int Ti10493.12776;
-Ti10493_12776 = 12;
-double Td10494.12771;
-Td10494_12771 = Ta10492.12775[Ti10493.12776].d;
-Value* Ta10495.12773;
-Ta10495_12773 = cs_temp;
-int Ti10496.12774;
-Ti10496_12774 = 15;
-double Td10497.12772;
-Td10497_12772 = Ta10495.12773[Ti10496.12774].d;
-double Td10498.12770;
-Td10498_12770 =  Td10494.12771 * Td10497.12772;
-int Tu8912.12544;
-Ta10490.12768[Ti10491.12769].d = Td10498.12770;
-Value* Ta10499.12747;
-Ta10499_12747 = cs_temp;
-int Ti10500.12748;
-Ti10500_12748 = 4;
-Value* Ta10501.12766;
-Ta10501_12766 = cs_temp;
-int Ti10502.12767;
-Ti10502_12767 = 11;
-double Td10503.12762;
-Td10503_12762 = Ta10501.12766[Ti10502.12767].d;
-Value* Ta10504.12764;
-Ta10504_12764 = cs_temp;
-int Ti10505.12765;
-Ti10505_12765 = 13;
-double Td10506.12763;
-Td10506_12763 = Ta10504.12764[Ti10505.12765].d;
-double Td10507.12758;
-Td10507_12758 =  Td10503.12762 * Td10506.12763;
-Value* Ta10508.12760;
-Ta10508_12760 = cs_temp;
-int Ti10509.12761;
-Ti10509_12761 = 15;
-double Td10510.12759;
-Td10510_12759 = Ta10508.12760[Ti10509.12761].d;
-double Td10511.12750;
-Td10511_12750 =  Td10507.12758 * Td10510.12759;
-Value* Ta10512.12756;
-Ta10512_12756 = cs_temp;
-int Ti10513.12757;
-Ti10513_12757 = 10;
-double Td10514.12752;
-Td10514_12752 = Ta10512.12756[Ti10513.12757].d;
-Value* Ta10515.12754;
-Ta10515_12754 = cs_temp;
-int Ti10516.12755;
-Ti10516_12755 = 14;
-double Td10517.12753;
-Td10517_12753 = Ta10515.12754[Ti10516.12755].d;
-double Td10518.12751;
-Td10518_12751 =  Td10514.12752 * Td10517.12753;
-double Td10519.12749;
-Td10519_12749 = Td10511.12750 + Td10518.12751;
-int Tu8911.12545;
-Ta10499.12747[Ti10500.12748].d = Td10519.12749;
-Value* Ta10520.12726;
-Ta10520_12726 = cs_temp;
-int Ti10521.12727;
-Ti10521_12727 = 5;
-Value* Ta10522.12745;
-Ta10522_12745 = cs_temp;
-int Ti10523.12746;
-Ti10523_12746 = 10;
-double Td10524.12741;
-Td10524_12741 = Ta10522.12745[Ti10523.12746].d;
-Value* Ta10525.12743;
-Ta10525_12743 = cs_temp;
-int Ti10526.12744;
-Ti10526_12744 = 13;
-double Td10527.12742;
-Td10527_12742 = Ta10525.12743[Ti10526.12744].d;
-double Td10528.12737;
-Td10528_12737 =  Td10524.12741 * Td10527.12742;
-Value* Ta10529.12739;
-Ta10529_12739 = cs_temp;
-int Ti10530.12740;
-Ti10530_12740 = 15;
-double Td10531.12738;
-Td10531_12738 = Ta10529.12739[Ti10530.12740].d;
-double Td10532.12729;
-Td10532_12729 =  Td10528.12737 * Td10531.12738;
-Value* Ta10533.12735;
-Ta10533_12735 = cs_temp;
-int Ti10534.12736;
-Ti10534_12736 = 11;
-double Td10535.12731;
-Td10535_12731 = Ta10533.12735[Ti10534.12736].d;
-Value* Ta10536.12733;
-Ta10536_12733 = cs_temp;
-int Ti10537.12734;
-Ti10537_12734 = 14;
-double Td10538.12732;
-Td10538_12732 = Ta10536.12733[Ti10537.12734].d;
-double Td10539.12730;
-Td10539_12730 =  Td10535.12731 * Td10538.12732;
-double Td10540.12728;
-Td10540_12728 = Td10532.12729 - Td10539.12730;
-int Tu8910.12546;
-Ta10520.12726[Ti10521.12727].d = Td10540.12728;
-Value* Ta10541.12720;
-Ta10541_12720 = cs_temp;
-int Ti10542.12721;
-Ti10542_12721 = 6;
-Value* Ta10543.12724;
-Ta10543_12724 = cs_temp;
-int Ti10544.12725;
-Ti10544_12725 = 13;
-double Td10545.12723;
-Td10545_12723 = Ta10543.12724[Ti10544.12725].d;
-double Td10546.12722;
-Td10546_12722 = -Td10545.12723;
-int Tu8909.12547;
-Ta10541.12720[Ti10542.12721].d = Td10546.12722;
-Value* Ta10547.12711;
-Ta10547_12711 = cs_temp;
-int Ti10548.12712;
-Ti10548_12712 = 7;
-Value* Ta10549.12718;
-Ta10549_12718 = cs_temp;
-int Ti10550.12719;
-Ti10550_12719 = 11;
-double Td10551.12714;
-Td10551_12714 = Ta10549.12718[Ti10550.12719].d;
-Value* Ta10552.12716;
-Ta10552_12716 = cs_temp;
-int Ti10553.12717;
-Ti10553_12717 = 12;
-double Td10554.12715;
-Td10554_12715 = Ta10552.12716[Ti10553.12717].d;
-double Td10555.12713;
-Td10555_12713 =  Td10551.12714 * Td10554.12715;
-int Tu8908.12548;
-Ta10547.12711[Ti10548.12712].d = Td10555.12713;
-Value* Ta10556.12702;
-Ta10556_12702 = cs_temp;
-int Ti10557.12703;
-Ti10557_12703 = 8;
-Value* Ta10558.12709;
-Ta10558_12709 = cs_temp;
-int Ti10559.12710;
-Ti10559_12710 = 10;
-double Td10560.12705;
-Td10560_12705 = Ta10558.12709[Ti10559.12710].d;
-Value* Ta10561.12707;
-Ta10561_12707 = cs_temp;
-int Ti10562.12708;
-Ti10562_12708 = 12;
-double Td10563.12706;
-Td10563_12706 = Ta10561.12707[Ti10562.12708].d;
-double Td10564.12704;
-Td10564_12704 =  Td10560.12705 * Td10563.12706;
-int Tu8907.12549;
-Ta10556.12702[Ti10557.12703].d = Td10564.12704;
-int Ti10565.12701;
-Ti10565_12701 = 0;
-double ao.12550;
-ao_12550 = abc.12511[Ti10565.12701].d;
-int Ti10566.12700;
-Ti10566_12700 = 1;
-double bo.12551;
-bo_12551 = abc.12511[Ti10566.12700].d;
-int Ti10567.12699;
-Ti10567_12699 = 2;
-double co.12552;
-co_12552 = abc.12511[Ti10567.12699].d;
-int Ti10568.12681;
-Ti10568_12681 = 0;
-Value* Ta10569.12697;
-Ta10569_12697 = cs_temp;
-int Ti10570.12698;
-Ti10570_12698 = 0;
-double Td10571.12696;
-Td10571_12696 = Ta10569.12697[Ti10570.12698].d;
-double Td10572.12695;
-Td10572_12695 = fsqr.10858_fun(Td10571.12696, NULL);
-double Td10573.12689;
-Td10573_12689 =  ao.12550 * Td10572.12695;
-Value* Ta10574.12693;
-Ta10574_12693 = cs_temp;
-int Ti10575.12694;
-Ti10575_12694 = 3;
-double Td10576.12692;
-Td10576_12692 = Ta10574.12693[Ti10575.12694].d;
-double Td10577.12691;
-Td10577_12691 = fsqr.10858_fun(Td10576.12692, NULL);
-double Td10578.12690;
-Td10578_12690 =  bo.12551 * Td10577.12691;
-double Td10579.12683;
-Td10579_12683 = Td10573.12689 + Td10578.12690;
-Value* Ta10580.12687;
-Ta10580_12687 = cs_temp;
-int Ti10581.12688;
-Ti10581_12688 = 6;
-double Td10582.12686;
-Td10582_12686 = Ta10580.12687[Ti10581.12688].d;
-double Td10583.12685;
-Td10583_12685 = fsqr.10858_fun(Td10582.12686, NULL);
-double Td10584.12684;
-Td10584_12684 =  co.12552 * Td10583.12685;
-double Td10585.12682;
-Td10585_12682 = Td10579.12683 + Td10584.12684;
-int Tu8906.12553;
-abc.12511[Ti10568.12681].d = Td10585.12682;
-int Ti10586.12663;
-Ti10586_12663 = 1;
-Value* Ta10587.12679;
-Ta10587_12679 = cs_temp;
-int Ti10588.12680;
-Ti10588_12680 = 1;
-double Td10589.12678;
-Td10589_12678 = Ta10587.12679[Ti10588.12680].d;
-double Td10590.12677;
-Td10590_12677 = fsqr.10858_fun(Td10589.12678, NULL);
-double Td10591.12671;
-Td10591_12671 =  ao.12550 * Td10590.12677;
-Value* Ta10592.12675;
-Ta10592_12675 = cs_temp;
-int Ti10593.12676;
-Ti10593_12676 = 4;
-double Td10594.12674;
-Td10594_12674 = Ta10592.12675[Ti10593.12676].d;
-double Td10595.12673;
-Td10595_12673 = fsqr.10858_fun(Td10594.12674, NULL);
-double Td10596.12672;
-Td10596_12672 =  bo.12551 * Td10595.12673;
-double Td10597.12665;
-Td10597_12665 = Td10591.12671 + Td10596.12672;
-Value* Ta10598.12669;
-Ta10598_12669 = cs_temp;
-int Ti10599.12670;
-Ti10599_12670 = 7;
-double Td10600.12668;
-Td10600_12668 = Ta10598.12669[Ti10599.12670].d;
-double Td10601.12667;
-Td10601_12667 = fsqr.10858_fun(Td10600.12668, NULL);
-double Td10602.12666;
-Td10602_12666 =  co.12552 * Td10601.12667;
-double Td10603.12664;
-Td10603_12664 = Td10597.12665 + Td10602.12666;
-int Tu8905.12554;
-abc.12511[Ti10586.12663].d = Td10603.12664;
-int Ti10604.12645;
-Ti10604_12645 = 2;
-Value* Ta10605.12661;
-Ta10605_12661 = cs_temp;
-int Ti10606.12662;
-Ti10606_12662 = 2;
-double Td10607.12660;
-Td10607_12660 = Ta10605.12661[Ti10606.12662].d;
-double Td10608.12659;
-Td10608_12659 = fsqr.10858_fun(Td10607.12660, NULL);
-double Td10609.12653;
-Td10609_12653 =  ao.12550 * Td10608.12659;
-Value* Ta10610.12657;
-Ta10610_12657 = cs_temp;
-int Ti10611.12658;
-Ti10611_12658 = 5;
-double Td10612.12656;
-Td10612_12656 = Ta10610.12657[Ti10611.12658].d;
-double Td10613.12655;
-Td10613_12655 = fsqr.10858_fun(Td10612.12656, NULL);
-double Td10614.12654;
-Td10614_12654 =  bo.12551 * Td10613.12655;
-double Td10615.12647;
-Td10615_12647 = Td10609.12653 + Td10614.12654;
-Value* Ta10616.12651;
-Ta10616_12651 = cs_temp;
-int Ti10617.12652;
-Ti10617_12652 = 8;
-double Td10618.12650;
-Td10618_12650 = Ta10616.12651[Ti10617.12652].d;
-double Td10619.12649;
-Td10619_12649 = fsqr.10858_fun(Td10618.12650, NULL);
-double Td10620.12648;
-Td10620_12648 =  co.12552 * Td10619.12649;
-double Td10621.12646;
-Td10621_12646 = Td10615.12647 + Td10620.12648;
-int Tu8904.12555;
-abc.12511[Ti10604.12645].d = Td10621.12646;
-int Ti10622.12616;
-Ti10622_12616 = 0;
-double Td10623.12618;
-Td10623_12618 = 2.000000;
-Value* Ta10624.12643;
-Ta10624_12643 = cs_temp;
-int Ti10625.12644;
-Ti10625_12644 = 1;
-double Td10626.12642;
-Td10626_12642 = Ta10624.12643[Ti10625.12644].d;
-double Td10627.12638;
-Td10627_12638 =  ao.12550 * Td10626.12642;
-Value* Ta10628.12640;
-Ta10628_12640 = cs_temp;
-int Ti10629.12641;
-Ti10629_12641 = 2;
-double Td10630.12639;
-Td10630_12639 = Ta10628.12640[Ti10629.12641].d;
-double Td10631.12629;
-Td10631_12629 =  Td10627.12638 * Td10630.12639;
-Value* Ta10632.12636;
-Ta10632_12636 = cs_temp;
-int Ti10633.12637;
-Ti10633_12637 = 4;
-double Td10634.12635;
-Td10634_12635 = Ta10632.12636[Ti10633.12637].d;
-double Td10635.12631;
-Td10635_12631 =  bo.12551 * Td10634.12635;
-Value* Ta10636.12633;
-Ta10636_12633 = cs_temp;
-int Ti10637.12634;
-Ti10637_12634 = 5;
-double Td10638.12632;
-Td10638_12632 = Ta10636.12633[Ti10637.12634].d;
-double Td10639.12630;
-Td10639_12630 =  Td10635.12631 * Td10638.12632;
-double Td10640.12620;
-Td10640_12620 = Td10631.12629 + Td10639.12630;
-Value* Ta10641.12627;
-Ta10641_12627 = cs_temp;
-int Ti10642.12628;
-Ti10642_12628 = 7;
-double Td10643.12626;
-Td10643_12626 = Ta10641.12627[Ti10642.12628].d;
-double Td10644.12622;
-Td10644_12622 =  co.12552 * Td10643.12626;
-Value* Ta10645.12624;
-Ta10645_12624 = cs_temp;
-int Ti10646.12625;
-Ti10646_12625 = 8;
-double Td10647.12623;
-Td10647_12623 = Ta10645.12624[Ti10646.12625].d;
-double Td10648.12621;
-Td10648_12621 =  Td10644.12622 * Td10647.12623;
-double Td10649.12619;
-Td10649_12619 = Td10640.12620 + Td10648.12621;
-double Td10650.12617;
-Td10650_12617 =  Td10623.12618 * Td10649.12619;
-int Tu8903.12556;
-rotation.12527[Ti10622.12616].d = Td10650.12617;
-int Ti10651.12587;
-Ti10651_12587 = 1;
-double Td10652.12589;
-Td10652_12589 = 2.000000;
-Value* Ta10653.12614;
-Ta10653_12614 = cs_temp;
-int Ti10654.12615;
-Ti10654_12615 = 0;
-double Td10655.12613;
-Td10655_12613 = Ta10653.12614[Ti10654.12615].d;
-double Td10656.12609;
-Td10656_12609 =  ao.12550 * Td10655.12613;
-Value* Ta10657.12611;
-Ta10657_12611 = cs_temp;
-int Ti10658.12612;
-Ti10658_12612 = 2;
-double Td10659.12610;
-Td10659_12610 = Ta10657.12611[Ti10658.12612].d;
-double Td10660.12600;
-Td10660_12600 =  Td10656.12609 * Td10659.12610;
-Value* Ta10661.12607;
-Ta10661_12607 = cs_temp;
-int Ti10662.12608;
-Ti10662_12608 = 3;
-double Td10663.12606;
-Td10663_12606 = Ta10661.12607[Ti10662.12608].d;
-double Td10664.12602;
-Td10664_12602 =  bo.12551 * Td10663.12606;
-Value* Ta10665.12604;
-Ta10665_12604 = cs_temp;
-int Ti10666.12605;
-Ti10666_12605 = 5;
-double Td10667.12603;
-Td10667_12603 = Ta10665.12604[Ti10666.12605].d;
-double Td10668.12601;
-Td10668_12601 =  Td10664.12602 * Td10667.12603;
-double Td10669.12591;
-Td10669_12591 = Td10660.12600 + Td10668.12601;
-Value* Ta10670.12598;
-Ta10670_12598 = cs_temp;
-int Ti10671.12599;
-Ti10671_12599 = 6;
-double Td10672.12597;
-Td10672_12597 = Ta10670.12598[Ti10671.12599].d;
-double Td10673.12593;
-Td10673_12593 =  co.12552 * Td10672.12597;
-Value* Ta10674.12595;
-Ta10674_12595 = cs_temp;
-int Ti10675.12596;
-Ti10675_12596 = 8;
-double Td10676.12594;
-Td10676_12594 = Ta10674.12595[Ti10675.12596].d;
-double Td10677.12592;
-Td10677_12592 =  Td10673.12593 * Td10676.12594;
-double Td10678.12590;
-Td10678_12590 = Td10669.12591 + Td10677.12592;
-double Td10679.12588;
-Td10679_12588 =  Td10652.12589 * Td10678.12590;
-int Tu8902.12557;
-rotation.12527[Ti10651.12587].d = Td10679.12588;
-int Ti10680.12558;
-Ti10680_12558 = 2;
-double Td10681.12560;
-Td10681_12560 = 2.000000;
-Value* Ta10682.12585;
-Ta10682_12585 = cs_temp;
-int Ti10683.12586;
-Ti10683_12586 = 0;
-double Td10684.12584;
-Td10684_12584 = Ta10682.12585[Ti10683.12586].d;
-double Td10685.12580;
-Td10685_12580 =  ao.12550 * Td10684.12584;
-Value* Ta10686.12582;
-Ta10686_12582 = cs_temp;
-int Ti10687.12583;
-Ti10687_12583 = 1;
-double Td10688.12581;
-Td10688_12581 = Ta10686.12582[Ti10687.12583].d;
-double Td10689.12571;
-Td10689_12571 =  Td10685.12580 * Td10688.12581;
-Value* Ta10690.12578;
-Ta10690_12578 = cs_temp;
-int Ti10691.12579;
-Ti10691_12579 = 3;
-double Td10692.12577;
-Td10692_12577 = Ta10690.12578[Ti10691.12579].d;
-double Td10693.12573;
-Td10693_12573 =  bo.12551 * Td10692.12577;
-Value* Ta10694.12575;
-Ta10694_12575 = cs_temp;
-int Ti10695.12576;
-Ti10695_12576 = 4;
-double Td10696.12574;
-Td10696_12574 = Ta10694.12575[Ti10695.12576].d;
-double Td10697.12572;
-Td10697_12572 =  Td10693.12573 * Td10696.12574;
-double Td10698.12562;
-Td10698_12562 = Td10689.12571 + Td10697.12572;
-Value* Ta10699.12569;
-Ta10699_12569 = cs_temp;
-int Ti10700.12570;
-Ti10700_12570 = 6;
-double Td10701.12568;
-Td10701_12568 = Ta10699.12569[Ti10700.12570].d;
-double Td10702.12564;
-Td10702_12564 =  co.12552 * Td10701.12568;
-Value* Ta10703.12566;
-Ta10703_12566 = cs_temp;
-int Ti10704.12567;
-Ti10704_12567 = 7;
-double Td10705.12565;
-Td10705_12565 = Ta10703.12566[Ti10704.12567].d;
-double Td10706.12563;
-Td10706_12563 =  Td10702.12564 * Td10705.12565;
-double Td10707.12561;
-Td10707_12561 = Td10698.12562 + Td10706.12563;
-double Td10708.12559;
-Td10708_12559 =  Td10681.12560 * Td10707.12561;
-rotation.12527[Ti10680.12558].d = Td10708.12559;
-}
-result = 1;
-}
-return result;
-}
-
-int read_object.10911_fun(int n.10912, Value *env){
-int result;
-int Ti10314.12501;
-Ti10314_12501 = 61;
-if(Ti10314.12501 <= n.10912){
-result = 1;
-}
-else{
-bool Tb10315.12502;
-Tb10315_12502 = read_nth_object.10909_fun(n.10912, NULL);
-int Ti10316.12503;
-Ti10316_12503 = 0;
-if(Tb10315.12502 == Ti10316.12503){
-result = 1;
-}
-else{
-int Ti10317.12505;
-Ti10317_12505 = 1;
-int Ti10318.12504;
-Ti10318_12504 = n.10912 + Ti10317.12505;
-result = read_object.10911_fun(Ti10318.12504, NULL);
-}
-}
-return result;
-}
-
-int read_all_object.10913_fun(int Tu8937.10914, Value *env){
-int result;
-int Ti10313.12500;
-Ti10313_12500 = 0;
-result = read_object.10911_fun(Ti10313.12500, NULL);
-return result;
-}
-
-Value* read_net_item.10915_fun(int length.10916, Value *env){
-Value* result;
-int Tu10304.12499;
-Tu10304_12499 = 1;
-int item.12488;
-printf("Enter an integer: ");
-scanf("%i\n", &item_12488);
-int Ti10305.12498;
-Ti10305_12498 = 1;
-int Ti10306.12489;
-Ti10306_12489 = -Ti10305.12498;
-if(item.12488 == Ti10306.12489){
-int Ti10307.12497;
-Ti10307_12497 = 1;
-int Ti10308.12494;
-Ti10308_12494 = length.10916 + Ti10307.12497;
-int Ti10309.12496;
-Ti10309_12496 = 1;
-int Ti10310.12495;
-Ti10310_12495 = -Ti10309.12496;
-make_int_array(&result, Ti10308.12494, Ti10310.12495);
-}
-else{
-int Ti10311.12493;
-Ti10311_12493 = 1;
-int Ti10312.12492;
-Ti10312_12492 = length.10916 + Ti10311.12493;
-Value* v.12490;
-v_12490 = read_net_item.10915_fun(Ti10312.12492, NULL);
-int Tu8938.12491;
-v.12490[length.10916].i = item.12488;
-result = v.12490;
-}
-return result;
-}
-
-Value* read_or_network.10917_fun(int length.10918, Value *env){
-Value* result;
-int Ti10295.12487;
-Ti10295_12487 = 0;
-Value* net.12476;
-net_12476 = read_net_item.10915_fun(Ti10295.12487, NULL);
-int Ti10296.12486;
-Ti10296_12486 = 0;
-int Ti10297.12477;
-Ti10297_12477 = net.12476[Ti10296.12486].i;
-int Ti10298.12485;
-Ti10298_12485 = 1;
-int Ti10299.12478;
-Ti10299_12478 = -Ti10298.12485;
-if(Ti10297.12477 == Ti10299.12478){
-int Ti10300.12484;
-Ti10300_12484 = 1;
-int Ti10301.12483;
-Ti10301_12483 = length.10918 + Ti10300.12484;
-make_multi_array(&result, Ti10301.12483, net.12476);
-}
-else{
-int Ti10302.12482;
-Ti10302_12482 = 1;
-int Ti10303.12481;
-Ti10303_12481 = length.10918 + Ti10302.12482;
-Value* v.12479;
-v_12479 = read_or_network.10917_fun(Ti10303.12481, NULL);
-int Tu8939.12480;
-v.12479[length.10918].a = net.12476;
-result = v.12479;
-}
-return result;
-}
-
-int read_and_network.10919_fun(int n.10920, Value *env){
-int result;
-int Ti10287.12475;
-Ti10287_12475 = 0;
-Value* net.12466;
-net_12466 = read_net_item.10915_fun(Ti10287.12475, NULL);
-int Ti10288.12474;
-Ti10288_12474 = 0;
-int Ti10289.12467;
-Ti10289_12467 = net.12466[Ti10288.12474].i;
-int Ti10290.12473;
-Ti10290_12473 = 1;
-int Ti10291.12468;
-Ti10291_12468 = -Ti10290.12473;
-if(Ti10289.12467 == Ti10291.12468){
-result = 1;
-}
-else{
-Value* Ta10292.12472;
-Ta10292_12472 = and_net;
-int Tu8940.12469;
-Ta10292.12472[n.10920].a = net.12466;
-int Ti10293.12471;
-Ti10293_12471 = 1;
-int Ti10294.12470;
-Ti10294_12470 = n.10920 + Ti10293.12471;
-result = read_and_network.10919_fun(Ti10294.12470, NULL);
-}
-return result;
-}
-
-int read_parameter.10921_fun(int Tu8941.10922, Value *env){
-int result;
-int Tu10280.12465;
-Tu10280_12465 = 1;
-int Tu8944.12456;
-Tu8944_12456 = read_environ.10907_fun(Tu10280.12465, NULL);
-int Tu10281.12464;
-Tu10281_12464 = 1;
-int Tu8943.12457;
-Tu8943_12457 = read_all_object.10913_fun(Tu10281.12464, NULL);
-int Ti10282.12463;
-Ti10282_12463 = 0;
-int Tu8942.12458;
-Tu8942_12458 = read_and_network.10919_fun(Ti10282.12463, NULL);
-Value* Ta10283.12459;
-Ta10283_12459 = or_net;
-int Ti10284.12460;
-Ti10284_12460 = 0;
-int Ti10285.12462;
-Ti10285_12462 = 0;
-Value* Ta10286.12461;
-Ta10286_12461 = read_or_network.10917_fun(Ti10285.12462, NULL);
-Ta10283.12459[Ti10284.12460].a = Ta10286.12461;
-return result;
-}
-
-int solver_rect.10923_fun(int* m.10924, Value* l.10925, Value *env){
-int result;
-double Td10166.12416;
-Td10166_12416 = 0.000000;
-int Ti10167.12455;
-Ti10167_12455 = 0;
-double Td10168.12417;
-Td10168_12417 = l.10925[Ti10167.12455].d;
-bool answera.12330;
-if(Td10166.12416 == Td10168.12417){
-answera_12330 = 0;
-}
-else{
-bool Tb10169.12450;
-Tb10169_12450 = o_isinvert.10868_fun(m.10924, NULL);
-double Td10170.12452;
-Td10170_12452 = 0.000000;
-int Ti10171.12454;
-Ti10171_12454 = 0;
-double Td10172.12453;
-Td10172_12453 = l.10925[Ti10171.12454].d;
-int Ti10173.12451;
-if(Td10170.12452 <= Td10172.12453){
-Ti10173_12451 = 0;
-}
-else{
-Ti10173_12451 = 1;
-}
-bool Tb10174.12447;
-Tb10174_12447 = xor.10855_fun(Tb10169.12450, Ti10173.12451, NULL);
-int Ti10175.12448;
-Ti10175_12448 = 0;
-double d.12418;
-if(Tb10174.12447 == Ti10175.12448){
-double Td10176.12449;
-Td10176_12449 = o_param_a.10872_fun(m.10924, NULL);
-d_12418 = -Td10176.12449;
-}
-else{
-d_12418 = o_param_a.10872_fun(m.10924, NULL);
-}
-Value* Ta10177.12445;
-Ta10177_12445 = solver_w_vec;
-int Ti10178.12446;
-Ti10178_12446 = 0;
-double Td10179.12444;
-Td10179_12444 = Ta10177.12445[Ti10178.12446].d;
-double Td10180.12441;
-Td10180_12441 = d.12418 - Td10179.12444;
-int Ti10181.12443;
-Ti10181_12443 = 0;
-double Td10182.12442;
-Td10182_12442 = l.10925[Ti10181.12443].d;
-double d2.12419;
-d2_12419 = Td10180.12441 / Td10182.12442;
-double Td10183.12420;
-Td10183_12420 = o_param_b.10874_fun(m.10924, NULL);
-int Ti10184.12440;
-Ti10184_12440 = 1;
-double Td10185.12439;
-Td10185_12439 = l.10925[Ti10184.12440].d;
-double Td10186.12435;
-Td10186_12435 =  d2.12419 * Td10185.12439;
-Value* Ta10187.12437;
-Ta10187_12437 = solver_w_vec;
-int Ti10188.12438;
-Ti10188_12438 = 1;
-double Td10189.12436;
-Td10189_12436 = Ta10187.12437[Ti10188.12438].d;
-double Td10190.12434;
-Td10190_12434 = Td10186.12435 + Td10189.12436;
-double Td10191.12421;
-Td10191_12421 = fabs(Td10190.12434);
-if(Td10183.12420 <= Td10191.12421){
-answera_12330 = 0;
-}
-else{
-double Td10192.12422;
-Td10192_12422 = o_param_c.10876_fun(m.10924, NULL);
-int Ti10193.12433;
-Ti10193_12433 = 2;
-double Td10194.12432;
-Td10194_12432 = l.10925[Ti10193.12433].d;
-double Td10195.12428;
-Td10195_12428 =  d2.12419 * Td10194.12432;
-Value* Ta10196.12430;
-Ta10196_12430 = solver_w_vec;
-int Ti10197.12431;
-Ti10197_12431 = 2;
-double Td10198.12429;
-Td10198_12429 = Ta10196.12430[Ti10197.12431].d;
-double Td10199.12427;
-Td10199_12427 = Td10195.12428 + Td10198.12429;
-double Td10200.12423;
-Td10200_12423 = fabs(Td10199.12427);
-if(Td10192.12422 <= Td10200.12423){
-answera_12330 = 0;
-}
-else{
-Value* Ta10201.12425;
-Ta10201_12425 = solver_dist;
-int Ti10202.12426;
-Ti10202_12426 = 0;
-int Tu8945.12424;
-Ta10201.12425[Ti10202.12426].d = d2.12419;
-answera_12330 = 1;
-}
-}
-}
-int Ti10203.12331;
-Ti10203_12331 = 0;
-if(answera.12330 == Ti10203.12331){
-double Td10204.12376;
-Td10204_12376 = 0.000000;
-int Ti10205.12415;
-Ti10205_12415 = 1;
-double Td10206.12377;
-Td10206_12377 = l.10925[Ti10205.12415].d;
-bool answerb.12332;
-if(Td10204.12376 == Td10206.12377){
-answerb_12332 = 0;
-}
-else{
-bool Tb10207.12410;
-Tb10207_12410 = o_isinvert.10868_fun(m.10924, NULL);
-double Td10208.12412;
-Td10208_12412 = 0.000000;
-int Ti10209.12414;
-Ti10209_12414 = 1;
-double Td10210.12413;
-Td10210_12413 = l.10925[Ti10209.12414].d;
-int Ti10211.12411;
-if(Td10208.12412 <= Td10210.12413){
-Ti10211_12411 = 0;
-}
-else{
-Ti10211_12411 = 1;
-}
-bool Tb10212.12407;
-Tb10212_12407 = xor.10855_fun(Tb10207.12410, Ti10211.12411, NULL);
-int Ti10213.12408;
-Ti10213_12408 = 0;
-double d.12378;
-if(Tb10212.12407 == Ti10213.12408){
-double Td10214.12409;
-Td10214_12409 = o_param_b.10874_fun(m.10924, NULL);
-d_12378 = -Td10214.12409;
-}
-else{
-d_12378 = o_param_b.10874_fun(m.10924, NULL);
-}
-Value* Ta10215.12405;
-Ta10215_12405 = solver_w_vec;
-int Ti10216.12406;
-Ti10216_12406 = 1;
-double Td10217.12404;
-Td10217_12404 = Ta10215.12405[Ti10216.12406].d;
-double Td10218.12401;
-Td10218_12401 = d.12378 - Td10217.12404;
-int Ti10219.12403;
-Ti10219_12403 = 1;
-double Td10220.12402;
-Td10220_12402 = l.10925[Ti10219.12403].d;
-double d2.12379;
-d2_12379 = Td10218.12401 / Td10220.12402;
-double Td10221.12380;
-Td10221_12380 = o_param_c.10876_fun(m.10924, NULL);
-int Ti10222.12400;
-Ti10222_12400 = 2;
-double Td10223.12399;
-Td10223_12399 = l.10925[Ti10222.12400].d;
-double Td10224.12395;
-Td10224_12395 =  d2.12379 * Td10223.12399;
-Value* Ta10225.12397;
-Ta10225_12397 = solver_w_vec;
-int Ti10226.12398;
-Ti10226_12398 = 2;
-double Td10227.12396;
-Td10227_12396 = Ta10225.12397[Ti10226.12398].d;
-double Td10228.12394;
-Td10228_12394 = Td10224.12395 + Td10227.12396;
-double Td10229.12381;
-Td10229_12381 = fabs(Td10228.12394);
-if(Td10221.12380 <= Td10229.12381){
-answerb_12332 = 0;
-}
-else{
-double Td10230.12382;
-Td10230_12382 = o_param_a.10872_fun(m.10924, NULL);
-int Ti10231.12393;
-Ti10231_12393 = 0;
-double Td10232.12392;
-Td10232_12392 = l.10925[Ti10231.12393].d;
-double Td10233.12388;
-Td10233_12388 =  d2.12379 * Td10232.12392;
-Value* Ta10234.12390;
-Ta10234_12390 = solver_w_vec;
-int Ti10235.12391;
-Ti10235_12391 = 0;
-double Td10236.12389;
-Td10236_12389 = Ta10234.12390[Ti10235.12391].d;
-double Td10237.12387;
-Td10237_12387 = Td10233.12388 + Td10236.12389;
-double Td10238.12383;
-Td10238_12383 = fabs(Td10237.12387);
-if(Td10230.12382 <= Td10238.12383){
-answerb_12332 = 0;
-}
-else{
-Value* Ta10239.12385;
-Ta10239_12385 = solver_dist;
-int Ti10240.12386;
-Ti10240_12386 = 0;
-int Tu8946.12384;
-Ta10239.12385[Ti10240.12386].d = d2.12379;
-answerb_12332 = 1;
-}
-}
-}
-int Ti10241.12333;
-Ti10241_12333 = 0;
-if(answerb.12332 == Ti10241.12333){
-double Td10242.12336;
-Td10242_12336 = 0.000000;
-int Ti10243.12375;
-Ti10243_12375 = 2;
-double Td10244.12337;
-Td10244_12337 = l.10925[Ti10243.12375].d;
-bool answerc.12334;
-if(Td10242.12336 == Td10244.12337){
-answerc_12334 = 0;
-}
-else{
-bool Tb10245.12370;
-Tb10245_12370 = o_isinvert.10868_fun(m.10924, NULL);
-double Td10246.12372;
-Td10246_12372 = 0.000000;
-int Ti10247.12374;
-Ti10247_12374 = 2;
-double Td10248.12373;
-Td10248_12373 = l.10925[Ti10247.12374].d;
-int Ti10249.12371;
-if(Td10246.12372 <= Td10248.12373){
-Ti10249_12371 = 0;
-}
-else{
-Ti10249_12371 = 1;
-}
-bool Tb10250.12367;
-Tb10250_12367 = xor.10855_fun(Tb10245.12370, Ti10249.12371, NULL);
-int Ti10251.12368;
-Ti10251_12368 = 0;
-double d.12338;
-if(Tb10250.12367 == Ti10251.12368){
-double Td10252.12369;
-Td10252_12369 = o_param_c.10876_fun(m.10924, NULL);
-d_12338 = -Td10252.12369;
-}
-else{
-d_12338 = o_param_c.10876_fun(m.10924, NULL);
-}
-Value* Ta10253.12365;
-Ta10253_12365 = solver_w_vec;
-int Ti10254.12366;
-Ti10254_12366 = 2;
-double Td10255.12364;
-Td10255_12364 = Ta10253.12365[Ti10254.12366].d;
-double Td10256.12361;
-Td10256_12361 = d.12338 - Td10255.12364;
-int Ti10257.12363;
-Ti10257_12363 = 2;
-double Td10258.12362;
-Td10258_12362 = l.10925[Ti10257.12363].d;
-double d2.12339;
-d2_12339 = Td10256.12361 / Td10258.12362;
-double Td10259.12340;
-Td10259_12340 = o_param_a.10872_fun(m.10924, NULL);
-int Ti10260.12360;
-Ti10260_12360 = 0;
-double Td10261.12359;
-Td10261_12359 = l.10925[Ti10260.12360].d;
-double Td10262.12355;
-Td10262_12355 =  d2.12339 * Td10261.12359;
-Value* Ta10263.12357;
-Ta10263_12357 = solver_w_vec;
-int Ti10264.12358;
-Ti10264_12358 = 0;
-double Td10265.12356;
-Td10265_12356 = Ta10263.12357[Ti10264.12358].d;
-double Td10266.12354;
-Td10266_12354 = Td10262.12355 + Td10265.12356;
-double Td10267.12341;
-Td10267_12341 = fabs(Td10266.12354);
-if(Td10259.12340 <= Td10267.12341){
-answerc_12334 = 0;
-}
-else{
-double Td10268.12342;
-Td10268_12342 = o_param_b.10874_fun(m.10924, NULL);
-int Ti10269.12353;
-Ti10269_12353 = 1;
-double Td10270.12352;
-Td10270_12352 = l.10925[Ti10269.12353].d;
-double Td10271.12348;
-Td10271_12348 =  d2.12339 * Td10270.12352;
-Value* Ta10272.12350;
-Ta10272_12350 = solver_w_vec;
-int Ti10273.12351;
-Ti10273_12351 = 1;
-double Td10274.12349;
-Td10274_12349 = Ta10272.12350[Ti10273.12351].d;
-double Td10275.12347;
-Td10275_12347 = Td10271.12348 + Td10274.12349;
-double Td10276.12343;
-Td10276_12343 = fabs(Td10275.12347);
-if(Td10268.12342 <= Td10276.12343){
-answerc_12334 = 0;
-}
-else{
-Value* Ta10277.12345;
-Ta10277_12345 = solver_dist;
-int Ti10278.12346;
-Ti10278_12346 = 0;
-int Tu8947.12344;
-Ta10277.12345[Ti10278.12346].d = d2.12339;
-answerc_12334 = 1;
-}
-}
-}
-int Ti10279.12335;
-Ti10279_12335 = 0;
-if(answerc.12334 == Ti10279.12335){
-result = 0;
-}
-else{
-result = 3;
-}
-}
-else{
-result = 2;
-}
-}
-else{
-result = 1;
-}
-return result;
-}
-
-int solver_surface.10926_fun(int* m.10927, Value* l.10928, Value *env){
-int result;
-int Ti10132.12329;
-Ti10132_12329 = 0;
-double Td10133.12327;
-Td10133_12327 = l.10928[Ti10132.12329].d;
-double Td10134.12328;
-Td10134_12328 = o_param_a.10872_fun(m.10927, NULL);
-double Td10135.12322;
-Td10135_12322 =  Td10133.12327 * Td10134.12328;
-int Ti10136.12326;
-Ti10136_12326 = 1;
-double Td10137.12324;
-Td10137_12324 = l.10928[Ti10136.12326].d;
-double Td10138.12325;
-Td10138_12325 = o_param_b.10874_fun(m.10927, NULL);
-double Td10139.12323;
-Td10139_12323 =  Td10137.12324 * Td10138.12325;
-double Td10140.12317;
-Td10140_12317 = Td10135.12322 + Td10139.12323;
-int Ti10141.12321;
-Ti10141_12321 = 2;
-double Td10142.12319;
-Td10142_12319 = l.10928[Ti10141.12321].d;
-double Td10143.12320;
-Td10143_12320 = o_param_c.10876_fun(m.10927, NULL);
-double Td10144.12318;
-Td10144_12318 =  Td10142.12319 * Td10143.12320;
-double q.12293;
-q_12293 = Td10140.12317 + Td10144.12318;
-double Td10145.12294;
-Td10145_12294 = 0.000000;
-if(q.12293 <= Td10145.12294){
-result = 0;
-}
-else{
-Value* Ta10146.12315;
-Ta10146_12315 = solver_w_vec;
-int Ti10147.12316;
-Ti10147_12316 = 0;
-double Td10148.12313;
-Td10148_12313 = Ta10146.12315[Ti10147.12316].d;
-double Td10149.12314;
-Td10149_12314 = o_param_a.10872_fun(m.10927, NULL);
-double Td10150.12307;
-Td10150_12307 =  Td10148.12313 * Td10149.12314;
-Value* Ta10151.12311;
-Ta10151_12311 = solver_w_vec;
-int Ti10152.12312;
-Ti10152_12312 = 1;
-double Td10153.12309;
-Td10153_12309 = Ta10151.12311[Ti10152.12312].d;
-double Td10154.12310;
-Td10154_12310 = o_param_b.10874_fun(m.10927, NULL);
-double Td10155.12308;
-Td10155_12308 =  Td10153.12309 * Td10154.12310;
-double Td10156.12301;
-Td10156_12301 = Td10150.12307 + Td10155.12308;
-Value* Ta10157.12305;
-Ta10157_12305 = solver_w_vec;
-int Ti10158.12306;
-Ti10158_12306 = 2;
-double Td10159.12303;
-Td10159_12303 = Ta10157.12305[Ti10158.12306].d;
-double Td10160.12304;
-Td10160_12304 = o_param_c.10876_fun(m.10927, NULL);
-double Td10161.12302;
-Td10161_12302 =  Td10159.12303 * Td10160.12304;
-double Td10162.12300;
-Td10162_12300 = Td10156.12301 + Td10161.12302;
-double t.12295;
-t_12295 = Td10162.12300 / q.12293;
-Value* Ta10163.12297;
-Ta10163_12297 = solver_dist;
-int Ti10164.12298;
-Ti10164_12298 = 0;
-double Td10165.12299;
-Td10165_12299 = -t.12295;
-int Tu8948.12296;
-Ta10163.12297[Ti10164.12298].d = Td10165.12299;
-result = 1;
-}
-return result;
-}
-
-double in_prod_sqr_obj.10929_fun(int* m.10930, Value* v.10931, Value *env){
-double result;
-int Ti10116.12292;
-Ti10116_12292 = 0;
-double Td10117.12291;
-Td10117_12291 = v.10931[Ti10116.12292].d;
-double Td10118.12289;
-Td10118_12289 = fsqr.10858_fun(Td10117.12291, NULL);
-double Td10119.12290;
-Td10119_12290 = o_param_a.10872_fun(m.10930, NULL);
-double Td10120.12283;
-Td10120_12283 =  Td10118.12289 * Td10119.12290;
-int Ti10121.12288;
-Ti10121_12288 = 1;
-double Td10122.12287;
-Td10122_12287 = v.10931[Ti10121.12288].d;
-double Td10123.12285;
-Td10123_12285 = fsqr.10858_fun(Td10122.12287, NULL);
-double Td10124.12286;
-Td10124_12286 = o_param_b.10874_fun(m.10930, NULL);
-double Td10125.12284;
-Td10125_12284 =  Td10123.12285 * Td10124.12286;
-double Td10126.12277;
-Td10126_12277 = Td10120.12283 + Td10125.12284;
-int Ti10127.12282;
-Ti10127_12282 = 2;
-double Td10128.12281;
-Td10128_12281 = v.10931[Ti10127.12282].d;
-double Td10129.12279;
-Td10129_12279 = fsqr.10858_fun(Td10128.12281, NULL);
-double Td10130.12280;
-Td10130_12280 = o_param_c.10876_fun(m.10930, NULL);
-double Td10131.12278;
-Td10131_12278 =  Td10129.12279 * Td10130.12280;
-result = Td10126.12277 + Td10131.12278;
-return result;
-}
-
-double in_prod_co_objrot.10932_fun(int* m.10933, Value* v.10934, Value *env){
-double result;
-int Ti10094.12276;
-Ti10094_12276 = 1;
-double Td10095.12273;
-Td10095_12273 = v.10934[Ti10094.12276].d;
-int Ti10096.12275;
-Ti10096_12275 = 2;
-double Td10097.12274;
-Td10097_12274 = v.10934[Ti10096.12275].d;
-double Td10098.12271;
-Td10098_12271 =  Td10095.12273 * Td10097.12274;
-double Td10099.12272;
-Td10099_12272 = o_param_r1.10894_fun(m.10933, NULL);
-double Td10100.12263;
-Td10100_12263 =  Td10098.12271 * Td10099.12272;
-int Ti10101.12270;
-Ti10101_12270 = 0;
-double Td10102.12267;
-Td10102_12267 = v.10934[Ti10101.12270].d;
-int Ti10103.12269;
-Ti10103_12269 = 2;
-double Td10104.12268;
-Td10104_12268 = v.10934[Ti10103.12269].d;
-double Td10105.12265;
-Td10105_12265 =  Td10102.12267 * Td10104.12268;
-double Td10106.12266;
-Td10106_12266 = o_param_r2.10896_fun(m.10933, NULL);
-double Td10107.12264;
-Td10107_12264 =  Td10105.12265 * Td10106.12266;
-double Td10108.12255;
-Td10108_12255 = Td10100.12263 + Td10107.12264;
-int Ti10109.12262;
-Ti10109_12262 = 0;
-double Td10110.12259;
-Td10110_12259 = v.10934[Ti10109.12262].d;
-int Ti10111.12261;
-Ti10111_12261 = 1;
-double Td10112.12260;
-Td10112_12260 = v.10934[Ti10111.12261].d;
-double Td10113.12257;
-Td10113_12257 =  Td10110.12259 * Td10112.12260;
-double Td10114.12258;
-Td10114_12258 = o_param_r3.10898_fun(m.10933, NULL);
-double Td10115.12256;
-Td10115_12256 =  Td10113.12257 * Td10114.12258;
-result = Td10108.12255 + Td10115.12256;
-return result;
-}
-
-double solver2nd_mul_b.10935_fun(int* m.10936, Value* l.10937, Value *env){
-double result;
-Value* Ta10069.12253;
-Ta10069_12253 = solver_w_vec;
-int Ti10070.12254;
-Ti10070_12254 = 0;
-double Td10071.12250;
-Td10071_12250 = Ta10069.12253[Ti10070.12254].d;
-int Ti10072.12252;
-Ti10072_12252 = 0;
-double Td10073.12251;
-Td10073_12251 = l.10937[Ti10072.12252].d;
-double Td10074.12248;
-Td10074_12248 =  Td10071.12250 * Td10073.12251;
-double Td10075.12249;
-Td10075_12249 = o_param_a.10872_fun(m.10936, NULL);
-double Td10076.12239;
-Td10076_12239 =  Td10074.12248 * Td10075.12249;
-Value* Ta10077.12246;
-Ta10077_12246 = solver_w_vec;
-int Ti10078.12247;
-Ti10078_12247 = 1;
-double Td10079.12243;
-Td10079_12243 = Ta10077.12246[Ti10078.12247].d;
-int Ti10080.12245;
-Ti10080_12245 = 1;
-double Td10081.12244;
-Td10081_12244 = l.10937[Ti10080.12245].d;
-double Td10082.12241;
-Td10082_12241 =  Td10079.12243 * Td10081.12244;
-double Td10083.12242;
-Td10083_12242 = o_param_b.10874_fun(m.10936, NULL);
-double Td10084.12240;
-Td10084_12240 =  Td10082.12241 * Td10083.12242;
-double Td10085.12230;
-Td10085_12230 = Td10076.12239 + Td10084.12240;
-Value* Ta10086.12237;
-Ta10086_12237 = solver_w_vec;
-int Ti10087.12238;
-Ti10087_12238 = 2;
-double Td10088.12234;
-Td10088_12234 = Ta10086.12237[Ti10087.12238].d;
-int Ti10089.12236;
-Ti10089_12236 = 2;
-double Td10090.12235;
-Td10090_12235 = l.10937[Ti10089.12236].d;
-double Td10091.12232;
-Td10091_12232 =  Td10088.12234 * Td10090.12235;
-double Td10092.12233;
-Td10092_12233 = o_param_c.10876_fun(m.10936, NULL);
-double Td10093.12231;
-Td10093_12231 =  Td10091.12232 * Td10092.12233;
-result = Td10085.12230 + Td10093.12231;
-return result;
-}
-
-double solver2nd_rot_b.10938_fun(int* m.10939, Value* l.10940, Value *env){
-double result;
-Value* Ta10023.12228;
-Ta10023_12228 = solver_w_vec;
-int Ti10024.12229;
-Ti10024_12229 = 2;
-double Td10025.12225;
-Td10025_12225 = Ta10023.12228[Ti10024.12229].d;
-int Ti10026.12227;
-Ti10026_12227 = 1;
-double Td10027.12226;
-Td10027_12226 = l.10940[Ti10026.12227].d;
-double Td10028.12218;
-Td10028_12218 =  Td10025.12225 * Td10027.12226;
-Value* Ta10029.12223;
-Ta10029_12223 = solver_w_vec;
-int Ti10030.12224;
-Ti10030_12224 = 1;
-double Td10031.12220;
-Td10031_12220 = Ta10029.12223[Ti10030.12224].d;
-int Ti10032.12222;
-Ti10032_12222 = 2;
-double Td10033.12221;
-Td10033_12221 = l.10940[Ti10032.12222].d;
-double Td10034.12219;
-Td10034_12219 =  Td10031.12220 * Td10033.12221;
-double Td10035.12216;
-Td10035_12216 = Td10028.12218 + Td10034.12219;
-double Td10036.12217;
-Td10036_12217 = o_param_r1.10894_fun(m.10939, NULL);
-double Td10037.12200;
-Td10037_12200 =  Td10035.12216 * Td10036.12217;
-Value* Ta10038.12214;
-Ta10038_12214 = solver_w_vec;
-int Ti10039.12215;
-Ti10039_12215 = 0;
-double Td10040.12211;
-Td10040_12211 = Ta10038.12214[Ti10039.12215].d;
-int Ti10041.12213;
-Ti10041_12213 = 2;
-double Td10042.12212;
-Td10042_12212 = l.10940[Ti10041.12213].d;
-double Td10043.12204;
-Td10043_12204 =  Td10040.12211 * Td10042.12212;
-Value* Ta10044.12209;
-Ta10044_12209 = solver_w_vec;
-int Ti10045.12210;
-Ti10045_12210 = 2;
-double Td10046.12206;
-Td10046_12206 = Ta10044.12209[Ti10045.12210].d;
-int Ti10047.12208;
-Ti10047_12208 = 0;
-double Td10048.12207;
-Td10048_12207 = l.10940[Ti10047.12208].d;
-double Td10049.12205;
-Td10049_12205 =  Td10046.12206 * Td10048.12207;
-double Td10050.12202;
-Td10050_12202 = Td10043.12204 + Td10049.12205;
-double Td10051.12203;
-Td10051_12203 = o_param_r2.10896_fun(m.10939, NULL);
-double Td10052.12201;
-Td10052_12201 =  Td10050.12202 * Td10051.12203;
-double Td10053.12184;
-Td10053_12184 = Td10037.12200 + Td10052.12201;
-Value* Ta10054.12198;
-Ta10054_12198 = solver_w_vec;
-int Ti10055.12199;
-Ti10055_12199 = 0;
-double Td10056.12195;
-Td10056_12195 = Ta10054.12198[Ti10055.12199].d;
-int Ti10057.12197;
-Ti10057_12197 = 1;
-double Td10058.12196;
-Td10058_12196 = l.10940[Ti10057.12197].d;
-double Td10059.12188;
-Td10059_12188 =  Td10056.12195 * Td10058.12196;
-Value* Ta10060.12193;
-Ta10060_12193 = solver_w_vec;
-int Ti10061.12194;
-Ti10061_12194 = 1;
-double Td10062.12190;
-Td10062_12190 = Ta10060.12193[Ti10061.12194].d;
-int Ti10063.12192;
-Ti10063_12192 = 0;
-double Td10064.12191;
-Td10064_12191 = l.10940[Ti10063.12192].d;
-double Td10065.12189;
-Td10065_12189 =  Td10062.12190 * Td10064.12191;
-double Td10066.12186;
-Td10066_12186 = Td10059.12188 + Td10065.12189;
-double Td10067.12187;
-Td10067_12187 = o_param_r3.10898_fun(m.10939, NULL);
-double Td10068.12185;
-Td10068_12185 =  Td10066.12186 * Td10067.12187;
-result = Td10053.12184 + Td10068.12185;
-return result;
-}
-
-int solver_second.10941_fun(int* m.10942, Value* l.10943, Value *env){
-int result;
-double aa0.12143;
-aa0_12143 = in_prod_sqr_obj.10929_fun(m.10942, l.10943, NULL);
-int Ti9994.12181;
-Ti9994_12181 = o_isrot.10870_fun(m.10942, NULL);
-int Ti9995.12182;
-Ti9995_12182 = 0;
-double aa.12144;
-if(Ti9994.12181 == Ti9995.12182){
-aa_12144 = aa0.12143;
-}
-else{
-double Td9996.12183;
-Td9996_12183 = in_prod_co_objrot.10932_fun(m.10942, l.10943, NULL);
-aa_12144 = aa0.12143 + Td9996.12183;
-}
-double Td9997.12145;
-Td9997_12145 = 0.000000;
-if(Td9997.12145 == aa.12144){
-result = 0;
-}
-else{
-double Td9998.12179;
-Td9998_12179 = 2.000000;
-double Td9999.12180;
-Td9999_12180 = solver2nd_mul_b.10935_fun(m.10942, l.10943, NULL);
-double bb0.12146;
-bb0_12146 =  Td9998.12179 * Td9999.12180;
-int Ti10000.12176;
-Ti10000_12176 = o_isrot.10870_fun(m.10942, NULL);
-int Ti10001.12177;
-Ti10001_12177 = 0;
-double bb.12147;
-if(Ti10000.12176 == Ti10001.12177){
-bb_12147 = bb0.12146;
-}
-else{
-double Td10002.12178;
-Td10002_12178 = solver2nd_rot_b.10938_fun(m.10942, l.10943, NULL);
-bb_12147 = bb0.12146 + Td10002.12178;
-}
-Value* Ta10003.12175;
-Ta10003_12175 = solver_w_vec;
-double cc0.12148;
-cc0_12148 = in_prod_sqr_obj.10929_fun(m.10942, Ta10003.12175, NULL);
-int Ti10004.12171;
-Ti10004_12171 = o_isrot.10870_fun(m.10942, NULL);
-int Ti10005.12172;
-Ti10005_12172 = 0;
-double cc1.12149;
-if(Ti10004.12171 == Ti10005.12172){
-cc1_12149 = cc0.12148;
-}
-else{
-Value* Ta10006.12174;
-Ta10006_12174 = solver_w_vec;
-double Td10007.12173;
-Td10007_12173 = in_prod_co_objrot.10932_fun(m.10942, Ta10006.12174, NULL);
-cc1_12149 = cc0.12148 + Td10007.12173;
-}
-int Ti10008.12168;
-Ti10008_12168 = o_form.10864_fun(m.10942, NULL);
-int Ti10009.12169;
-Ti10009_12169 = 3;
-double cc.12150;
-if(Ti10008.12168 == Ti10009.12169){
-double Td10010.12170;
-Td10010_12170 = 1.000000;
-cc_12150 = cc1.12149 - Td10010.12170;
-}
-else{
-cc_12150 = cc1.12149;
-}
-double Td10011.12167;
-Td10011_12167 = 4.000000;
-double Td10012.12166;
-Td10012_12166 =  Td10011.12167 * aa.12144;
-double d2.12164;
-d2_12164 =  Td10012.12166 * cc.12150;
-double Td10013.12165;
-Td10013_12165 = fsqr.10858_fun(bb.12147, NULL);
-double d.12151;
-d_12151 = Td10013.12165 - d2.12164;
-double Td10014.12152;
-Td10014_12152 = 0.000000;
-if(d.12151 <= Td10014.12152){
-result = 0;
-}
-else{
-double sd.12153;
-sd_12153 = sqrt(d.12151);
-bool Tb10015.12162;
-Tb10015_12162 = o_isinvert.10868_fun(m.10942, NULL);
-int Ti10016.12163;
-Ti10016_12163 = 0;
-double t1.12154;
-if(Tb10015.12162 == Ti10016.12163){
-t1_12154 = -sd.12153;
-}
-else{
-t1_12154 = sd.12153;
-}
-Value* Ta10017.12156;
-Ta10017_12156 = solver_dist;
-int Ti10018.12157;
-Ti10018_12157 = 0;
-double Td10019.12160;
-Td10019_12160 = t1.12154 - bb.12147;
-double Td10020.12161;
-Td10020_12161 = 2.000000;
-double Td10021.12159;
-Td10021_12159 = Td10019.12160 / Td10020.12161;
-double Td10022.12158;
-Td10022_12158 = Td10021.12159 / aa.12144;
-int Tu8949.12155;
-Ta10017.12156[Ti10018.12157].d = Td10022.12158;
-result = 1;
-}
-}
-return result;
-}
-
-int solver.10944_fun(int index.10945, Value* l.10946, Value* p.10947, Value *env){
-int result;
-Value* Ta9973.12142;
-Ta9973_12142 = objects;
-int* m.12117;
-m_12117 = Ta9973.12142[index.10945].a;
-Value* Ta9974.12136;
-Ta9974_12136 = solver_w_vec;
-int Ti9975.12137;
-Ti9975_12137 = 0;
-int Ti9976.12141;
-Ti9976_12141 = 0;
-double Td9977.12139;
-Td9977_12139 = p.10947[Ti9976.12141].d;
-double Td9978.12140;
-Td9978_12140 = o_param_x.10878_fun(m.12117, NULL);
-double Td9979.12138;
-Td9979_12138 = Td9977.12139 - Td9978.12140;
-int Tu8952.12118;
-Ta9974.12136[Ti9975.12137].d = Td9979.12138;
-Value* Ta9980.12130;
-Ta9980_12130 = solver_w_vec;
-int Ti9981.12131;
-Ti9981_12131 = 1;
-int Ti9982.12135;
-Ti9982_12135 = 1;
-double Td9983.12133;
-Td9983_12133 = p.10947[Ti9982.12135].d;
-double Td9984.12134;
-Td9984_12134 = o_param_y.10880_fun(m.12117, NULL);
-double Td9985.12132;
-Td9985_12132 = Td9983.12133 - Td9984.12134;
-int Tu8951.12119;
-Ta9980.12130[Ti9981.12131].d = Td9985.12132;
-Value* Ta9986.12124;
-Ta9986_12124 = solver_w_vec;
-int Ti9987.12125;
-Ti9987_12125 = 2;
-int Ti9988.12129;
-Ti9988_12129 = 2;
-double Td9989.12127;
-Td9989_12127 = p.10947[Ti9988.12129].d;
-double Td9990.12128;
-Td9990_12128 = o_param_z.10882_fun(m.12117, NULL);
-double Td9991.12126;
-Td9991_12126 = Td9989.12127 - Td9990.12128;
-int Tu8950.12120;
-Ta9986.12124[Ti9987.12125].d = Td9991.12126;
-int m_shape.12121;
-m_shape_12121 = o_form.10864_fun(m.12117, NULL);
-int Ti9992.12122;
-Ti9992_12122 = 1;
-if(m_shape.12121 == Ti9992.12122){
-result = solver_rect.10923_fun(m.12117, l.10946, NULL);
-}
-else{
-int Ti9993.12123;
-Ti9993_12123 = 2;
-if(m_shape.12121 == Ti9993.12123){
-result = solver_surface.10926_fun(m.12117, l.10946, NULL);
-}
-else{
-result = solver_second.10941_fun(m.12117, l.10946, NULL);
-}
-}
-return result;
-}
-
-bool is_rect_outside.10948_fun(int* m.10949, Value *env){
-bool result;
-double Td9954.12102;
-Td9954_12102 = o_param_a.10872_fun(m.10949, NULL);
-Value* Ta9955.12115;
-Ta9955_12115 = isoutside_q;
-int Ti9956.12116;
-Ti9956_12116 = 0;
-double Td9957.12114;
-Td9957_12114 = Ta9955.12115[Ti9956.12116].d;
-double Td9958.12103;
-Td9958_12103 = fabs(Td9957.12114);
-int Ti9969.12098;
-if(Td9954.12102 <= Td9958.12103){
-Ti9969_12098 = 0;
-}
-else{
-double Td9959.12104;
-Td9959_12104 = o_param_b.10874_fun(m.10949, NULL);
-Value* Ta9960.12112;
-Ta9960_12112 = isoutside_q;
-int Ti9961.12113;
-Ti9961_12113 = 1;
-double Td9962.12111;
-Td9962_12111 = Ta9960.12112[Ti9961.12113].d;
-double Td9963.12105;
-Td9963_12105 = fabs(Td9962.12111);
-if(Td9959.12104 <= Td9963.12105){
-Ti9969_12098 = 0;
-}
-else{
-double Td9964.12106;
-Td9964_12106 = o_param_c.10876_fun(m.10949, NULL);
-Value* Ta9965.12109;
-Ta9965_12109 = isoutside_q;
-int Ti9966.12110;
-Ti9966_12110 = 2;
-double Td9967.12108;
-Td9967_12108 = Ta9965.12109[Ti9966.12110].d;
-double Td9968.12107;
-Td9968_12107 = fabs(Td9967.12108);
-if(Td9964.12106 <= Td9968.12107){
-Ti9969_12098 = 0;
-}
-else{
-Ti9969_12098 = 1;
-}
-}
-}
-int Ti9970.12099;
-Ti9970_12099 = 0;
-if(Ti9969.12098 == Ti9970.12099){
-bool Tb9971.12100;
-Tb9971_12100 = o_isinvert.10868_fun(m.10949, NULL);
-int Ti9972.12101;
-Ti9972_12101 = 0;
-if(Tb9971.12100 == Ti9972.12101){
-result = 1;
-}
-else{
-result = 0;
-}
-}
-else{
-result = o_isinvert.10868_fun(m.10949, NULL);
-}
-return result;
-}
-
-bool is_plane_outside.10950_fun(int* m.10951, Value *env){
-bool result;
-double Td9934.12094;
-Td9934_12094 = o_param_a.10872_fun(m.10951, NULL);
-Value* Ta9935.12096;
-Ta9935_12096 = isoutside_q;
-int Ti9936.12097;
-Ti9936_12097 = 0;
-double Td9937.12095;
-Td9937_12095 = Ta9935.12096[Ti9936.12097].d;
-double Td9938.12088;
-Td9938_12088 =  Td9934.12094 * Td9937.12095;
-double Td9939.12090;
-Td9939_12090 = o_param_b.10874_fun(m.10951, NULL);
-Value* Ta9940.12092;
-Ta9940_12092 = isoutside_q;
-int Ti9941.12093;
-Ti9941_12093 = 1;
-double Td9942.12091;
-Td9942_12091 = Ta9940.12092[Ti9941.12093].d;
-double Td9943.12089;
-Td9943_12089 =  Td9939.12090 * Td9942.12091;
-double Td9944.12082;
-Td9944_12082 = Td9938.12088 + Td9943.12089;
-double Td9945.12084;
-Td9945_12084 = o_param_c.10876_fun(m.10951, NULL);
-Value* Ta9946.12086;
-Ta9946_12086 = isoutside_q;
-int Ti9947.12087;
-Ti9947_12087 = 2;
-double Td9948.12085;
-Td9948_12085 = Ta9946.12086[Ti9947.12087].d;
-double Td9949.12083;
-Td9949_12083 =  Td9945.12084 * Td9948.12085;
-double w.12076;
-w_12076 = Td9944.12082 + Td9949.12083;
-double Td9950.12081;
-Td9950_12081 = 0.000000;
-bool s.12077;
-if(Td9950.12081 <= w.12076){
-s_12077 = 0;
-}
-else{
-s_12077 = 1;
-}
-bool Tb9951.12080;
-Tb9951_12080 = o_isinvert.10868_fun(m.10951, NULL);
-bool Tb9952.12078;
-Tb9952_12078 = xor.10855_fun(Tb9951.12080, s.12077, NULL);
-int Ti9953.12079;
-Ti9953_12079 = 0;
-if(Tb9952.12078 == Ti9953.12079){
-result = 1;
-}
-else{
-result = 0;
-}
-return result;
-}
-
-bool is_second_outside.10952_fun(int* m.10953, Value *env){
-bool result;
-Value* Ta9922.12075;
-Ta9922_12075 = isoutside_q;
-double w.12060;
-w_12060 = in_prod_sqr_obj.10929_fun(m.10953, Ta9922.12075, NULL);
-int Ti9923.12072;
-Ti9923_12072 = o_form.10864_fun(m.10953, NULL);
-int Ti9924.12073;
-Ti9924_12073 = 3;
-double w2.12061;
-if(Ti9923.12072 == Ti9924.12073){
-double Td9925.12074;
-Td9925_12074 = 1.000000;
-w2_12061 = w.12060 - Td9925.12074;
-}
-else{
-w2_12061 = w.12060;
-}
-int Ti9926.12068;
-Ti9926_12068 = o_isrot.10870_fun(m.10953, NULL);
-int Ti9927.12069;
-Ti9927_12069 = 0;
-double w3.12062;
-if(Ti9926.12068 == Ti9927.12069){
-w3_12062 = w2.12061;
-}
-else{
-Value* Ta9928.12071;
-Ta9928_12071 = isoutside_q;
-double Td9929.12070;
-Td9929_12070 = in_prod_co_objrot.10932_fun(m.10953, Ta9928.12071, NULL);
-w3_12062 = w2.12061 + Td9929.12070;
-}
-double Td9930.12067;
-Td9930_12067 = 0.000000;
-bool s.12063;
-if(Td9930.12067 <= w3.12062){
-s_12063 = 0;
-}
-else{
-s_12063 = 1;
-}
-bool Tb9931.12066;
-Tb9931_12066 = o_isinvert.10868_fun(m.10953, NULL);
-bool Tb9932.12064;
-Tb9932_12064 = xor.10855_fun(Tb9931.12066, s.12063, NULL);
-int Ti9933.12065;
-Ti9933_12065 = 0;
-if(Tb9932.12064 == Ti9933.12065){
-result = 1;
-}
-else{
-result = 0;
-}
-return result;
-}
-
-bool is_outside.10954_fun(int* m.10955, Value *env){
-bool result;
-Value* Ta9899.12053;
-Ta9899_12053 = isoutside_q;
-int Ti9900.12054;
-Ti9900_12054 = 0;
-Value* Ta9901.12058;
-Ta9901_12058 = chkinside_p;
-int Ti9902.12059;
-Ti9902_12059 = 0;
-double Td9903.12056;
-Td9903_12056 = Ta9901.12058[Ti9902.12059].d;
-double Td9904.12057;
-Td9904_12057 = o_param_x.10878_fun(m.10955, NULL);
-double Td9905.12055;
-Td9905_12055 = Td9903.12056 - Td9904.12057;
-int Tu8955.12033;
-Ta9899.12053[Ti9900.12054].d = Td9905.12055;
-Value* Ta9906.12046;
-Ta9906_12046 = isoutside_q;
-int Ti9907.12047;
-Ti9907_12047 = 1;
-Value* Ta9908.12051;
-Ta9908_12051 = chkinside_p;
-int Ti9909.12052;
-Ti9909_12052 = 1;
-double Td9910.12049;
-Td9910_12049 = Ta9908.12051[Ti9909.12052].d;
-double Td9911.12050;
-Td9911_12050 = o_param_y.10880_fun(m.10955, NULL);
-double Td9912.12048;
-Td9912_12048 = Td9910.12049 - Td9911.12050;
-int Tu8954.12034;
-Ta9906.12046[Ti9907.12047].d = Td9912.12048;
-Value* Ta9913.12039;
-Ta9913_12039 = isoutside_q;
-int Ti9914.12040;
-Ti9914_12040 = 2;
-Value* Ta9915.12044;
-Ta9915_12044 = chkinside_p;
-int Ti9916.12045;
-Ti9916_12045 = 2;
-double Td9917.12042;
-Td9917_12042 = Ta9915.12044[Ti9916.12045].d;
-double Td9918.12043;
-Td9918_12043 = o_param_z.10882_fun(m.10955, NULL);
-double Td9919.12041;
-Td9919_12041 = Td9917.12042 - Td9918.12043;
-int Tu8953.12035;
-Ta9913.12039[Ti9914.12040].d = Td9919.12041;
-int m_shape.12036;
-m_shape_12036 = o_form.10864_fun(m.10955, NULL);
-int Ti9920.12037;
-Ti9920_12037 = 1;
-if(m_shape.12036 == Ti9920.12037){
-result = is_rect_outside.10948_fun(m.10955, NULL);
-}
-else{
-int Ti9921.12038;
-Ti9921_12038 = 2;
-if(m_shape.12036 == Ti9921.12038){
-result = is_plane_outside.10950_fun(m.10955, NULL);
-}
-else{
-result = is_second_outside.10952_fun(m.10955, NULL);
-}
-}
-return result;
-}
-
-bool check_all_inside.10956_fun(int ofs.10957, Value* iand.10958, Value *env){
-bool result;
-int head.12024;
-head_12024 = iand.10958[ofs.10957].i;
-int Ti9891.12032;
-Ti9891_12032 = 1;
-int Ti9892.12025;
-Ti9892_12025 = -Ti9891.12032;
-if(head.12024 == Ti9892.12025){
-result = 1;
-}
-else{
-Value* Ta9893.12031;
-Ta9893_12031 = objects;
-int* Tt9894.12030;
-Tt9894_12030 = Ta9893.12031[head.12024].a;
-bool Tb9895.12026;
-Tb9895_12026 = is_outside.10954_fun(Tt9894.12030, NULL);
-int Ti9896.12027;
-Ti9896_12027 = 0;
-if(Tb9895.12026 == Ti9896.12027){
-int Ti9897.12029;
-Ti9897_12029 = 1;
-int Ti9898.12028;
-Ti9898_12028 = ofs.10957 + Ti9897.12029;
-result = check_all_inside.10956_fun(Ti9898.12028, iand.10958, NULL);
-}
-else{
-result = 0;
-}
-}
-return result;
-}
-
-bool shadow_check_and_group.10959_fun(int iand_ofs.10960, Value* and_group.10961, Value* p.10962, Value *env){
-bool result;
-int Ti9842.11968;
-Ti9842_11968 = and_group.10961[iand_ofs.10960].i;
-int Ti9843.12023;
-Ti9843_12023 = 1;
-int Ti9844.11969;
-Ti9844_11969 = -Ti9843.12023;
-if(Ti9842.11968 == Ti9844.11969){
-result = 0;
-}
-else{
-int obj.11970;
-obj_11970 = and_group.10961[iand_ofs.10960].i;
-Value* Ta9845.12022;
-Ta9845_12022 = light;
-int t0.11971;
-t0_11971 = solver.10944_fun(obj.11970, Ta9845.12022, p.10962, NULL);
-Value* Ta9846.12020;
-Ta9846_12020 = solver_dist;
-int Ti9847.12021;
-Ti9847_12021 = 0;
-double t0p.11972;
-t0p_11972 = Ta9846.12020[Ti9847.12021].d;
-int Ti9848.12018;
-Ti9848_12018 = 0;
-int Ti9850.11973;
-if(t0.11971 == Ti9848.12018){
-Ti9850_11973 = 0;
-}
-else{
-double Td9849.12019;
-Td9849_12019 = -0.200000;
-if(Td9849.12019 <= t0p.11972){
-Ti9850_11973 = 0;
-}
-else{
-Ti9850_11973 = 1;
-}
-}
-int Ti9851.11974;
-Ti9851_11974 = 0;
-if(Ti9850.11973 == Ti9851.11974){
-Value* Ta9852.12017;
-Ta9852_12017 = objects;
-int* Tt9853.12016;
-Tt9853_12016 = Ta9852.12017[obj.11970].a;
-bool Tb9854.12012;
-Tb9854_12012 = o_isinvert.10868_fun(Tt9853.12016, NULL);
-int Ti9855.12013;
-Ti9855_12013 = 0;
-if(Tb9854.12012 == Ti9855.12013){
-result = 0;
-}
-else{
-int Ti9856.12015;
-Ti9856_12015 = 1;
-int Ti9857.12014;
-Ti9857_12014 = iand_ofs.10960 + Ti9856.12015;
-result = shadow_check_and_group.10959_fun(Ti9857.12014, and_group.10961, p.10962, NULL);
-}
-}
-else{
-double Td9858.12011;
-Td9858_12011 = 0.010000;
-double t.11975;
-t_11975 = t0p.11972 + Td9858.12011;
-Value* Ta9859.12002;
-Ta9859_12002 = chkinside_p;
-int Ti9860.12003;
-Ti9860_12003 = 0;
-Value* Ta9861.12009;
-Ta9861_12009 = light;
-int Ti9862.12010;
-Ti9862_12010 = 0;
-double Td9863.12008;
-Td9863_12008 = Ta9861.12009[Ti9862.12010].d;
-double Td9864.12005;
-Td9864_12005 =  Td9863.12008 * t.11975;
-int Ti9865.12007;
-Ti9865_12007 = 0;
-double Td9866.12006;
-Td9866_12006 = p.10962[Ti9865.12007].d;
-double Td9867.12004;
-Td9867_12004 = Td9864.12005 + Td9866.12006;
-int Tu8958.11976;
-Ta9859.12002[Ti9860.12003].d = Td9867.12004;
-Value* Ta9868.11993;
-Ta9868_11993 = chkinside_p;
-int Ti9869.11994;
-Ti9869_11994 = 1;
-Value* Ta9870.12000;
-Ta9870_12000 = light;
-int Ti9871.12001;
-Ti9871_12001 = 1;
-double Td9872.11999;
-Td9872_11999 = Ta9870.12000[Ti9871.12001].d;
-double Td9873.11996;
-Td9873_11996 =  Td9872.11999 * t.11975;
-int Ti9874.11998;
-Ti9874_11998 = 1;
-double Td9875.11997;
-Td9875_11997 = p.10962[Ti9874.11998].d;
-double Td9876.11995;
-Td9876_11995 = Td9873.11996 + Td9875.11997;
-int Tu8957.11977;
-Ta9868.11993[Ti9869.11994].d = Td9876.11995;
-Value* Ta9877.11984;
-Ta9877_11984 = chkinside_p;
-int Ti9878.11985;
-Ti9878_11985 = 2;
-Value* Ta9879.11991;
-Ta9879_11991 = light;
-int Ti9880.11992;
-Ti9880_11992 = 2;
-double Td9881.11990;
-Td9881_11990 = Ta9879.11991[Ti9880.11992].d;
-double Td9882.11987;
-Td9882_11987 =  Td9881.11990 * t.11975;
-int Ti9883.11989;
-Ti9883_11989 = 2;
-double Td9884.11988;
-Td9884_11988 = p.10962[Ti9883.11989].d;
-double Td9885.11986;
-Td9885_11986 = Td9882.11987 + Td9884.11988;
-int Tu8956.11978;
-Ta9877.11984[Ti9878.11985].d = Td9885.11986;
-int Ti9886.11983;
-Ti9886_11983 = 0;
-bool Tb9887.11979;
-Tb9887_11979 = check_all_inside.10956_fun(Ti9886.11983, and_group.10961, NULL);
-int Ti9888.11980;
-Ti9888_11980 = 0;
-if(Tb9887.11979 == Ti9888.11980){
-int Ti9889.11982;
-Ti9889_11982 = 1;
-int Ti9890.11981;
-Ti9890_11981 = iand_ofs.10960 + Ti9889.11982;
-result = shadow_check_and_group.10959_fun(Ti9890.11981, and_group.10961, p.10962, NULL);
-}
-else{
-result = 1;
-}
-}
-}
-return result;
-}
-
-bool shadow_check_one_or_group.10963_fun(int ofs.10964, Value* or_group.10965, Value* p.10966, Value *env){
-bool result;
-int head.11958;
-head_11958 = or_group.10965[ofs.10964].i;
-int Ti9835.11967;
-Ti9835_11967 = 1;
-int Ti9836.11959;
-Ti9836_11959 = -Ti9835.11967;
-if(head.11958 == Ti9836.11959){
-result = 0;
-}
-else{
-Value* Ta9837.11966;
-Ta9837_11966 = and_net;
-Value* and_group.11960;
-and_group_11960 = Ta9837.11966[head.11958].a;
-int Ti9838.11965;
-Ti9838_11965 = 0;
-bool shadow_p.11961;
-shadow_p_11961 = shadow_check_and_group.10959_fun(Ti9838.11965, and_group.11960, p.10966, NULL);
-int Ti9839.11962;
-Ti9839_11962 = 0;
-if(shadow_p.11961 == Ti9839.11962){
-int Ti9840.11964;
-Ti9840_11964 = 1;
-int Ti9841.11963;
-Ti9841_11963 = ofs.10964 + Ti9840.11964;
-result = shadow_check_one_or_group.10963_fun(Ti9841.11963, or_group.10965, p.10966, NULL);
-}
-else{
-result = 1;
-}
-}
-return result;
-}
-
-bool shadow_check_one_or_matrix.10967_fun(int ofs.10968, Value* or_matrix.10969, Value* p.10970, Value *env){
-bool result;
-Value* head.11931;
-head_11931 = or_matrix.10969[ofs.10968].a;
-int Ti9811.11957;
-Ti9811_11957 = 0;
-int range_primitive.11932;
-range_primitive_11932 = head.11931[Ti9811.11957].i;
-int Ti9812.11956;
-Ti9812_11956 = 1;
-int Ti9813.11933;
-Ti9813_11933 = -Ti9812.11956;
-if(range_primitive.11932 == Ti9813.11933){
-result = 0;
-}
-else{
-int Ti9814.11934;
-Ti9814_11934 = 99;
-if(range_primitive.11932 == Ti9814.11934){
-int Ti9815.11955;
-Ti9815_11955 = 1;
-bool Tb9816.11951;
-Tb9816_11951 = shadow_check_one_or_group.10963_fun(Ti9815.11955, head.11931, p.10970, NULL);
-int Ti9817.11952;
-Ti9817_11952 = 0;
-if(Tb9816.11951 == Ti9817.11952){
-int Ti9818.11954;
-Ti9818_11954 = 1;
-int Ti9819.11953;
-Ti9819_11953 = ofs.10968 + Ti9818.11954;
-result = shadow_check_one_or_matrix.10967_fun(Ti9819.11953, or_matrix.10969, p.10970, NULL);
-}
-else{
-result = 1;
-}
-}
-else{
-Value* Ta9820.11950;
-Ta9820_11950 = light;
-int t.11935;
-t_11935 = solver.10944_fun(range_primitive.11932, Ta9820.11950, p.10970, NULL);
-int Ti9821.11936;
-Ti9821_11936 = 0;
-if(t.11935 == Ti9821.11936){
-int Ti9822.11949;
-Ti9822_11949 = 1;
-int Ti9823.11948;
-Ti9823_11948 = ofs.10968 + Ti9822.11949;
-result = shadow_check_one_or_matrix.10967_fun(Ti9823.11948, or_matrix.10969, p.10970, NULL);
-}
-else{
-double Td9824.11937;
-Td9824_11937 = -0.100000;
-Value* Ta9825.11946;
-Ta9825_11946 = solver_dist;
-int Ti9826.11947;
-Ti9826_11947 = 0;
-double Td9827.11938;
-Td9827_11938 = Ta9825.11946[Ti9826.11947].d;
-if(Td9824.11937 <= Td9827.11938){
-int Ti9828.11945;
-Ti9828_11945 = 1;
-int Ti9829.11944;
-Ti9829_11944 = ofs.10968 + Ti9828.11945;
-result = shadow_check_one_or_matrix.10967_fun(Ti9829.11944, or_matrix.10969, p.10970, NULL);
-}
-else{
-int Ti9830.11943;
-Ti9830_11943 = 1;
-bool Tb9831.11939;
-Tb9831_11939 = shadow_check_one_or_group.10963_fun(Ti9830.11943, head.11931, p.10970, NULL);
-int Ti9832.11940;
-Ti9832_11940 = 0;
-if(Tb9831.11939 == Ti9832.11940){
-int Ti9833.11942;
-Ti9833_11942 = 1;
-int Ti9834.11941;
-Ti9834_11941 = ofs.10968 + Ti9833.11942;
-result = shadow_check_one_or_matrix.10967_fun(Ti9834.11941, or_matrix.10969, p.10970, NULL);
-}
-else{
-result = 1;
-}
-}
-}
-}
-}
-return result;
-}
-
-int solve_each_element.10971_fun(int iand_ofs.10972, Value* and_group.10973, Value *env){
-int result;
-int iobj.11839;
-iobj_11839 = and_group.10973[iand_ofs.10972].i;
-int Ti9732.11930;
-Ti9732_11930 = 1;
-int Ti9733.11840;
-Ti9733_11840 = -Ti9732.11930;
-if(iobj.11839 == Ti9733.11840){
-result = 1;
-}
-else{
-Value* Ta9734.11928;
-Ta9734_11928 = vscan;
-Value* Ta9735.11929;
-Ta9735_11929 = viewpoint;
-int t0.11841;
-t0_11841 = solver.10944_fun(iobj.11839, Ta9734.11928, Ta9735.11929, NULL);
-int Ti9736.11849;
-Ti9736_11849 = 0;
-int Tu8967.11842;
-if(t0.11841 == Ti9736.11849){
-Value* Ta9737.11927;
-Ta9737_11927 = objects;
-int* Tt9738.11926;
-Tt9738_11926 = Ta9737.11927[iobj.11839].a;
-bool Tb9739.11921;
-Tb9739_11921 = o_isinvert.10868_fun(Tt9738.11926, NULL);
-int Ti9740.11922;
-Ti9740_11922 = 0;
-if(Tb9739.11921 == Ti9740.11922){
-Value* Ta9741.11923;
-Ta9741_11923 = end_flag;
-int Ti9742.11924;
-Ti9742_11924 = 0;
-int Ti9743.11925;
-Ti9743_11925 = 1;
-Ta9741.11923[Ti9742.11924].i = Ti9743.11925;
-}
-else{
-Tu8967_11842 = 1;
-}
-}
-else{
-Value* Ta9744.11919;
-Ta9744_11919 = solver_dist;
-int Ti9745.11920;
-Ti9745_11920 = 0;
-double t0p.11850;
-t0p_11850 = Ta9744.11919[Ti9745.11920].d;
-double Td9746.11851;
-Td9746_11851 = -0.100000;
-if(t0p.11850 <= Td9746.11851){
-Tu8967_11842 = 1;
-}
-else{
-Value* Ta9747.11917;
-Ta9747_11917 = tmin;
-int Ti9748.11918;
-Ti9748_11918 = 0;
-double Td9749.11852;
-Td9749_11852 = Ta9747.11917[Ti9748.11918].d;
-if(Td9749.11852 <= t0p.11850){
-Tu8967_11842 = 1;
-}
-else{
-double Td9750.11916;
-Td9750_11916 = 0.010000;
-double t.11853;
-t_11853 = t0p.11850 + Td9750.11916;
-Value* Ta9751.11906;
-Ta9751_11906 = chkinside_p;
-int Ti9752.11907;
-Ti9752_11907 = 0;
-Value* Ta9753.11914;
-Ta9753_11914 = vscan;
-int Ti9754.11915;
-Ti9754_11915 = 0;
-double Td9755.11913;
-Td9755_11913 = Ta9753.11914[Ti9754.11915].d;
-double Td9756.11909;
-Td9756_11909 =  Td9755.11913 * t.11853;
-Value* Ta9757.11911;
-Ta9757_11911 = viewpoint;
-int Ti9758.11912;
-Ti9758_11912 = 0;
-double Td9759.11910;
-Td9759_11910 = Ta9757.11911[Ti9758.11912].d;
-double Td9760.11908;
-Td9760_11908 = Td9756.11909 + Td9759.11910;
-int Tu8966.11854;
-Ta9751.11906[Ti9752.11907].d = Td9760.11908;
-Value* Ta9761.11896;
-Ta9761_11896 = chkinside_p;
-int Ti9762.11897;
-Ti9762_11897 = 1;
-Value* Ta9763.11904;
-Ta9763_11904 = vscan;
-int Ti9764.11905;
-Ti9764_11905 = 1;
-double Td9765.11903;
-Td9765_11903 = Ta9763.11904[Ti9764.11905].d;
-double Td9766.11899;
-Td9766_11899 =  Td9765.11903 * t.11853;
-Value* Ta9767.11901;
-Ta9767_11901 = viewpoint;
-int Ti9768.11902;
-Ti9768_11902 = 1;
-double Td9769.11900;
-Td9769_11900 = Ta9767.11901[Ti9768.11902].d;
-double Td9770.11898;
-Td9770_11898 = Td9766.11899 + Td9769.11900;
-int Tu8965.11855;
-Ta9761.11896[Ti9762.11897].d = Td9770.11898;
-Value* Ta9771.11886;
-Ta9771_11886 = chkinside_p;
-int Ti9772.11887;
-Ti9772_11887 = 2;
-Value* Ta9773.11894;
-Ta9773_11894 = vscan;
-int Ti9774.11895;
-Ti9774_11895 = 2;
-double Td9775.11893;
-Td9775_11893 = Ta9773.11894[Ti9774.11895].d;
-double Td9776.11889;
-Td9776_11889 =  Td9775.11893 * t.11853;
-Value* Ta9777.11891;
-Ta9777_11891 = viewpoint;
-int Ti9778.11892;
-Ti9778_11892 = 2;
-double Td9779.11890;
-Td9779_11890 = Ta9777.11891[Ti9778.11892].d;
-double Td9780.11888;
-Td9780_11888 = Td9776.11889 + Td9779.11890;
-int Tu8964.11856;
-Ta9771.11886[Ti9772.11887].d = Td9780.11888;
-int Ti9781.11885;
-Ti9781_11885 = 0;
-bool Tb9782.11857;
-Tb9782_11857 = check_all_inside.10956_fun(Ti9781.11885, and_group.10973, NULL);
-int Ti9783.11858;
-Ti9783_11858 = 0;
-if(Tb9782.11857 == Ti9783.11858){
-Tu8967_11842 = 1;
-}
-else{
-Value* Ta9784.11883;
-Ta9784_11883 = tmin;
-int Ti9785.11884;
-Ti9785_11884 = 0;
-int Tu8963.11859;
-Ta9784.11883[Ti9785.11884].d = t.11853;
-Value* Ta9786.11878;
-Ta9786_11878 = crashed_point;
-int Ti9787.11879;
-Ti9787_11879 = 0;
-Value* Ta9788.11881;
-Ta9788_11881 = chkinside_p;
-int Ti9789.11882;
-Ti9789_11882 = 0;
-double Td9790.11880;
-Td9790_11880 = Ta9788.11881[Ti9789.11882].d;
-int Tu8962.11860;
-Ta9786.11878[Ti9787.11879].d = Td9790.11880;
-Value* Ta9791.11873;
-Ta9791_11873 = crashed_point;
-int Ti9792.11874;
-Ti9792_11874 = 1;
-Value* Ta9793.11876;
-Ta9793_11876 = chkinside_p;
-int Ti9794.11877;
-Ti9794_11877 = 1;
-double Td9795.11875;
-Td9795_11875 = Ta9793.11876[Ti9794.11877].d;
-int Tu8961.11861;
-Ta9791.11873[Ti9792.11874].d = Td9795.11875;
-Value* Ta9796.11868;
-Ta9796_11868 = crashed_point;
-int Ti9797.11869;
-Ti9797_11869 = 2;
-Value* Ta9798.11871;
-Ta9798_11871 = chkinside_p;
-int Ti9799.11872;
-Ti9799_11872 = 2;
-double Td9800.11870;
-Td9800_11870 = Ta9798.11871[Ti9799.11872].d;
-int Tu8960.11862;
-Ta9796.11868[Ti9797.11869].d = Td9800.11870;
-Value* Ta9801.11866;
-Ta9801_11866 = intsec_rectside;
-int Ti9802.11867;
-Ti9802_11867 = 0;
-int Tu8959.11863;
-Ta9801.11866[Ti9802.11867].i = t0.11841;
-Value* Ta9803.11864;
-Ta9803_11864 = crashed_object;
-int Ti9804.11865;
-Ti9804_11865 = 0;
-Ta9803.11864[Ti9804.11865].i = iobj.11839;
-}
-}
-}
-}
-Value* Ta9805.11847;
-Ta9805_11847 = end_flag;
-int Ti9806.11848;
-Ti9806_11848 = 0;
-bool Tb9807.11843;
-Tb9807_11843 = Ta9805.11847[Ti9806.11848].b;
-int Ti9808.11844;
-Ti9808_11844 = 0;
-if(Tb9807.11843 == Ti9808.11844){
-int Ti9809.11846;
-Ti9809_11846 = 1;
-int Ti9810.11845;
-Ti9810_11845 = iand_ofs.10972 + Ti9809.11846;
-result = solve_each_element.10971_fun(Ti9810.11845, and_group.10973, NULL);
-}
-else{
-result = 1;
-}
-}
-return result;
-}
-
-int solve_one_or_network.10974_fun(int ofs.10975, Value* or_group.10976, Value *env){
-int result;
-int head.11826;
-head_11826 = or_group.10976[ofs.10975].i;
-int Ti9723.11838;
-Ti9723_11838 = 1;
-int Ti9724.11827;
-Ti9724_11827 = -Ti9723.11838;
-if(head.11826 == Ti9724.11827){
-result = 1;
-}
-else{
-Value* Ta9725.11837;
-Ta9725_11837 = and_net;
-Value* and_group.11828;
-and_group_11828 = Ta9725.11837[head.11826].a;
-Value* Ta9726.11834;
-Ta9726_11834 = end_flag;
-int Ti9727.11835;
-Ti9727_11835 = 0;
-int Ti9728.11836;
-Ti9728_11836 = 0;
-int Tu8969.11829;
-Ta9726.11834[Ti9727.11835].i = Ti9728.11836;
-int Ti9729.11833;
-Ti9729_11833 = 0;
-int Tu8968.11830;
-Tu8968_11830 = solve_each_element.10971_fun(Ti9729.11833, and_group.11828, NULL);
-int Ti9730.11832;
-Ti9730_11832 = 1;
-int Ti9731.11831;
-Ti9731_11831 = ofs.10975 + Ti9730.11832;
-result = solve_one_or_network.10974_fun(Ti9731.11831, or_group.10976, NULL);
-}
-return result;
-}
-
-int trace_or_matrix.10977_fun(int ofs.10978, Value* or_network.10979, Value *env){
-int result;
-Value* head.11805;
-head_11805 = or_network.10979[ofs.10978].a;
-int Ti9707.11825;
-Ti9707_11825 = 0;
-int range_primitive.11806;
-range_primitive_11806 = head.11805[Ti9707.11825].i;
-int Ti9708.11824;
-Ti9708_11824 = 1;
-int Ti9709.11807;
-Ti9709_11807 = -Ti9708.11824;
-if(range_primitive.11806 == Ti9709.11807){
-result = 1;
-}
-else{
-int Ti9710.11811;
-Ti9710_11811 = 99;
-int Tu8970.11808;
-if(range_primitive.11806 == Ti9710.11811){
-int Ti9711.11823;
-Ti9711_11823 = 1;
-Tu8970_11808 = solve_one_or_network.10974_fun(Ti9711.11823, head.11805, NULL);
-}
-else{
-Value* Ta9712.11821;
-Ta9712_11821 = vscan;
-Value* Ta9713.11822;
-Ta9713_11822 = viewpoint;
-int t.11812;
-t_11812 = solver.10944_fun(range_primitive.11806, Ta9712.11821, Ta9713.11822, NULL);
-int Ti9714.11813;
-Ti9714_11813 = 0;
-if(t.11812 == Ti9714.11813){
-Tu8970_11808 = 1;
-}
-else{
-Value* Ta9715.11819;
-Ta9715_11819 = solver_dist;
-int Ti9716.11820;
-Ti9716_11820 = 0;
-double tp.11814;
-tp_11814 = Ta9715.11819[Ti9716.11820].d;
-Value* Ta9717.11817;
-Ta9717_11817 = tmin;
-int Ti9718.11818;
-Ti9718_11818 = 0;
-double Td9719.11815;
-Td9719_11815 = Ta9717.11817[Ti9718.11818].d;
-if(Td9719.11815 <= tp.11814){
-Tu8970_11808 = 1;
-}
-else{
-int Ti9720.11816;
-Ti9720_11816 = 1;
-Tu8970_11808 = solve_one_or_network.10974_fun(Ti9720.11816, head.11805, NULL);
-}
-}
-}
-int Ti9721.11810;
-Ti9721_11810 = 1;
-int Ti9722.11809;
-Ti9722_11809 = ofs.10978 + Ti9721.11810;
-result = trace_or_matrix.10977_fun(Ti9722.11809, or_network.10979, NULL);
-}
-return result;
-}
-
-bool tracer.10980_fun(Value* viewpoint.10981, Value* vscan.10982, Value *env){
-bool result;
-Value* Ta9696.11802;
-Ta9696_11802 = tmin;
-int Ti9697.11803;
-Ti9697_11803 = 0;
-double Td9698.11804;
-Td9698_11804 = 1000000000.000000;
-int Tu8972.11791;
-Ta9696.11802[Ti9697.11803].d = Td9698.11804;
-int Ti9699.11798;
-Ti9699_11798 = 0;
-Value* Ta9700.11800;
-Ta9700_11800 = or_net;
-int Ti9701.11801;
-Ti9701_11801 = 0;
-Value* Ta9702.11799;
-Ta9702_11799 = Ta9700.11800[Ti9701.11801].a;
-int Tu8971.11792;
-Tu8971_11792 = trace_or_matrix.10977_fun(Ti9699.11798, Ta9702.11799, NULL);
-Value* Ta9703.11796;
-Ta9703_11796 = tmin;
-int Ti9704.11797;
-Ti9704_11797 = 0;
-double t.11793;
-t_11793 = Ta9703.11796[Ti9704.11797].d;
-double Td9705.11794;
-Td9705_11794 = -0.100000;
-if(t.11793 <= Td9705.11794){
-result = 0;
-}
-else{
-double Td9706.11795;
-Td9706_11795 = 100000000.000000;
-if(Td9706.11795 <= t.11793){
-result = 0;
-}
-else{
-result = 1;
-}
-}
-return result;
-}
-
-int get_nvector_rect.10983_fun(int Tu8973.10984, Value *env){
-int result;
-Value* Ta9652.11789;
-Ta9652_11789 = intsec_rectside;
-int Ti9653.11790;
-Ti9653_11790 = 0;
-int rectside.11740;
-rectside_11740 = Ta9652.11789[Ti9653.11790].i;
-int Ti9654.11741;
-Ti9654_11741 = 1;
-if(rectside.11740 == Ti9654.11741){
-Value* Ta9655.11782;
-Ta9655_11782 = nvector;
-int Ti9656.11783;
-Ti9656_11783 = 0;
-Value* Ta9657.11787;
-Ta9657_11787 = vscan;
-int Ti9658.11788;
-Ti9658_11788 = 0;
-double Td9659.11786;
-Td9659_11786 = Ta9657.11787[Ti9658.11788].d;
-double Td9660.11785;
-Td9660_11785 = sgn.10903_fun(Td9659.11786, NULL);
-double Td9661.11784;
-Td9661_11784 = -Td9660.11785;
-int Tu8975.11774;
-Ta9655.11782[Ti9656.11783].d = Td9661.11784;
-Value* Ta9662.11779;
-Ta9662_11779 = nvector;
-int Ti9663.11780;
-Ti9663_11780 = 1;
-double Td9664.11781;
-Td9664_11781 = 0.000000;
-int Tu8974.11775;
-Ta9662.11779[Ti9663.11780].d = Td9664.11781;
-Value* Ta9665.11776;
-Ta9665_11776 = nvector;
-int Ti9666.11777;
-Ti9666_11777 = 2;
-double Td9667.11778;
-Td9667_11778 = 0.000000;
-Ta9665.11776[Ti9666.11777].d = Td9667.11778;
-}
-else{
-int Ti9668.11742;
-Ti9668_11742 = 2;
-if(rectside.11740 == Ti9668.11742){
-Value* Ta9669.11771;
-Ta9669_11771 = nvector;
-int Ti9670.11772;
-Ti9670_11772 = 0;
-double Td9671.11773;
-Td9671_11773 = 0.000000;
-int Tu8977.11759;
-Ta9669.11771[Ti9670.11772].d = Td9671.11773;
-Value* Ta9672.11764;
-Ta9672_11764 = nvector;
-int Ti9673.11765;
-Ti9673_11765 = 1;
-Value* Ta9674.11769;
-Ta9674_11769 = vscan;
-int Ti9675.11770;
-Ti9675_11770 = 1;
-double Td9676.11768;
-Td9676_11768 = Ta9674.11769[Ti9675.11770].d;
-double Td9677.11767;
-Td9677_11767 = sgn.10903_fun(Td9676.11768, NULL);
-double Td9678.11766;
-Td9678_11766 = -Td9677.11767;
-int Tu8976.11760;
-Ta9672.11764[Ti9673.11765].d = Td9678.11766;
-Value* Ta9679.11761;
-Ta9679_11761 = nvector;
-int Ti9680.11762;
-Ti9680_11762 = 2;
-double Td9681.11763;
-Td9681_11763 = 0.000000;
-Ta9679.11761[Ti9680.11762].d = Td9681.11763;
-}
-else{
-int Ti9682.11743;
-Ti9682_11743 = 3;
-if(rectside.11740 == Ti9682.11743){
-Value* Ta9683.11756;
-Ta9683_11756 = nvector;
-int Ti9684.11757;
-Ti9684_11757 = 0;
-double Td9685.11758;
-Td9685_11758 = 0.000000;
-int Tu8979.11744;
-Ta9683.11756[Ti9684.11757].d = Td9685.11758;
-Value* Ta9686.11753;
-Ta9686_11753 = nvector;
-int Ti9687.11754;
-Ti9687_11754 = 1;
-double Td9688.11755;
-Td9688_11755 = 0.000000;
-int Tu8978.11745;
-Ta9686.11753[Ti9687.11754].d = Td9688.11755;
-Value* Ta9689.11746;
-Ta9689_11746 = nvector;
-int Ti9690.11747;
-Ti9690_11747 = 2;
-Value* Ta9691.11751;
-Ta9691_11751 = vscan;
-int Ti9692.11752;
-Ti9692_11752 = 2;
-double Td9693.11750;
-Td9693_11750 = Ta9691.11751[Ti9692.11752].d;
-double Td9694.11749;
-Td9694_11749 = sgn.10903_fun(Td9693.11750, NULL);
-double Td9695.11748;
-Td9695_11748 = -Td9694.11749;
-Ta9689.11746[Ti9690.11747].d = Td9695.11748;
-}
-else{
-result = 1;
-}
-}
-}
-return result;
-}
-
-int get_nvector_plane.10985_fun(int* m.10986, Value *env){
-int result;
-Value* Ta9640.11736;
-Ta9640_11736 = nvector;
-int Ti9641.11737;
-Ti9641_11737 = 0;
-double Td9642.11739;
-Td9642_11739 = o_param_a.10872_fun(m.10986, NULL);
-double Td9643.11738;
-Td9643_11738 = -Td9642.11739;
-int Tu8981.11726;
-Ta9640.11736[Ti9641.11737].d = Td9643.11738;
-Value* Ta9644.11732;
-Ta9644_11732 = nvector;
-int Ti9645.11733;
-Ti9645_11733 = 1;
-double Td9646.11735;
-Td9646_11735 = o_param_b.10874_fun(m.10986, NULL);
-double Td9647.11734;
-Td9647_11734 = -Td9646.11735;
-int Tu8980.11727;
-Ta9644.11732[Ti9645.11733].d = Td9647.11734;
-Value* Ta9648.11728;
-Ta9648_11728 = nvector;
-int Ti9649.11729;
-Ti9649_11729 = 2;
-double Td9650.11731;
-Td9650_11731 = o_param_c.10876_fun(m.10986, NULL);
-double Td9651.11730;
-Td9651_11730 = -Td9650.11731;
-Ta9648.11728[Ti9649.11729].d = Td9651.11730;
-return result;
-}
-
-int get_nvector_second_norot.10987_fun(int* m.10988, Value* p.10989, Value *env){
-int result;
-Value* Ta9614.11718;
-Ta9614_11718 = nvector;
-int Ti9615.11719;
-Ti9615_11719 = 0;
-int Ti9616.11725;
-Ti9616_11725 = 0;
-double Td9617.11723;
-Td9617_11723 = p.10989[Ti9616.11725].d;
-double Td9618.11724;
-Td9618_11724 = o_param_x.10878_fun(m.10988, NULL);
-double Td9619.11721;
-Td9619_11721 = Td9617.11723 - Td9618.11724;
-double Td9620.11722;
-Td9620_11722 = o_param_a.10872_fun(m.10988, NULL);
-double Td9621.11720;
-Td9621_11720 =  Td9619.11721 * Td9620.11722;
-int Tu8984.11697;
-Ta9614.11718[Ti9615.11719].d = Td9621.11720;
-Value* Ta9622.11710;
-Ta9622_11710 = nvector;
-int Ti9623.11711;
-Ti9623_11711 = 1;
-int Ti9624.11717;
-Ti9624_11717 = 1;
-double Td9625.11715;
-Td9625_11715 = p.10989[Ti9624.11717].d;
-double Td9626.11716;
-Td9626_11716 = o_param_y.10880_fun(m.10988, NULL);
-double Td9627.11713;
-Td9627_11713 = Td9625.11715 - Td9626.11716;
-double Td9628.11714;
-Td9628_11714 = o_param_b.10874_fun(m.10988, NULL);
-double Td9629.11712;
-Td9629_11712 =  Td9627.11713 * Td9628.11714;
-int Tu8983.11698;
-Ta9622.11710[Ti9623.11711].d = Td9629.11712;
-Value* Ta9630.11702;
-Ta9630_11702 = nvector;
-int Ti9631.11703;
-Ti9631_11703 = 2;
-int Ti9632.11709;
-Ti9632_11709 = 2;
-double Td9633.11707;
-Td9633_11707 = p.10989[Ti9632.11709].d;
-double Td9634.11708;
-Td9634_11708 = o_param_z.10882_fun(m.10988, NULL);
-double Td9635.11705;
-Td9635_11705 = Td9633.11707 - Td9634.11708;
-double Td9636.11706;
-Td9636_11706 = o_param_c.10876_fun(m.10988, NULL);
-double Td9637.11704;
-Td9637_11704 =  Td9635.11705 * Td9636.11706;
-int Tu8982.11699;
-Ta9630.11702[Ti9631.11703].d = Td9637.11704;
-Value* Ta9638.11700;
-Ta9638_11700 = nvector;
-bool Tb9639.11701;
-Tb9639_11701 = o_isinvert.10868_fun(m.10988, NULL);
-result = normalize_vector.10900_fun(Ta9638.11700, Tb9639.11701, NULL);
-return result;
-}
-
-int get_nvector_second_rot.10990_fun(int* m.10991, Value* p.10992, Value *env){
-int result;
-Value* Ta9534.11691;
-Ta9534_11691 = nvector_w;
-int Ti9535.11692;
-Ti9535_11692 = 0;
-int Ti9536.11696;
-Ti9536_11696 = 0;
-double Td9537.11694;
-Td9537_11694 = p.10992[Ti9536.11696].d;
-double Td9538.11695;
-Td9538_11695 = o_param_x.10878_fun(m.10991, NULL);
-double Td9539.11693;
-Td9539_11693 = Td9537.11694 - Td9538.11695;
-int Tu8990.11611;
-Ta9534.11691[Ti9535.11692].d = Td9539.11693;
-Value* Ta9540.11685;
-Ta9540_11685 = nvector_w;
-int Ti9541.11686;
-Ti9541_11686 = 1;
-int Ti9542.11690;
-Ti9542_11690 = 1;
-double Td9543.11688;
-Td9543_11688 = p.10992[Ti9542.11690].d;
-double Td9544.11689;
-Td9544_11689 = o_param_y.10880_fun(m.10991, NULL);
-double Td9545.11687;
-Td9545_11687 = Td9543.11688 - Td9544.11689;
-int Tu8989.11612;
-Ta9540.11685[Ti9541.11686].d = Td9545.11687;
-Value* Ta9546.11679;
-Ta9546_11679 = nvector_w;
-int Ti9547.11680;
-Ti9547_11680 = 2;
-int Ti9548.11684;
-Ti9548_11684 = 2;
-double Td9549.11682;
-Td9549_11682 = p.10992[Ti9548.11684].d;
-double Td9550.11683;
-Td9550_11683 = o_param_z.10882_fun(m.10991, NULL);
-double Td9551.11681;
-Td9551_11681 = Td9549.11682 - Td9550.11683;
-int Tu8988.11613;
-Ta9546.11679[Ti9547.11680].d = Td9551.11681;
-Value* Ta9552.11659;
-Ta9552_11659 = nvector;
-int Ti9553.11660;
-Ti9553_11660 = 0;
-Value* Ta9554.11677;
-Ta9554_11677 = nvector_w;
-int Ti9555.11678;
-Ti9555_11678 = 0;
-double Td9556.11675;
-Td9556_11675 = Ta9554.11677[Ti9555.11678].d;
-double Td9557.11676;
-Td9557_11676 = o_param_a.10872_fun(m.10991, NULL);
-double Td9558.11662;
-Td9558_11662 =  Td9556.11675 * Td9557.11676;
-Value* Ta9559.11673;
-Ta9559_11673 = nvector_w;
-int Ti9560.11674;
-Ti9560_11674 = 1;
-double Td9561.11671;
-Td9561_11671 = Ta9559.11673[Ti9560.11674].d;
-double Td9562.11672;
-Td9562_11672 = o_param_r3.10898_fun(m.10991, NULL);
-double Td9563.11665;
-Td9563_11665 =  Td9561.11671 * Td9562.11672;
-Value* Ta9564.11669;
-Ta9564_11669 = nvector_w;
-int Ti9565.11670;
-Ti9565_11670 = 2;
-double Td9566.11667;
-Td9566_11667 = Ta9564.11669[Ti9565.11670].d;
-double Td9567.11668;
-Td9567_11668 = o_param_r2.10896_fun(m.10991, NULL);
-double Td9568.11666;
-Td9568_11666 =  Td9566.11667 * Td9567.11668;
-double Td9569.11664;
-Td9569_11664 = Td9563.11665 + Td9568.11666;
-double Td9570.11663;
-Td9570_11663 = fhalf.10860_fun(Td9569.11664, NULL);
-double Td9571.11661;
-Td9571_11661 = Td9558.11662 + Td9570.11663;
-int Tu8987.11614;
-Ta9552.11659[Ti9553.11660].d = Td9571.11661;
-Value* Ta9572.11639;
-Ta9572_11639 = nvector;
-int Ti9573.11640;
-Ti9573_11640 = 1;
-Value* Ta9574.11657;
-Ta9574_11657 = nvector_w;
-int Ti9575.11658;
-Ti9575_11658 = 1;
-double Td9576.11655;
-Td9576_11655 = Ta9574.11657[Ti9575.11658].d;
-double Td9577.11656;
-Td9577_11656 = o_param_b.10874_fun(m.10991, NULL);
-double Td9578.11642;
-Td9578_11642 =  Td9576.11655 * Td9577.11656;
-Value* Ta9579.11653;
-Ta9579_11653 = nvector_w;
-int Ti9580.11654;
-Ti9580_11654 = 0;
-double Td9581.11651;
-Td9581_11651 = Ta9579.11653[Ti9580.11654].d;
-double Td9582.11652;
-Td9582_11652 = o_param_r3.10898_fun(m.10991, NULL);
-double Td9583.11645;
-Td9583_11645 =  Td9581.11651 * Td9582.11652;
-Value* Ta9584.11649;
-Ta9584_11649 = nvector_w;
-int Ti9585.11650;
-Ti9585_11650 = 2;
-double Td9586.11647;
-Td9586_11647 = Ta9584.11649[Ti9585.11650].d;
-double Td9587.11648;
-Td9587_11648 = o_param_r1.10894_fun(m.10991, NULL);
-double Td9588.11646;
-Td9588_11646 =  Td9586.11647 * Td9587.11648;
-double Td9589.11644;
-Td9589_11644 = Td9583.11645 + Td9588.11646;
-double Td9590.11643;
-Td9590_11643 = fhalf.10860_fun(Td9589.11644, NULL);
-double Td9591.11641;
-Td9591_11641 = Td9578.11642 + Td9590.11643;
-int Tu8986.11615;
-Ta9572.11639[Ti9573.11640].d = Td9591.11641;
-Value* Ta9592.11619;
-Ta9592_11619 = nvector;
-int Ti9593.11620;
-Ti9593_11620 = 2;
-Value* Ta9594.11637;
-Ta9594_11637 = nvector_w;
-int Ti9595.11638;
-Ti9595_11638 = 2;
-double Td9596.11635;
-Td9596_11635 = Ta9594.11637[Ti9595.11638].d;
-double Td9597.11636;
-Td9597_11636 = o_param_c.10876_fun(m.10991, NULL);
-double Td9598.11622;
-Td9598_11622 =  Td9596.11635 * Td9597.11636;
-Value* Ta9599.11633;
-Ta9599_11633 = nvector_w;
-int Ti9600.11634;
-Ti9600_11634 = 0;
-double Td9601.11631;
-Td9601_11631 = Ta9599.11633[Ti9600.11634].d;
-double Td9602.11632;
-Td9602_11632 = o_param_r2.10896_fun(m.10991, NULL);
-double Td9603.11625;
-Td9603_11625 =  Td9601.11631 * Td9602.11632;
-Value* Ta9604.11629;
-Ta9604_11629 = nvector_w;
-int Ti9605.11630;
-Ti9605_11630 = 1;
-double Td9606.11627;
-Td9606_11627 = Ta9604.11629[Ti9605.11630].d;
-double Td9607.11628;
-Td9607_11628 = o_param_r1.10894_fun(m.10991, NULL);
-double Td9608.11626;
-Td9608_11626 =  Td9606.11627 * Td9607.11628;
-double Td9609.11624;
-Td9609_11624 = Td9603.11625 + Td9608.11626;
-double Td9610.11623;
-Td9610_11623 = fhalf.10860_fun(Td9609.11624, NULL);
-double Td9611.11621;
-Td9611_11621 = Td9598.11622 + Td9610.11623;
-int Tu8985.11616;
-Ta9592.11619[Ti9593.11620].d = Td9611.11621;
-Value* Ta9612.11617;
-Ta9612_11617 = nvector;
-bool Tb9613.11618;
-Tb9613_11618 = o_isinvert.10868_fun(m.10991, NULL);
-result = normalize_vector.10900_fun(Ta9612.11617, Tb9613.11618, NULL);
-return result;
-}
-
-int get_nvector.10993_fun(int* m.10994, Value* p.10995, Value *env){
-int result;
-int m_shape.11605;
-m_shape_11605 = o_form.10864_fun(m.10994, NULL);
-int Ti9529.11606;
-Ti9529_11606 = 1;
-if(m_shape.11605 == Ti9529.11606){
-int Tu9530.11610;
-Tu9530_11610 = 1;
-result = get_nvector_rect.10983_fun(Tu9530.11610, NULL);
-}
-else{
-int Ti9531.11607;
-Ti9531_11607 = 2;
-if(m_shape.11605 == Ti9531.11607){
-result = get_nvector_plane.10985_fun(m.10994, NULL);
-}
-else{
-int Ti9532.11608;
-Ti9532_11608 = o_isrot.10870_fun(m.10994, NULL);
-int Ti9533.11609;
-Ti9533_11609 = 0;
-if(Ti9532.11608 == Ti9533.11609){
-result = get_nvector_second_norot.10987_fun(m.10994, p.10995, NULL);
-}
-else{
-result = get_nvector_second_rot.10990_fun(m.10994, p.10995, NULL);
-}
-}
-}
-return result;
-}
-
-int utexture.10996_fun(int* m.10997, Value* p.10998, Value *env){
-int result;
-int m_tex.11447;
-m_tex_11447 = o_texturetype.10862_fun(m.10997, NULL);
-Value* Ta9400.11602;
-Ta9400_11602 = texture_color;
-int Ti9401.11603;
-Ti9401_11603 = 0;
-double Td9402.11604;
-Td9402_11604 = o_color_red.10888_fun(m.10997, NULL);
-int Tu8995.11448;
-Ta9400.11602[Ti9401.11603].d = Td9402.11604;
-Value* Ta9403.11599;
-Ta9403_11599 = texture_color;
-int Ti9404.11600;
-Ti9404_11600 = 1;
-double Td9405.11601;
-Td9405_11601 = o_color_green.10890_fun(m.10997, NULL);
-int Tu8994.11449;
-Ta9403.11599[Ti9404.11600].d = Td9405.11601;
-Value* Ta9406.11596;
-Ta9406_11596 = texture_color;
-int Ti9407.11597;
-Ti9407_11597 = 2;
-double Td9408.11598;
-Td9408_11598 = o_color_blue.10892_fun(m.10997, NULL);
-int Tu8993.11450;
-Ta9406.11596[Ti9407.11597].d = Td9408.11598;
-int Ti9409.11451;
-Ti9409_11451 = 1;
-if(m_tex.11447 == Ti9409.11451){
-int Ti9410.11595;
-Ti9410_11595 = 0;
-double Td9411.11593;
-Td9411_11593 = p.10998[Ti9410.11595].d;
-double Td9412.11594;
-Td9412_11594 = o_param_x.10878_fun(m.10997, NULL);
-double w1.11566;
-w1_11566 = Td9411.11593 - Td9412.11594;
-double Td9413.11592;
-Td9413_11592 = 0.050000;
-double Td9414.11591;
-Td9414_11591 =  w1.11566 * Td9413.11592;
-double Td9415.11589;
-Td9415_11589 = floor(Td9414.11591);
-double Td9416.11590;
-Td9416_11590 = 20.000000;
-double d1.11586;
-d1_11586 =  Td9415.11589 * Td9416.11590;
-double Td9417.11587;
-Td9417_11587 = 10.000000;
-double Td9418.11588;
-Td9418_11588 = w1.11566 - d1.11586;
-bool flag1.11567;
-if(Td9417.11587 <= Td9418.11588){
-flag1_11567 = 0;
-}
-else{
-flag1_11567 = 1;
-}
-int Ti9419.11585;
-Ti9419_11585 = 2;
-double Td9420.11583;
-Td9420_11583 = p.10998[Ti9419.11585].d;
-double Td9421.11584;
-Td9421_11584 = o_param_z.10882_fun(m.10997, NULL);
-double w3.11568;
-w3_11568 = Td9420.11583 - Td9421.11584;
-double Td9422.11582;
-Td9422_11582 = 0.050000;
-double Td9423.11581;
-Td9423_11581 =  w3.11568 * Td9422.11582;
-double Td9424.11579;
-Td9424_11579 = floor(Td9423.11581);
-double Td9425.11580;
-Td9425_11580 = 20.000000;
-double d2.11576;
-d2_11576 =  Td9424.11579 * Td9425.11580;
-double Td9426.11577;
-Td9426_11577 = 10.000000;
-double Td9427.11578;
-Td9427_11578 = w3.11568 - d2.11576;
-bool flag2.11569;
-if(Td9426.11577 <= Td9427.11578){
-flag2_11569 = 0;
-}
-else{
-flag2_11569 = 1;
-}
-Value* Ta9428.11570;
-Ta9428_11570 = texture_color;
-int Ti9429.11571;
-Ti9429_11571 = 1;
-int Ti9430.11573;
-Ti9430_11573 = 0;
-double Td9433.11572;
-if(flag1.11567 == Ti9430.11573){
-int Ti9431.11575;
-Ti9431_11575 = 0;
-if(flag2.11569 == Ti9431.11575){
-Td9433_11572 = 255.000000;
-}
-else{
-Td9433_11572 = 0.000000;
-}
-}
-else{
-int Ti9432.11574;
-Ti9432_11574 = 0;
-if(flag2.11569 == Ti9432.11574){
-Td9433_11572 = 0.000000;
-}
-else{
-Td9433_11572 = 255.000000;
-}
-}
-Ta9428.11570[Ti9429.11571].d = Td9433.11572;
-}
-else{
-int Ti9434.11452;
-Ti9434_11452 = 2;
-if(m_tex.11447 == Ti9434.11452){
-int Ti9435.11565;
-Ti9435_11565 = 1;
-double Td9436.11563;
-Td9436_11563 = p.10998[Ti9435.11565].d;
-double Td9437.11564;
-Td9437_11564 = 0.250000;
-double Td9438.11562;
-Td9438_11562 =  Td9436.11563 * Td9437.11564;
-double Td9439.11561;
-Td9439_11561 = sin(Td9438.11562);
-double w2.11549;
-w2_11549 = fsqr.10858_fun(Td9439.11561, NULL);
-Value* Ta9440.11557;
-Ta9440_11557 = texture_color;
-int Ti9441.11558;
-Ti9441_11558 = 0;
-double Td9442.11560;
-Td9442_11560 = 255.000000;
-double Td9443.11559;
-Td9443_11559 =  Td9442.11560 * w2.11549;
-int Tu8991.11550;
-Ta9440.11557[Ti9441.11558].d = Td9443.11559;
-Value* Ta9444.11551;
-Ta9444_11551 = texture_color;
-int Ti9445.11552;
-Ti9445_11552 = 1;
-double Td9446.11554;
-Td9446_11554 = 255.000000;
-double Td9447.11556;
-Td9447_11556 = 1.000000;
-double Td9448.11555;
-Td9448_11555 = Td9447.11556 - w2.11549;
-double Td9449.11553;
-Td9449_11553 =  Td9446.11554 * Td9448.11555;
-Ta9444.11551[Ti9445.11552].d = Td9449.11553;
-}
-else{
-int Ti9450.11453;
-Ti9450_11453 = 3;
-if(m_tex.11447 == Ti9450.11453){
-int Ti9451.11548;
-Ti9451_11548 = 0;
-double Td9452.11546;
-Td9452_11546 = p.10998[Ti9451.11548].d;
-double Td9453.11547;
-Td9453_11547 = o_param_x.10878_fun(m.10997, NULL);
-double w1.11518;
-w1_11518 = Td9452.11546 - Td9453.11547;
-int Ti9454.11545;
-Ti9454_11545 = 2;
-double Td9455.11543;
-Td9455_11543 = p.10998[Ti9454.11545].d;
-double Td9456.11544;
-Td9456_11544 = o_param_z.10882_fun(m.10997, NULL);
-double w3.11519;
-w3_11519 = Td9455.11543 - Td9456.11544;
-double Td9457.11541;
-Td9457_11541 = fsqr.10858_fun(w1.11518, NULL);
-double Td9458.11542;
-Td9458_11542 = fsqr.10858_fun(w3.11519, NULL);
-double Td9459.11540;
-Td9459_11540 = Td9457.11541 + Td9458.11542;
-double Td9460.11538;
-Td9460_11538 = sqrt(Td9459.11540);
-double Td9461.11539;
-Td9461_11539 = 10.000000;
-double w2.11520;
-w2_11520 = Td9460.11538 / Td9461.11539;
-double Td9462.11537;
-Td9462_11537 = floor(w2.11520);
-double Td9463.11535;
-Td9463_11535 = w2.11520 - Td9462.11537;
-double Td9464.11536;
-Td9464_11536 = 3.141593;
-double w4.11521;
-w4_11521 =  Td9463.11535 * Td9464.11536;
-double Td9465.11534;
-Td9465_11534 = cos(w4.11521);
-double cws.11522;
-cws_11522 = fsqr.10858_fun(Td9465.11534, NULL);
-Value* Ta9466.11530;
-Ta9466_11530 = texture_color;
-int Ti9467.11531;
-Ti9467_11531 = 1;
-double Td9468.11533;
-Td9468_11533 = 255.000000;
-double Td9469.11532;
-Td9469_11532 =  cws.11522 * Td9468.11533;
-int Tu8992.11523;
-Ta9466.11530[Ti9467.11531].d = Td9469.11532;
-Value* Ta9470.11524;
-Ta9470_11524 = texture_color;
-int Ti9471.11525;
-Ti9471_11525 = 2;
-double Td9472.11529;
-Td9472_11529 = 1.000000;
-double Td9473.11527;
-Td9473_11527 = Td9472.11529 - cws.11522;
-double Td9474.11528;
-Td9474_11528 = 255.000000;
-double Td9475.11526;
-Td9475_11526 =  Td9473.11527 * Td9474.11528;
-Ta9470.11524[Ti9471.11525].d = Td9475.11526;
-}
-else{
-int Ti9476.11454;
-Ti9476_11454 = 4;
-if(m_tex.11447 == Ti9476.11454){
-int Ti9477.11517;
-Ti9477_11517 = 0;
-double Td9478.11515;
-Td9478_11515 = p.10998[Ti9477.11517].d;
-double Td9479.11516;
-Td9479_11516 = o_param_x.10878_fun(m.10997, NULL);
-double Td9480.11512;
-Td9480_11512 = Td9478.11515 - Td9479.11516;
-double Td9481.11514;
-Td9481_11514 = o_param_a.10872_fun(m.10997, NULL);
-double Td9482.11513;
-Td9482_11513 = sqrt(Td9481.11514);
-double w1.11455;
-w1_11455 =  Td9480.11512 * Td9482.11513;
-int Ti9483.11511;
-Ti9483_11511 = 2;
-double Td9484.11509;
-Td9484_11509 = p.10998[Ti9483.11511].d;
-double Td9485.11510;
-Td9485_11510 = o_param_z.10882_fun(m.10997, NULL);
-double Td9486.11506;
-Td9486_11506 = Td9484.11509 - Td9485.11510;
-double Td9487.11508;
-Td9487_11508 = o_param_c.10876_fun(m.10997, NULL);
-double Td9488.11507;
-Td9488_11507 = sqrt(Td9487.11508);
-double w3.11456;
-w3_11456 =  Td9486.11506 * Td9488.11507;
-double Td9489.11504;
-Td9489_11504 = fsqr.10858_fun(w1.11455, NULL);
-double Td9490.11505;
-Td9490_11505 = fsqr.10858_fun(w3.11456, NULL);
-double Td9491.11503;
-Td9491_11503 = Td9489.11504 + Td9490.11505;
-double w4.11457;
-w4_11457 = sqrt(Td9491.11503);
-double Td9492.11495;
-Td9492_11495 = 0.000100;
-double Td9493.11496;
-Td9493_11496 = fabs(w1.11455);
-double w7.11458;
-if(Td9492.11495 <= Td9493.11496){
-double Td9494.11502;
-Td9494_11502 = w3.11456 / w1.11455;
-double w5.11497;
-w5_11497 = fabs(Td9494.11502);
-double Td9495.11498;
-Td9495_11498 = atan(w5.11497);
-double Td9496.11500;
-Td9496_11500 = 30.000000;
-double Td9497.11501;
-Td9497_11501 = 3.141593;
-double Td9498.11499;
-Td9498_11499 = Td9496.11500 / Td9497.11501;
-w7_11458 =  Td9495.11498 * Td9498.11499;
-}
-else{
-w7_11458 = 15.000000;
-}
-double Td9499.11494;
-Td9499_11494 = floor(w7.11458);
-double w9.11459;
-w9_11459 = w7.11458 - Td9499.11494;
-int Ti9500.11493;
-Ti9500_11493 = 1;
-double Td9501.11491;
-Td9501_11491 = p.10998[Ti9500.11493].d;
-double Td9502.11492;
-Td9502_11492 = o_param_y.10880_fun(m.10997, NULL);
-double Td9503.11488;
-Td9503_11488 = Td9501.11491 - Td9502.11492;
-double Td9504.11490;
-Td9504_11490 = o_param_b.10874_fun(m.10997, NULL);
-double Td9505.11489;
-Td9505_11489 = sqrt(Td9504.11490);
-double w2.11460;
-w2_11460 =  Td9503.11488 * Td9505.11489;
-double Td9506.11480;
-Td9506_11480 = 0.000100;
-double Td9507.11481;
-Td9507_11481 = fabs(w7.11458);
-double w8.11461;
-if(Td9506.11480 <= Td9507.11481){
-double Td9508.11487;
-Td9508_11487 = w2.11460 / w4.11457;
-double w6.11482;
-w6_11482 = fabs(Td9508.11487);
-double Td9509.11483;
-Td9509_11483 = atan(w6.11482);
-double Td9510.11485;
-Td9510_11485 = 30.000000;
-double Td9511.11486;
-Td9511_11486 = 3.141593;
-double Td9512.11484;
-Td9512_11484 = Td9510.11485 / Td9511.11486;
-w8_11461 =  Td9509.11483 * Td9512.11484;
-}
-else{
-w8_11461 = 15.000000;
-}
-double Td9513.11479;
-Td9513_11479 = floor(w8.11461);
-double w10.11462;
-w10_11462 = w8.11461 - Td9513.11479;
-double Td9514.11475;
-Td9514_11475 = 0.150000;
-double Td9515.11478;
-Td9515_11478 = 0.500000;
-double Td9516.11477;
-Td9516_11477 = Td9515.11478 - w9.11459;
-double Td9517.11476;
-Td9517_11476 = fsqr.10858_fun(Td9516.11477, NULL);
-double Td9518.11471;
-Td9518_11471 = Td9514.11475 - Td9517.11476;
-double Td9519.11474;
-Td9519_11474 = 0.500000;
-double Td9520.11473;
-Td9520_11473 = Td9519.11474 - w10.11462;
-double Td9521.11472;
-Td9521_11472 = fsqr.10858_fun(Td9520.11473, NULL);
-double w11.11463;
-w11_11463 = Td9518.11471 - Td9521.11472;
-Value* Ta9522.11464;
-Ta9522_11464 = texture_color;
-int Ti9523.11465;
-Ti9523_11465 = 2;
-double Td9524.11467;
-Td9524_11467 = 0.000000;
-double Td9528.11466;
-if(w11.11463 <= Td9524.11467){
-Td9528_11466 = 0.000000;
-}
-else{
-double Td9525.11469;
-Td9525_11469 = 255.000000;
-double Td9526.11470;
-Td9526_11470 = 0.300000;
-double Td9527.11468;
-Td9527_11468 = Td9525.11469 / Td9526.11470;
-Td9528_11466 =  w11.11463 * Td9527.11468;
-}
-Ta9522.11464[Ti9523.11465].d = Td9528.11466;
-}
-else{
-result = 1;
-}
-}
-}
-}
-return result;
-}
-
-double in_prod.10999_fun(Value* v1.11000, Value* v2.11001, Value *env){
-double result;
-int Ti9384.11446;
-Ti9384_11446 = 0;
-double Td9385.11443;
-Td9385_11443 = v1.11000[Ti9384.11446].d;
-int Ti9386.11445;
-Ti9386_11445 = 0;
-double Td9387.11444;
-Td9387_11444 = v2.11001[Ti9386.11445].d;
-double Td9388.11437;
-Td9388_11437 =  Td9385.11443 * Td9387.11444;
-int Ti9389.11442;
-Ti9389_11442 = 1;
-double Td9390.11439;
-Td9390_11439 = v1.11000[Ti9389.11442].d;
-int Ti9391.11441;
-Ti9391_11441 = 1;
-double Td9392.11440;
-Td9392_11440 = v2.11001[Ti9391.11441].d;
-double Td9393.11438;
-Td9393_11438 =  Td9390.11439 * Td9392.11440;
-double Td9394.11431;
-Td9394_11431 = Td9388.11437 + Td9393.11438;
-int Ti9395.11436;
-Ti9395_11436 = 2;
-double Td9396.11433;
-Td9396_11433 = v1.11000[Ti9395.11436].d;
-int Ti9397.11435;
-Ti9397_11435 = 2;
-double Td9398.11434;
-Td9398_11434 = v2.11001[Ti9397.11435].d;
-double Td9399.11432;
-Td9399_11432 =  Td9396.11433 * Td9398.11434;
-result = Td9394.11431 + Td9399.11432;
-return result;
-}
-
-int accumulate_vec_mul.11002_fun(Value* v1.11003, Value* v2.11004, double w.11005, Value *env){
-int result;
-int Ti9363.11424;
-Ti9363_11424 = 0;
-int Ti9364.11430;
-Ti9364_11430 = 0;
-double Td9365.11426;
-Td9365_11426 = v1.11003[Ti9364.11430].d;
-int Ti9366.11429;
-Ti9366_11429 = 0;
-double Td9367.11428;
-Td9367_11428 = v2.11004[Ti9366.11429].d;
-double Td9368.11427;
-Td9368_11427 =  w.11005 * Td9367.11428;
-double Td9369.11425;
-Td9369_11425 = Td9365.11426 + Td9368.11427;
-int Tu8997.11408;
-v1.11003[Ti9363.11424].d = Td9369.11425;
-int Ti9370.11417;
-Ti9370_11417 = 1;
-int Ti9371.11423;
-Ti9371_11423 = 1;
-double Td9372.11419;
-Td9372_11419 = v1.11003[Ti9371.11423].d;
-int Ti9373.11422;
-Ti9373_11422 = 1;
-double Td9374.11421;
-Td9374_11421 = v2.11004[Ti9373.11422].d;
-double Td9375.11420;
-Td9375_11420 =  w.11005 * Td9374.11421;
-double Td9376.11418;
-Td9376_11418 = Td9372.11419 + Td9375.11420;
-int Tu8996.11409;
-v1.11003[Ti9370.11417].d = Td9376.11418;
-int Ti9377.11410;
-Ti9377_11410 = 2;
-int Ti9378.11416;
-Ti9378_11416 = 2;
-double Td9379.11412;
-Td9379_11412 = v1.11003[Ti9378.11416].d;
-int Ti9380.11415;
-Ti9380_11415 = 2;
-double Td9381.11414;
-Td9381_11414 = v2.11004[Ti9380.11415].d;
-double Td9382.11413;
-Td9382_11413 =  w.11005 * Td9381.11414;
-double Td9383.11411;
-Td9383_11411 = Td9379.11412 + Td9382.11413;
-v1.11003[Ti9377.11410].d = Td9383.11411;
-return result;
-}
-
-int raytracing.11006_fun(int nref.11007, double energy.11008, Value *env){
-int result;
-Value* Ta9249.11406;
-Ta9249_11406 = viewpoint;
-Value* Ta9250.11407;
-Ta9250_11407 = vscan;
-bool crashed_p.11270;
-crashed_p_11270 = tracer.10980_fun(Ta9249.11406, Ta9250.11407, NULL);
-int Ti9251.11372;
-Ti9251_11372 = 0;
-int Tu9009.11271;
-if(crashed_p.11270 == Ti9251.11372){
-int Ti9252.11373;
-Ti9252_11373 = 0;
-if(nref.11007 == Ti9252.11373){
-Tu9009_11271 = 1;
-}
-else{
-Value* Ta9253.11404;
-Ta9253_11404 = vscan;
-Value* Ta9254.11405;
-Ta9254_11405 = light;
-double Td9255.11403;
-Td9255_11403 = in_prod.10999_fun(Ta9253.11404, Ta9254.11405, NULL);
-double hl.11374;
-hl_11374 = -Td9255.11403;
-double Td9256.11375;
-Td9256_11375 = 0.000000;
-if(hl.11374 <= Td9256.11375){
-Tu9009_11271 = 1;
-}
-else{
-double Td9257.11402;
-Td9257_11402 = fsqr.10858_fun(hl.11374, NULL);
-double Td9258.11401;
-Td9258_11401 =  Td9257.11402 * hl.11374;
-double Td9259.11397;
-Td9259_11397 =  Td9258.11401 * energy.11008;
-Value* Ta9260.11399;
-Ta9260_11399 = beam;
-int Ti9261.11400;
-Ti9261_11400 = 0;
-double Td9262.11398;
-Td9262_11398 = Ta9260.11399[Ti9261.11400].d;
-double ihl.11376;
-ihl_11376 =  Td9259.11397 * Td9262.11398;
-Value* Ta9263.11391;
-Ta9263_11391 = rgb;
-int Ti9264.11392;
-Ti9264_11392 = 0;
-Value* Ta9265.11395;
-Ta9265_11395 = rgb;
-int Ti9266.11396;
-Ti9266_11396 = 0;
-double Td9267.11394;
-Td9267_11394 = Ta9265.11395[Ti9266.11396].d;
-double Td9268.11393;
-Td9268_11393 = Td9267.11394 + ihl.11376;
-int Tu8999.11377;
-Ta9263.11391[Ti9264.11392].d = Td9268.11393;
-Value* Ta9269.11385;
-Ta9269_11385 = rgb;
-int Ti9270.11386;
-Ti9270_11386 = 1;
-Value* Ta9271.11389;
-Ta9271_11389 = rgb;
-int Ti9272.11390;
-Ti9272_11390 = 1;
-double Td9273.11388;
-Td9273_11388 = Ta9271.11389[Ti9272.11390].d;
-double Td9274.11387;
-Td9274_11387 = Td9273.11388 + ihl.11376;
-int Tu8998.11378;
-Ta9269.11385[Ti9270.11386].d = Td9274.11387;
-Value* Ta9275.11379;
-Ta9275_11379 = rgb;
-int Ti9276.11380;
-Ti9276_11380 = 2;
-Value* Ta9277.11383;
-Ta9277_11383 = rgb;
-int Ti9278.11384;
-Ti9278_11384 = 2;
-double Td9279.11382;
-Td9279_11382 = Ta9277.11383[Ti9278.11384].d;
-double Td9280.11381;
-Td9280_11381 = Td9279.11382 + ihl.11376;
-Ta9275.11379[Ti9276.11380].d = Td9280.11381;
-}
-}
-}
-else{
-Tu9009_11271 = 1;
-}
-int Ti9281.11272;
-Ti9281_11272 = 0;
-if(crashed_p.11270 == Ti9281.11272){
-result = 1;
-}
-else{
-Value* Ta9282.11368;
-Ta9282_11368 = objects;
-Value* Ta9283.11370;
-Ta9283_11370 = crashed_object;
-int Ti9284.11371;
-Ti9284_11371 = 0;
-int Ti9285.11369;
-Ti9285_11369 = Ta9283.11370[Ti9284.11371].i;
-int* cobj.11273;
-cobj_11273 = Ta9282.11368[Ti9285.11369].a;
-Value* Ta9286.11367;
-Ta9286_11367 = crashed_point;
-int Tu9008.11274;
-Tu9008_11274 = get_nvector.10993_fun(cobj.11273, Ta9286.11367, NULL);
-int Ti9287.11362;
-Ti9287_11362 = 0;
-Value* Ta9288.11365;
-Ta9288_11365 = or_net;
-int Ti9289.11366;
-Ti9289_11366 = 0;
-Value* Ta9290.11363;
-Ta9290_11363 = Ta9288.11365[Ti9289.11366].a;
-Value* Ta9291.11364;
-Ta9291_11364 = crashed_point;
-bool Tb9292.11351;
-Tb9292_11351 = shadow_check_one_or_matrix.10967_fun(Ti9287.11362, Ta9290.11363, Ta9291.11364, NULL);
-int Ti9293.11352;
-Ti9293_11352 = 0;
-double bright.11275;
-if(Tb9292.11351 == Ti9293.11352){
-Value* Ta9294.11360;
-Ta9294_11360 = nvector;
-Value* Ta9295.11361;
-Ta9295_11361 = light;
-double Td9296.11359;
-Td9296_11359 = in_prod.10999_fun(Ta9294.11360, Ta9295.11361, NULL);
-double br.11353;
-br_11353 = -Td9296.11359;
-double Td9297.11357;
-Td9297_11357 = 0.000000;
-double br1.11354;
-if(Td9297.11357 <= br.11353){
-double Td9298.11358;
-Td9298_11358 = 0.200000;
-br1_11354 = br.11353 + Td9298.11358;
-}
-else{
-br1_11354 = 0.200000;
-}
-double Td9299.11355;
-Td9299_11355 =  br1.11354 * energy.11008;
-double Td9300.11356;
-Td9300_11356 = o_diffuse.10884_fun(cobj.11273, NULL);
-bright_11275 =  Td9299.11355 * Td9300.11356;
-}
-else{
-bright_11275 = 0.000000;
-}
-Value* Ta9301.11350;
-Ta9301_11350 = crashed_point;
-int Tu9007.11276;
-Tu9007_11276 = utexture.10996_fun(cobj.11273, Ta9301.11350, NULL);
-Value* Ta9302.11348;
-Ta9302_11348 = rgb;
-Value* Ta9303.11349;
-Ta9303_11349 = texture_color;
-int Tu9006.11277;
-Tu9006_11277 = accumulate_vec_mul.11002_fun(Ta9302.11348, Ta9303.11349, bright.11275, NULL);
-int Ti9304.11278;
-Ti9304_11278 = 4;
-if(nref.11007 <= Ti9304.11278){
-double Td9305.11279;
-Td9305_11279 = 0.100000;
-if(energy.11008 <= Td9305.11279){
-result = 1;
-}
-else{
-double Td9306.11344;
-Td9306_11344 = -2.000000;
-Value* Ta9307.11346;
-Ta9307_11346 = vscan;
-Value* Ta9308.11347;
-Ta9308_11347 = nvector;
-double Td9309.11345;
-Td9309_11345 = in_prod.10999_fun(Ta9307.11346, Ta9308.11347, NULL);
-double w.11280;
-w_11280 =  Td9306.11344 * Td9309.11345;
-Value* Ta9310.11342;
-Ta9310_11342 = vscan;
-Value* Ta9311.11343;
-Ta9311_11343 = nvector;
-int Tu9005.11281;
-Tu9005_11281 = accumulate_vec_mul.11002_fun(Ta9310.11342, Ta9311.11343, w.11280, NULL);
-int m_surface.11282;
-m_surface_11282 = o_reflectiontype.10866_fun(cobj.11273, NULL);
-int Ti9312.11283;
-Ti9312_11283 = 1;
-if(m_surface.11282 == Ti9312.11283){
-double Td9313.11309;
-Td9313_11309 = 0.000000;
-double Td9314.11310;
-Td9314_11310 = o_hilight.10886_fun(cobj.11273, NULL);
-if(Td9313.11309 == Td9314.11310){
-result = 1;
-}
-else{
-Value* Ta9315.11340;
-Ta9315_11340 = vscan;
-Value* Ta9316.11341;
-Ta9316_11341 = light;
-double Td9317.11339;
-Td9317_11339 = in_prod.10999_fun(Ta9315.11340, Ta9316.11341, NULL);
-double hl.11311;
-hl_11311 = -Td9317.11339;
-double Td9318.11312;
-Td9318_11312 = 0.000000;
-if(hl.11311 <= Td9318.11312){
-result = 1;
-}
-else{
-double Td9319.11338;
-Td9319_11338 = fsqr.10858_fun(hl.11311, NULL);
-double Td9320.11337;
-Td9320_11337 = fsqr.10858_fun(Td9319.11338, NULL);
-double Td9321.11336;
-Td9321_11336 =  Td9320.11337 * energy.11008;
-double Td9322.11334;
-Td9322_11334 =  Td9321.11336 * bright.11275;
-double Td9323.11335;
-Td9323_11335 = o_hilight.10886_fun(cobj.11273, NULL);
-double ihl.11313;
-ihl_11313 =  Td9322.11334 * Td9323.11335;
-Value* Ta9324.11328;
-Ta9324_11328 = rgb;
-int Ti9325.11329;
-Ti9325_11329 = 0;
-Value* Ta9326.11332;
-Ta9326_11332 = rgb;
-int Ti9327.11333;
-Ti9327_11333 = 0;
-double Td9328.11331;
-Td9328_11331 = Ta9326.11332[Ti9327.11333].d;
-double Td9329.11330;
-Td9329_11330 = Td9328.11331 + ihl.11313;
-int Tu9001.11314;
-Ta9324.11328[Ti9325.11329].d = Td9329.11330;
-Value* Ta9330.11322;
-Ta9330_11322 = rgb;
-int Ti9331.11323;
-Ti9331_11323 = 1;
-Value* Ta9332.11326;
-Ta9332_11326 = rgb;
-int Ti9333.11327;
-Ti9333_11327 = 1;
-double Td9334.11325;
-Td9334_11325 = Ta9332.11326[Ti9333.11327].d;
-double Td9335.11324;
-Td9335_11324 = Td9334.11325 + ihl.11313;
-int Tu9000.11315;
-Ta9330.11322[Ti9331.11323].d = Td9335.11324;
-Value* Ta9336.11316;
-Ta9336_11316 = rgb;
-int Ti9337.11317;
-Ti9337_11317 = 2;
-Value* Ta9338.11320;
-Ta9338_11320 = rgb;
-int Ti9339.11321;
-Ti9339_11321 = 2;
-double Td9340.11319;
-Td9340_11319 = Ta9338.11320[Ti9339.11321].d;
-double Td9341.11318;
-Td9341_11318 = Td9340.11319 + ihl.11313;
-Ta9336.11316[Ti9337.11317].d = Td9341.11318;
-}
-}
-}
-else{
-int Ti9342.11284;
-Ti9342_11284 = 2;
-if(m_surface.11282 == Ti9342.11284){
-Value* Ta9343.11304;
-Ta9343_11304 = viewpoint;
-int Ti9344.11305;
-Ti9344_11305 = 0;
-Value* Ta9345.11307;
-Ta9345_11307 = crashed_point;
-int Ti9346.11308;
-Ti9346_11308 = 0;
-double Td9347.11306;
-Td9347_11306 = Ta9345.11307[Ti9346.11308].d;
-int Tu9004.11285;
-Ta9343.11304[Ti9344.11305].d = Td9347.11306;
-Value* Ta9348.11299;
-Ta9348_11299 = viewpoint;
-int Ti9349.11300;
-Ti9349_11300 = 1;
-Value* Ta9350.11302;
-Ta9350_11302 = crashed_point;
-int Ti9351.11303;
-Ti9351_11303 = 1;
-double Td9352.11301;
-Td9352_11301 = Ta9350.11302[Ti9351.11303].d;
-int Tu9003.11286;
-Ta9348.11299[Ti9349.11300].d = Td9352.11301;
-Value* Ta9353.11294;
-Ta9353_11294 = viewpoint;
-int Ti9354.11295;
-Ti9354_11295 = 2;
-Value* Ta9355.11297;
-Ta9355_11297 = crashed_point;
-int Ti9356.11298;
-Ti9356_11298 = 2;
-double Td9357.11296;
-Td9357_11296 = Ta9355.11297[Ti9356.11298].d;
-int Tu9002.11287;
-Ta9353.11294[Ti9354.11295].d = Td9357.11296;
-double Td9358.11292;
-Td9358_11292 = 1.000000;
-double Td9359.11293;
-Td9359_11293 = o_diffuse.10884_fun(cobj.11273, NULL);
-double Td9360.11291;
-Td9360_11291 = Td9358.11292 - Td9359.11293;
-double energy2.11288;
-energy2_11288 =  energy.11008 * Td9360.11291;
-int Ti9361.11290;
-Ti9361_11290 = 1;
-int Ti9362.11289;
-Ti9362_11289 = nref.11007 + Ti9361.11290;
-result = raytracing.11006_fun(Ti9362.11289, energy2.11288, NULL);
-}
-else{
-result = 1;
-}
-}
-}
-}
-else{
-result = 1;
-}
-}
-return result;
-}
-
-int write_rgb.11009_fun(int Tu9010.11010, Value *env){
-int result;
-Value* Ta9237.11268;
-Ta9237_11268 = rgb;
-int Ti9238.11269;
-Ti9238_11269 = 0;
-double Td9239.11267;
-Td9239_11267 = Ta9237.11268[Ti9238.11269].d;
-int red.11250;
-red_11250 = (int) Td9239.11267;
-int Ti9240.11266;
-Ti9240_11266 = 255;
-int red.11251;
-if(red.11250 <= Ti9240.11266){
-red_11251 = red.11250;
-}
-else{
-red_11251 = 255;
-}
-int Tu9012.11252;
-printf("%d", red.11251);
-Value* Ta9241.11264;
-Ta9241_11264 = rgb;
-int Ti9242.11265;
-Ti9242_11265 = 1;
-double Td9243.11263;
-Td9243_11263 = Ta9241.11264[Ti9242.11265].d;
-int green.11253;
-green_11253 = (int) Td9243.11263;
-int Ti9244.11262;
-Ti9244_11262 = 255;
-int green.11254;
-if(green.11253 <= Ti9244.11262){
-green_11254 = green.11253;
-}
-else{
-green_11254 = 255;
-}
-int Tu9011.11255;
-printf("%d", green.11254);
-Value* Ta9245.11260;
-Ta9245_11260 = rgb;
-int Ti9246.11261;
-Ti9246_11261 = 2;
-double Td9247.11259;
-Td9247_11259 = Ta9245.11260[Ti9246.11261].d;
-int blue.11256;
-blue_11256 = (int) Td9247.11259;
-int Ti9248.11258;
-Ti9248_11258 = 255;
-int blue.11257;
-if(blue.11256 <= Ti9248.11258){
-blue_11257 = blue.11256;
-}
-else{
-blue_11257 = 255;
-}
-printf("%d", blue.11257);
-return result;
-}
-
-int write_ppm_header.11011_fun(int Tu9013.11012, Value *env){
-int result;
-int Ti9222.11249;
-Ti9222_11249 = 80;
-int Tu9021.11227;
-printf("%d", Ti9222.11249);
-int Ti9223.11247;
-Ti9223_11247 = 48;
-int Ti9224.11248;
-Ti9224_11248 = 6;
-int Ti9225.11246;
-Ti9225_11246 = Ti9223.11247 + Ti9224.11248;
-int Tu9020.11228;
-printf("%d", Ti9225.11246);
-int Ti9226.11245;
-Ti9226_11245 = 10;
-int Tu9019.11229;
-printf("%d", Ti9226.11245);
-Value* Ta9227.11243;
-Ta9227_11243 = size;
-int Ti9228.11244;
-Ti9228_11244 = 0;
-int Ti9229.11242;
-Ti9229_11242 = Ta9227.11243[Ti9228.11244].i;
-int Tu9018.11230;
-printf("%d", Ti9229.11242);
-int Ti9230.11241;
-Ti9230_11241 = 32;
-int Tu9017.11231;
-printf("%d", Ti9230.11241);
-Value* Ta9231.11239;
-Ta9231_11239 = size;
-int Ti9232.11240;
-Ti9232_11240 = 1;
-int Ti9233.11238;
-Ti9233_11238 = Ta9231.11239[Ti9232.11240].i;
-int Tu9016.11232;
-printf("%d", Ti9233.11238);
-int Ti9234.11237;
-Ti9234_11237 = 10;
-int Tu9015.11233;
-printf("%d", Ti9234.11237);
-int Ti9235.11236;
-Ti9235_11236 = 255;
-int Tu9014.11234;
-printf("%d", Ti9235.11236);
-int Ti9236.11235;
-Ti9236_11235 = 10;
-printf("%d", Ti9236.11235);
-return result;
-}
-
-int scan_point.11013_fun(int scanx.11014, Value *env){
-int result;
-Value* Ta9125.11225;
-Ta9125_11225 = size;
-int Ti9126.11226;
-Ti9126_11226 = 0;
-int Ti9127.11114;
-Ti9127_11114 = Ta9125.11225[Ti9126.11226].i;
-if(Ti9127.11114 <= scanx.11014){
-result = 1;
-}
-else{
-double Td9128.11221;
-Td9128_11221 = (double) scanx.11014;
-Value* Ta9129.11223;
-Ta9129_11223 = scan_offset;
-int Ti9130.11224;
-Ti9130_11224 = 0;
-double Td9131.11222;
-Td9131_11222 = Ta9129.11223[Ti9130.11224].d;
-double Td9132.11217;
-Td9132_11217 = Td9128.11221 - Td9131.11222;
-Value* Ta9133.11219;
-Ta9133_11219 = scan_d;
-int Ti9134.11220;
-Ti9134_11220 = 0;
-double Td9135.11218;
-Td9135_11218 = Ta9133.11219[Ti9134.11220].d;
-double sscanx.11115;
-sscanx_11115 =  Td9132.11217 * Td9135.11218;
-Value* Ta9136.11207;
-Ta9136_11207 = vscan;
-int Ti9137.11208;
-Ti9137_11208 = 0;
-Value* Ta9138.11215;
-Ta9138_11215 = cos_v;
-int Ti9139.11216;
-Ti9139_11216 = 1;
-double Td9140.11214;
-Td9140_11214 = Ta9138.11215[Ti9139.11216].d;
-double Td9141.11210;
-Td9141_11210 =  sscanx.11115 * Td9140.11214;
-Value* Ta9142.11212;
-Ta9142_11212 = wscan;
-int Ti9143.11213;
-Ti9143_11213 = 0;
-double Td9144.11211;
-Td9144_11211 = Ta9142.11212[Ti9143.11213].d;
-double Td9145.11209;
-Td9145_11209 = Td9141.11210 + Td9144.11211;
-int Tu9035.11116;
-Ta9136.11207[Ti9137.11208].d = Td9145.11209;
-Value* Ta9146.11194;
-Ta9146_11194 = vscan;
-int Ti9147.11195;
-Ti9147_11195 = 1;
-Value* Ta9148.11205;
-Ta9148_11205 = scan_sscany;
-int Ti9149.11206;
-Ti9149_11206 = 0;
-double Td9150.11201;
-Td9150_11201 = Ta9148.11205[Ti9149.11206].d;
-Value* Ta9151.11203;
-Ta9151_11203 = cos_v;
-int Ti9152.11204;
-Ti9152_11204 = 0;
-double Td9153.11202;
-Td9153_11202 = Ta9151.11203[Ti9152.11204].d;
-double Td9154.11197;
-Td9154_11197 =  Td9150.11201 * Td9153.11202;
-Value* Ta9155.11199;
-Ta9155_11199 = vp;
-int Ti9156.11200;
-Ti9156_11200 = 1;
-double Td9157.11198;
-Td9157_11198 = Ta9155.11199[Ti9156.11200].d;
-double Td9158.11196;
-Td9158_11196 = Td9154.11197 - Td9157.11198;
-int Tu9034.11117;
-Ta9146.11194[Ti9147.11195].d = Td9158.11196;
-Value* Ta9159.11183;
-Ta9159_11183 = vscan;
-int Ti9160.11184;
-Ti9160_11184 = 2;
-double Td9161.11190;
-Td9161_11190 = -sscanx.11115;
-Value* Ta9162.11192;
-Ta9162_11192 = sin_v;
-int Ti9163.11193;
-Ti9163_11193 = 1;
-double Td9164.11191;
-Td9164_11191 = Ta9162.11192[Ti9163.11193].d;
-double Td9165.11186;
-Td9165_11186 =  Td9161.11190 * Td9164.11191;
-Value* Ta9166.11188;
-Ta9166_11188 = wscan;
-int Ti9167.11189;
-Ti9167_11189 = 2;
-double Td9168.11187;
-Td9168_11187 = Ta9166.11188[Ti9167.11189].d;
-double Td9169.11185;
-Td9169_11185 = Td9165.11186 + Td9168.11187;
-int Tu9033.11118;
-Ta9159.11183[Ti9160.11184].d = Td9169.11185;
-double Td9170.11179;
-Td9170_11179 = fsqr.10858_fun(sscanx.11115, NULL);
-Value* Ta9171.11181;
-Ta9171_11181 = scan_met1;
-int Ti9172.11182;
-Ti9172_11182 = 0;
-double Td9173.11180;
-Td9173_11180 = Ta9171.11181[Ti9172.11182].d;
-double Td9174.11178;
-Td9174_11178 = Td9170.11179 + Td9173.11180;
-double metric.11119;
-metric_11119 = sqrt(Td9174.11178);
-Value* Ta9175.11172;
-Ta9175_11172 = vscan;
-int Ti9176.11173;
-Ti9176_11173 = 0;
-Value* Ta9177.11176;
-Ta9177_11176 = vscan;
-int Ti9178.11177;
-Ti9178_11177 = 0;
-double Td9179.11175;
-Td9179_11175 = Ta9177.11176[Ti9178.11177].d;
-double Td9180.11174;
-Td9180_11174 = Td9179.11175 / metric.11119;
-int Tu9032.11120;
-Ta9175.11172[Ti9176.11173].d = Td9180.11174;
-Value* Ta9181.11166;
-Ta9181_11166 = vscan;
-int Ti9182.11167;
-Ti9182_11167 = 1;
-Value* Ta9183.11170;
-Ta9183_11170 = vscan;
-int Ti9184.11171;
-Ti9184_11171 = 1;
-double Td9185.11169;
-Td9185_11169 = Ta9183.11170[Ti9184.11171].d;
-double Td9186.11168;
-Td9186_11168 = Td9185.11169 / metric.11119;
-int Tu9031.11121;
-Ta9181.11166[Ti9182.11167].d = Td9186.11168;
-Value* Ta9187.11160;
-Ta9187_11160 = vscan;
-int Ti9188.11161;
-Ti9188_11161 = 2;
-Value* Ta9189.11164;
-Ta9189_11164 = vscan;
-int Ti9190.11165;
-Ti9190_11165 = 2;
-double Td9191.11163;
-Td9191_11163 = Ta9189.11164[Ti9190.11165].d;
-double Td9192.11162;
-Td9192_11162 = Td9191.11163 / metric.11119;
-int Tu9030.11122;
-Ta9187.11160[Ti9188.11161].d = Td9192.11162;
-Value* Ta9193.11155;
-Ta9193_11155 = viewpoint;
-int Ti9194.11156;
-Ti9194_11156 = 0;
-Value* Ta9195.11158;
-Ta9195_11158 = view;
-int Ti9196.11159;
-Ti9196_11159 = 0;
-double Td9197.11157;
-Td9197_11157 = Ta9195.11158[Ti9196.11159].d;
-int Tu9029.11123;
-Ta9193.11155[Ti9194.11156].d = Td9197.11157;
-Value* Ta9198.11150;
-Ta9198_11150 = viewpoint;
-int Ti9199.11151;
-Ti9199_11151 = 1;
-Value* Ta9200.11153;
-Ta9200_11153 = view;
-int Ti9201.11154;
-Ti9201_11154 = 1;
-double Td9202.11152;
-Td9202_11152 = Ta9200.11153[Ti9201.11154].d;
-int Tu9028.11124;
-Ta9198.11150[Ti9199.11151].d = Td9202.11152;
-Value* Ta9203.11145;
-Ta9203_11145 = viewpoint;
-int Ti9204.11146;
-Ti9204_11146 = 2;
-Value* Ta9205.11148;
-Ta9205_11148 = view;
-int Ti9206.11149;
-Ti9206_11149 = 2;
-double Td9207.11147;
-Td9207_11147 = Ta9205.11148[Ti9206.11149].d;
-int Tu9027.11125;
-Ta9203.11145[Ti9204.11146].d = Td9207.11147;
-Value* Ta9208.11142;
-Ta9208_11142 = rgb;
-int Ti9209.11143;
-Ti9209_11143 = 0;
-double Td9210.11144;
-Td9210_11144 = 0.000000;
-int Tu9026.11126;
-Ta9208.11142[Ti9209.11143].d = Td9210.11144;
-Value* Ta9211.11139;
-Ta9211_11139 = rgb;
-int Ti9212.11140;
-Ti9212_11140 = 1;
-double Td9213.11141;
-Td9213_11141 = 0.000000;
-int Tu9025.11127;
-Ta9211.11139[Ti9212.11140].d = Td9213.11141;
-Value* Ta9214.11136;
-Ta9214_11136 = rgb;
-int Ti9215.11137;
-Ti9215_11137 = 2;
-double Td9216.11138;
-Td9216_11138 = 0.000000;
-int Tu9024.11128;
-Ta9214.11136[Ti9215.11137].d = Td9216.11138;
-int Ti9217.11134;
-Ti9217_11134 = 0;
-double Td9218.11135;
-Td9218_11135 = 1.000000;
-int Tu9023.11129;
-Tu9023_11129 = raytracing.11006_fun(Ti9217.11134, Td9218.11135, NULL);
-int Tu9219.11133;
-Tu9219_11133 = 1;
-int Tu9022.11130;
-Tu9022_11130 = write_rgb.11009_fun(Tu9219.11133, NULL);
-int Ti9220.11132;
-Ti9220_11132 = 1;
-int Ti9221.11131;
-Ti9221_11131 = scanx.11014 + Ti9220.11132;
-result = scan_point.11013_fun(Ti9221.11131, NULL);
-}
-return result;
-}
-
-int scan_line.11015_fun(int scany.11016, Value *env){
-int result;
-Value* Ta9073.11112;
-Ta9073_11112 = size;
-int Ti9074.11113;
-Ti9074_11113 = 0;
-int Ti9075.11055;
-Ti9075_11055 = Ta9073.11112[Ti9074.11113].i;
-if(Ti9075.11055 <= scany.11016){
-result = 1;
-}
-else{
-Value* Ta9076.11099;
-Ta9076_11099 = scan_sscany;
-int Ti9077.11100;
-Ti9077_11100 = 0;
-Value* Ta9078.11110;
-Ta9078_11110 = scan_offset;
-int Ti9079.11111;
-Ti9079_11111 = 0;
-double Td9080.11108;
-Td9080_11108 = Ta9078.11110[Ti9079.11111].d;
-double Td9081.11109;
-Td9081_11109 = 1.000000;
-double Td9082.11106;
-Td9082_11106 = Td9080.11108 - Td9081.11109;
-double Td9083.11107;
-Td9083_11107 = (double) scany.11016;
-double t.11102;
-t_11102 = Td9082.11106 - Td9083.11107;
-Value* Ta9084.11104;
-Ta9084_11104 = scan_d;
-int Ti9085.11105;
-Ti9085_11105 = 0;
-double Td9086.11103;
-Td9086_11103 = Ta9084.11104[Ti9085.11105].d;
-double Td9087.11101;
-Td9087_11101 =  Td9086.11103 * t.11102;
-int Tu9040.11056;
-Ta9076.11099[Ti9077.11100].d = Td9087.11101;
-Value* Ta9088.11091;
-Ta9088_11091 = scan_met1;
-int Ti9089.11092;
-Ti9089_11092 = 0;
-Value* Ta9090.11097;
-Ta9090_11097 = scan_sscany;
-int Ti9091.11098;
-Ti9091_11098 = 0;
-double Td9092.11096;
-Td9092_11096 = Ta9090.11097[Ti9091.11098].d;
-double Td9093.11094;
-Td9093_11094 = fsqr.10858_fun(Td9092.11096, NULL);
-double Td9094.11095;
-Td9094_11095 = 40000.000000;
-double Td9095.11093;
-Td9095_11093 = Td9093.11094 + Td9094.11095;
-int Tu9039.11057;
-Ta9088.11091[Ti9089.11092].d = Td9095.11093;
-Value* Ta9096.11089;
-Ta9096_11089 = scan_sscany;
-int Ti9097.11090;
-Ti9097_11090 = 0;
-double Td9098.11085;
-Td9098_11085 = Ta9096.11089[Ti9097.11090].d;
-Value* Ta9099.11087;
-Ta9099_11087 = sin_v;
-int Ti9100.11088;
-Ti9100_11088 = 0;
-double Td9101.11086;
-Td9101_11086 = Ta9099.11087[Ti9100.11088].d;
-double t1.11058;
-t1_11058 =  Td9098.11085 * Td9101.11086;
-Value* Ta9102.11075;
-Ta9102_11075 = wscan;
-int Ti9103.11076;
-Ti9103_11076 = 0;
-Value* Ta9104.11083;
-Ta9104_11083 = sin_v;
-int Ti9105.11084;
-Ti9105_11084 = 1;
-double Td9106.11082;
-Td9106_11082 = Ta9104.11083[Ti9105.11084].d;
-double Td9107.11078;
-Td9107_11078 =  t1.11058 * Td9106.11082;
-Value* Ta9108.11080;
-Ta9108_11080 = vp;
-int Ti9109.11081;
-Ti9109_11081 = 0;
-double Td9110.11079;
-Td9110_11079 = Ta9108.11080[Ti9109.11081].d;
-double Td9111.11077;
-Td9111_11077 = Td9107.11078 - Td9110.11079;
-int Tu9038.11059;
-Ta9102.11075[Ti9103.11076].d = Td9111.11077;
-Value* Ta9112.11065;
-Ta9112_11065 = wscan;
-int Ti9113.11066;
-Ti9113_11066 = 2;
-Value* Ta9114.11073;
-Ta9114_11073 = cos_v;
-int Ti9115.11074;
-Ti9115_11074 = 1;
-double Td9116.11072;
-Td9116_11072 = Ta9114.11073[Ti9115.11074].d;
-double Td9117.11068;
-Td9117_11068 =  t1.11058 * Td9116.11072;
-Value* Ta9118.11070;
-Ta9118_11070 = vp;
-int Ti9119.11071;
-Ti9119_11071 = 2;
-double Td9120.11069;
-Td9120_11069 = Ta9118.11070[Ti9119.11071].d;
-double Td9121.11067;
-Td9121_11067 = Td9117.11068 - Td9120.11069;
-int Tu9037.11060;
-Ta9112.11065[Ti9113.11066].d = Td9121.11067;
-int Ti9122.11064;
-Ti9122_11064 = 0;
-int Tu9036.11061;
-Tu9036_11061 = scan_point.11013_fun(Ti9122.11064, NULL);
-int Ti9123.11063;
-Ti9123_11063 = 1;
-int Ti9124.11062;
-Ti9124_11062 = scany.11016 + Ti9123.11063;
-result = scan_line.11015_fun(Ti9124.11062, NULL);
-}
-return result;
-}
-
-int scan_start.11017_fun(int Tu9041.11018, Value *env){
-int result;
-int Tu9060.11054;
-Tu9060_11054 = 1;
-int Tu9044.11038;
-Tu9044_11038 = write_ppm_header.11011_fun(Tu9060.11054, NULL);
-Value* Ta9061.11052;
-Ta9061_11052 = size;
-int Ti9062.11053;
-Ti9062_11053 = 0;
-int Ti9063.11051;
-Ti9063_11051 = Ta9061.11052[Ti9062.11053].i;
-double sizex.11039;
-sizex_11039 = (int) Ti9063.11051;
-Value* Ta9064.11047;
-Ta9064_11047 = scan_d;
-int Ti9065.11048;
-Ti9065_11048 = 0;
-double Td9066.11050;
-Td9066_11050 = 128.000000;
-double Td9067.11049;
-Td9067_11049 = Td9066.11050 / sizex.11039;
-int Tu9043.11040;
-Ta9064.11047[Ti9065.11048].d = Td9067.11049;
-Value* Ta9068.11043;
-Ta9068_11043 = scan_offset;
-int Ti9069.11044;
-Ti9069_11044 = 0;
-double Td9070.11046;
-Td9070_11046 = 2.000000;
-double Td9071.11045;
-Td9071_11045 = sizex.11039 / Td9070.11046;
-int Tu9042.11041;
-Ta9068.11043[Ti9069.11044].d = Td9071.11045;
-int Ti9072.11042;
-Ti9072_11042 = 0;
-result = scan_line.11015_fun(Ti9072.11042, NULL);
-return result;
-}
-
-int rt.11019_fun(int size_x.11020, int size_y.11021, bool debug_p.11022, Value *env){
-int result;
-Value* Ta9052.11036;
-Ta9052_11036 = size;
-int Ti9053.11037;
-Ti9053_11037 = 0;
-int Tu9048.11026;
-Ta9052.11036[Ti9053.11037].i = size_x.11020;
-Value* Ta9054.11034;
-Ta9054_11034 = size;
-int Ti9055.11035;
-Ti9055_11035 = 1;
-int Tu9047.11027;
-Ta9054.11034[Ti9055.11035].i = size_y.11021;
-Value* Ta9056.11032;
-Ta9056_11032 = dbg;
-int Ti9057.11033;
-Ti9057_11033 = 0;
-int Tu9046.11028;
-Ta9056.11032[Ti9057.11033].b = debug_p.11022;
-int Tu9058.11031;
-Tu9058_11031 = 1;
-int Tu9045.11029;
-Tu9045_11029 = read_parameter.10921_fun(Tu9058.11031, NULL);
-int Tu9059.11030;
-Tu9059_11030 = 1;
-result = scan_start.11017_fun(Tu9059.11030, NULL);
-return result;
+typedef int fun_int_int_int_bool_Value(int size_x46532, int size_y46533, bool debug_p46534, Value *env);
+typedef int fun_int_int_double_Value(int nref46519, double energy46520, Value *env);
+typedef int fun_int_array_array_double_Value(Value* v146515, Value* v246516, double w46517, Value *env);
+typedef double fun_double_array_array_Value(Value* v146512, Value* v246513, Value *env);
+typedef bool fun_bool_array_array_Value(Value* viewpoint46493, Value* vscan46494, Value *env);
+typedef int fun_int_int_array_Value(int iand_ofs46484, Value* and_group46485, Value *env);
+typedef bool fun_bool_int_array_array_Value(int iand_ofs46472, Value* and_group46473, Value* p46474, Value *env);
+typedef bool fun_bool_int_array_Value(int ofs46469, Value* iand46470, Value *env);
+typedef int fun_int_int_array_array_Value(int index46457, Value* l46458, Value* p46459, Value *env);
+typedef double fun_double_tuple_array_Value(int* m46442, Value* v46443, Value *env);
+typedef int fun_int_tuple_array_Value(int* m46436, Value* l46437, Value *env);
+typedef Value* fun_array_int_Value(int length46430, Value *env);
+typedef bool fun_bool_int_Value(int n46422, Value *env);
+typedef int fun_int_int_Value(int Tu4439346420, Value *env);
+typedef int fun_int_array_bool_Value(Value* v46413, bool inv46414, Value *env);
+typedef double fun_double_tuple_Value(int* m46385, Value *env);
+typedef bool fun_bool_tuple_Value(int* m46381, Value *env);
+typedef int fun_int_tuple_Value(int* m46375, Value *env);
+typedef double fun_double_double_Value(double x46371, Value *env);
+typedef bool fun_bool_bool_bool_Value(bool x46368, bool y46369, Value *env);
+
+Value* and_net;
+Value* beam;
+Value* chkinside_p;
+Value* cos_v;
+Value* crashed_object;
+Value* crashed_point;
+Value* cs_temp;
+Value* dbg;
+Value* end_flag;
+Value* intsec_rectside;
+Value* isoutside_q;
+Value* light;
+Value* nvector;
+Value* nvector_w;
+Value* objects;
+Value* or_net;
+Value* rgb;
+Value* scan_d;
+Value* scan_met1;
+Value* scan_offset;
+Value* scan_sscany;
+Value* screen;
+Value* sin_v;
+Value* size;
+Value* solver_dist;
+Value* solver_w_vec;
+Value* texture_color;
+Value* tmin;
+Value* view;
+Value* viewpoint;
+Value* vp;
+Value* vscan;
+Value* wscan;
+
+bool xor46367_fun(bool x46368, bool y46369, Value *env){
+    bool result;
+    int Ti4636548828;
+    Ti4636548828 = 0;
+    if(x46368 == Ti4636548828){
+	result = y46369;
+    }
+    else{
+	int Ti4636648829;
+	Ti4636648829 = 0;
+	if(y46369 == Ti4636648829){
+	    result = 1;
+	}
+	else{
+	    result = 0;
+	}
+    }
+    return result;
+}
+
+double fsqr46370_fun(double x46371, Value *env){
+    double result;
+    result =  x46371 * x46371;
+    return result;
+}
+
+double fhalf46372_fun(double x46373, Value *env){
+    double result;
+    double Td4636448827;
+    Td4636448827 = 2.000000;
+    result = x46373 / Td4636448827;
+    return result;
+}
+
+int o_texturetype46374_fun(int* m46375, Value *env){
+    int result;
+    int m_tex48817 = m46375[0];
+    int xm_shape48818 = m46375[1];
+    int xm_surface48819 = m46375[2];
+    int xm_isrot48820 = m46375[3];
+    Value* xm_abc48821 = m46375[4];
+    Value* xm_xyz48822 = m46375[5];
+    bool xm_invert48823 = m46375[6];
+    Value* xm_surfparams48824 = m46375[7];
+    Value* xm_color48825 = m46375[8];
+    Value* xm_rot12348826 = m46375[9];
+    result = m_tex48817;
+    return result;
+}
+
+int o_form46376_fun(int* m46377, Value *env){
+    int result;
+    int xm_tex48807 = m46377[0];
+    int m_shape48808 = m46377[1];
+    int xm_surface48809 = m46377[2];
+    int xm_isrot48810 = m46377[3];
+    Value* xm_abc48811 = m46377[4];
+    Value* xm_xyz48812 = m46377[5];
+    bool xm_invert48813 = m46377[6];
+    Value* xm_surfparams48814 = m46377[7];
+    Value* xm_color48815 = m46377[8];
+    Value* xm_rot12348816 = m46377[9];
+    result = m_shape48808;
+    return result;
+}
+
+int o_reflectiontype46378_fun(int* m46379, Value *env){
+    int result;
+    int xm_tex48797 = m46379[0];
+    int xm_shape48798 = m46379[1];
+    int m_surface48799 = m46379[2];
+    int xm_isrot48800 = m46379[3];
+    Value* xm_abc48801 = m46379[4];
+    Value* xm_xyz48802 = m46379[5];
+    bool xm_invert48803 = m46379[6];
+    Value* xm_surfparams48804 = m46379[7];
+    Value* xm_color48805 = m46379[8];
+    Value* xm_rot12348806 = m46379[9];
+    result = m_surface48799;
+    return result;
+}
+
+bool o_isinvert46380_fun(int* m46381, Value *env){
+    bool result;
+    int m_tex48787 = m46381[0];
+    int m_shape48788 = m46381[1];
+    int m_surface48789 = m46381[2];
+    int m_isrot48790 = m46381[3];
+    Value* xm_abc48791 = m46381[4];
+    Value* xm_xyz48792 = m46381[5];
+    bool m_invert48793 = m46381[6];
+    Value* xm_surfparams48794 = m46381[7];
+    Value* xm_color48795 = m46381[8];
+    Value* xm_rot12348796 = m46381[9];
+    result = m_invert48793;
+    return result;
+}
+
+int o_isrot46382_fun(int* m46383, Value *env){
+    int result;
+    int xm_tex48777 = m46383[0];
+    int xm_shape48778 = m46383[1];
+    int xm_surface48779 = m46383[2];
+    int m_isrot48780 = m46383[3];
+    Value* xm_abc48781 = m46383[4];
+    Value* xm_xyz48782 = m46383[5];
+    bool xm_invert48783 = m46383[6];
+    Value* xm_surfparams48784 = m46383[7];
+    Value* xm_color48785 = m46383[8];
+    Value* xm_rot12348786 = m46383[9];
+    result = m_isrot48780;
+    return result;
+}
+
+double o_param_a46384_fun(int* m46385, Value *env){
+    double result;
+    int xm_tex48766 = m46385[0];
+    int xm_shape48767 = m46385[1];
+    int xm_surface48768 = m46385[2];
+    int xm_isrot48769 = m46385[3];
+    Value* m_abc48770 = m46385[4];
+    Value* xm_xyz48771 = m46385[5];
+    bool xm_invert48772 = m46385[6];
+    Value* xm_surfparams48773 = m46385[7];
+    Value* xm_color48774 = m46385[8];
+    Value* xm_rot12348775 = m46385[9];
+    int Ti4636348776;
+    Ti4636348776 = 0;
+    result = m_abc48770[Ti4636348776].d;
+    return result;
+}
+
+double o_param_b46386_fun(int* m46387, Value *env){
+    double result;
+    int xm_tex48755 = m46387[0];
+    int xm_shape48756 = m46387[1];
+    int xm_surface48757 = m46387[2];
+    int xm_isrot48758 = m46387[3];
+    Value* m_abc48759 = m46387[4];
+    Value* xm_xyz48760 = m46387[5];
+    bool xm_invert48761 = m46387[6];
+    Value* xm_surfparams48762 = m46387[7];
+    Value* xm_color48763 = m46387[8];
+    Value* xm_rot12348764 = m46387[9];
+    int Ti4636248765;
+    Ti4636248765 = 1;
+    result = m_abc48759[Ti4636248765].d;
+    return result;
+}
+
+double o_param_c46388_fun(int* m46389, Value *env){
+    double result;
+    int xm_tex48744 = m46389[0];
+    int xm_shape48745 = m46389[1];
+    int xm_surface48746 = m46389[2];
+    int xm_isrot48747 = m46389[3];
+    Value* m_abc48748 = m46389[4];
+    Value* xm_xyz48749 = m46389[5];
+    bool xm_invert48750 = m46389[6];
+    Value* xm_surfparams48751 = m46389[7];
+    Value* xm_color48752 = m46389[8];
+    Value* xm_rot12348753 = m46389[9];
+    int Ti4636148754;
+    Ti4636148754 = 2;
+    result = m_abc48748[Ti4636148754].d;
+    return result;
+}
+
+double o_param_x46390_fun(int* m46391, Value *env){
+    double result;
+    int xm_tex48733 = m46391[0];
+    int xm_shape48734 = m46391[1];
+    int xm_surface48735 = m46391[2];
+    int xm_isrot48736 = m46391[3];
+    Value* xm_abc48737 = m46391[4];
+    Value* m_xyz48738 = m46391[5];
+    bool xm_invert48739 = m46391[6];
+    Value* xm_surfparams48740 = m46391[7];
+    Value* xm_color48741 = m46391[8];
+    Value* xm_rot12348742 = m46391[9];
+    int Ti4636048743;
+    Ti4636048743 = 0;
+    result = m_xyz48738[Ti4636048743].d;
+    return result;
+}
+
+double o_param_y46392_fun(int* m46393, Value *env){
+    double result;
+    int xm_tex48722 = m46393[0];
+    int xm_shape48723 = m46393[1];
+    int xm_surface48724 = m46393[2];
+    int xm_isrot48725 = m46393[3];
+    Value* xm_abc48726 = m46393[4];
+    Value* m_xyz48727 = m46393[5];
+    bool xm_invert48728 = m46393[6];
+    Value* xm_surfparams48729 = m46393[7];
+    Value* xm_color48730 = m46393[8];
+    Value* xm_rot12348731 = m46393[9];
+    int Ti4635948732;
+    Ti4635948732 = 1;
+    result = m_xyz48727[Ti4635948732].d;
+    return result;
+}
+
+double o_param_z46394_fun(int* m46395, Value *env){
+    double result;
+    int xm_tex48711 = m46395[0];
+    int xm_shape48712 = m46395[1];
+    int xm_surface48713 = m46395[2];
+    int xm_isrot48714 = m46395[3];
+    Value* xm_abc48715 = m46395[4];
+    Value* m_xyz48716 = m46395[5];
+    bool xm_invert48717 = m46395[6];
+    Value* xm_surfparams48718 = m46395[7];
+    Value* xm_color48719 = m46395[8];
+    Value* xm_rot12348720 = m46395[9];
+    int Ti4635848721;
+    Ti4635848721 = 2;
+    result = m_xyz48716[Ti4635848721].d;
+    return result;
+}
+
+double o_diffuse46396_fun(int* m46397, Value *env){
+    double result;
+    int xm_tex48700 = m46397[0];
+    int xm_shape48701 = m46397[1];
+    int xm_surface48702 = m46397[2];
+    int xm_isrot48703 = m46397[3];
+    Value* xm_abc48704 = m46397[4];
+    Value* xm_xyz48705 = m46397[5];
+    bool xm_invert48706 = m46397[6];
+    Value* m_surfparams48707 = m46397[7];
+    Value* xm_color48708 = m46397[8];
+    Value* xm_rot12348709 = m46397[9];
+    int Ti4635748710;
+    Ti4635748710 = 0;
+    result = m_surfparams48707[Ti4635748710].d;
+    return result;
+}
+
+double o_hilight46398_fun(int* m46399, Value *env){
+    double result;
+    int xm_tex48689 = m46399[0];
+    int xm_shape48690 = m46399[1];
+    int xm_surface48691 = m46399[2];
+    int xm_isrot48692 = m46399[3];
+    Value* xm_abc48693 = m46399[4];
+    Value* xm_xyz48694 = m46399[5];
+    bool xm_invert48695 = m46399[6];
+    Value* m_surfparams48696 = m46399[7];
+    Value* xm_color48697 = m46399[8];
+    Value* xm_rot12348698 = m46399[9];
+    int Ti4635648699;
+    Ti4635648699 = 1;
+    result = m_surfparams48696[Ti4635648699].d;
+    return result;
+}
+
+double o_color_red46400_fun(int* m46401, Value *env){
+    double result;
+    int xm_tex48678 = m46401[0];
+    int xm_shape48679 = m46401[1];
+    int m_surface48680 = m46401[2];
+    int xm_isrot48681 = m46401[3];
+    Value* xm_abc48682 = m46401[4];
+    Value* xm_xyz48683 = m46401[5];
+    bool xm_invert48684 = m46401[6];
+    Value* xm_surfparams48685 = m46401[7];
+    Value* m_color48686 = m46401[8];
+    Value* xm_rot12348687 = m46401[9];
+    int Ti4635548688;
+    Ti4635548688 = 0;
+    result = m_color48686[Ti4635548688].d;
+    return result;
+}
+
+double o_color_green46402_fun(int* m46403, Value *env){
+    double result;
+    int xm_tex48667 = m46403[0];
+    int xm_shape48668 = m46403[1];
+    int m_surface48669 = m46403[2];
+    int xm_isrot48670 = m46403[3];
+    Value* xm_abc48671 = m46403[4];
+    Value* xm_xyz48672 = m46403[5];
+    bool xm_invert48673 = m46403[6];
+    Value* xm_surfparams48674 = m46403[7];
+    Value* m_color48675 = m46403[8];
+    Value* xm_rot12348676 = m46403[9];
+    int Ti4635448677;
+    Ti4635448677 = 1;
+    result = m_color48675[Ti4635448677].d;
+    return result;
+}
+
+double o_color_blue46404_fun(int* m46405, Value *env){
+    double result;
+    int xm_tex48656 = m46405[0];
+    int xm_shape48657 = m46405[1];
+    int m_surface48658 = m46405[2];
+    int xm_isrot48659 = m46405[3];
+    Value* xm_abc48660 = m46405[4];
+    Value* xm_xyz48661 = m46405[5];
+    bool xm_invert48662 = m46405[6];
+    Value* xm_surfparams48663 = m46405[7];
+    Value* m_color48664 = m46405[8];
+    Value* xm_rot12348665 = m46405[9];
+    int Ti4635348666;
+    Ti4635348666 = 2;
+    result = m_color48664[Ti4635348666].d;
+    return result;
+}
+
+double o_param_r146406_fun(int* m46407, Value *env){
+    double result;
+    int xm_tex48645 = m46407[0];
+    int xm_shape48646 = m46407[1];
+    int xm_surface48647 = m46407[2];
+    int xm_isrot48648 = m46407[3];
+    Value* xm_abc48649 = m46407[4];
+    Value* xm_xyz48650 = m46407[5];
+    bool xm_invert48651 = m46407[6];
+    Value* xm_surfparams48652 = m46407[7];
+    Value* xm_color48653 = m46407[8];
+    Value* m_rot12348654 = m46407[9];
+    int Ti4635248655;
+    Ti4635248655 = 0;
+    result = m_rot12348654[Ti4635248655].d;
+    return result;
+}
+
+double o_param_r246408_fun(int* m46409, Value *env){
+    double result;
+    int xm_tex48634 = m46409[0];
+    int xm_shape48635 = m46409[1];
+    int xm_surface48636 = m46409[2];
+    int xm_isrot48637 = m46409[3];
+    Value* xm_abc48638 = m46409[4];
+    Value* xm_xyz48639 = m46409[5];
+    bool xm_invert48640 = m46409[6];
+    Value* xm_surfparams48641 = m46409[7];
+    Value* xm_color48642 = m46409[8];
+    Value* m_rot12348643 = m46409[9];
+    int Ti4635148644;
+    Ti4635148644 = 1;
+    result = m_rot12348643[Ti4635148644].d;
+    return result;
+}
+
+double o_param_r346410_fun(int* m46411, Value *env){
+    double result;
+    int xm_tex48623 = m46411[0];
+    int xm_shape48624 = m46411[1];
+    int xm_surface48625 = m46411[2];
+    int xm_isrot48626 = m46411[3];
+    Value* xm_abc48627 = m46411[4];
+    Value* xm_xyz48628 = m46411[5];
+    bool xm_invert48629 = m46411[6];
+    Value* xm_surfparams48630 = m46411[7];
+    Value* xm_color48631 = m46411[8];
+    Value* m_rot12348632 = m46411[9];
+    int Ti4635048633;
+    Ti4635048633 = 2;
+    result = m_rot12348632[Ti4635048633].d;
+    return result;
+}
+
+int normalize_vector46412_fun(Value* v46413, bool inv46414, Value *env){
+    int result;
+    int Ti4632648622;
+    Ti4632648622 = 0;
+    double Td4632748621;
+    Td4632748621 = v46413[Ti4632648622].d;
+    double Td4632848617;
+    Td4632848617 = fsqr46370_fun(Td4632748621, NULL);
+    int Ti4632948620;
+    Ti4632948620 = 1;
+    double Td4633048619;
+    Td4633048619 = v46413[Ti4632948620].d;
+    double Td4633148618;
+    Td4633148618 = fsqr46370_fun(Td4633048619, NULL);
+    double Td4633248613;
+    Td4633248613 = Td4632848617 + Td4633148618;
+    int Ti4633348616;
+    Ti4633348616 = 2;
+    double Td4633448615;
+    Td4633448615 = v46413[Ti4633348616].d;
+    double Td4633548614;
+    Td4633548614 = fsqr46370_fun(Td4633448615, NULL);
+    double Td4633648612;
+    Td4633648612 = Td4633248613 + Td4633548614;
+    double n048595;
+    n048595 = sqrt(Td4633648612);
+    int Ti4633748611;
+    Ti4633748611 = 0;
+    double n48596;
+    if(inv46414 == Ti4633748611){
+	n48596 = n048595;
+    }
+    else{
+	n48596 = -n048595;
+    }
+    int Ti4633848607;
+    Ti4633848607 = 0;
+    int Ti4633948610;
+    Ti4633948610 = 0;
+    double Td4634048609;
+    Td4634048609 = v46413[Ti4633948610].d;
+    double Td4634148608;
+    Td4634148608 = Td4634048609 / n48596;
+    int Tu4439248597;
+    v46413[Ti4633848607].d = Td4634148608;
+    int Ti4634248603;
+    Ti4634248603 = 1;
+    int Ti4634348606;
+    Ti4634348606 = 1;
+    double Td4634448605;
+    Td4634448605 = v46413[Ti4634348606].d;
+    double Td4634548604;
+    Td4634548604 = Td4634448605 / n48596;
+    int Tu4439148598;
+    v46413[Ti4634248603].d = Td4634548604;
+    int Ti4634648599;
+    Ti4634648599 = 2;
+    int Ti4634748602;
+    Ti4634748602 = 2;
+    double Td4634848601;
+    Td4634848601 = v46413[Ti4634748602].d;
+    double Td4634948600;
+    Td4634948600 = Td4634848601 / n48596;
+    v46413[Ti4634648599].d = Td4634948600;
+    return result;
+}
+
+double sgn46415_fun(double x46416, Value *env){
+    double result;
+    double Td4632548594;
+    Td4632548594 = 0.000000;
+    if(x46416 <= Td4632548594){
+	result = -1.000000;
+    }
+    else{
+	result = 1.000000;
+    }
+    return result;
+}
+
+double rad46417_fun(double x46418, Value *env){
+    double result;
+    double Td4632448593;
+    Td4632448593 = 0.017453;
+    result =  x46418 * Td4632448593;
+    return result;
+}
+
+int read_environ46419_fun(int Tu4439346420, Value *env){
+    int result;
+    Value* Ta4622148589;
+    Ta4622148589 = screen;
+    int Ti4622248590;
+    Ti4622248590 = 0;
+    int Tu4622348592;
+    Tu4622348592 = 1;
+    double Td4622448591;
+    printf("Enter a float: ");
+    scanf("%d\n", &Td4622448591);
+    int Tu4440948465;
+    Ta4622148589[Ti4622248590].d = Td4622448591;
+    Value* Ta4622548585;
+    Ta4622548585 = screen;
+    int Ti4622648586;
+    Ti4622648586 = 1;
+    int Tu4622748588;
+    Tu4622748588 = 1;
+    double Td4622848587;
+    printf("Enter a float: ");
+    scanf("%d\n", &Td4622848587);
+    int Tu4440848466;
+    Ta4622548585[Ti4622648586].d = Td4622848587;
+    Value* Ta4622948581;
+    Ta4622948581 = screen;
+    int Ti4623048582;
+    Ti4623048582 = 2;
+    int Tu4623148584;
+    Tu4623148584 = 1;
+    double Td4623248583;
+    printf("Enter a float: ");
+    scanf("%d\n", &Td4623248583);
+    int Tu4440748467;
+    Ta4622948581[Ti4623048582].d = Td4623248583;
+    int Tu4623348580;
+    Tu4623348580 = 1;
+    double Td4623448579;
+    printf("Enter a float: ");
+    scanf("%d\n", &Td4623448579);
+    double v148468;
+    v148468 = rad46417_fun(Td4623448579, NULL);
+    Value* Ta4623548576;
+    Ta4623548576 = cos_v;
+    int Ti4623648577;
+    Ti4623648577 = 0;
+    double Td4623748578;
+    Td4623748578 = cos(v148468);
+    int Tu4440648469;
+    Ta4623548576[Ti4623648577].d = Td4623748578;
+    Value* Ta4623848573;
+    Ta4623848573 = sin_v;
+    int Ti4623948574;
+    Ti4623948574 = 0;
+    double Td4624048575;
+    Td4624048575 = sin(v148468);
+    int Tu4440548470;
+    Ta4623848573[Ti4623948574].d = Td4624048575;
+    int Tu4624148572;
+    Tu4624148572 = 1;
+    double Td4624248571;
+    printf("Enter a float: ");
+    scanf("%d\n", &Td4624248571);
+    double v248471;
+    v248471 = rad46417_fun(Td4624248571, NULL);
+    Value* Ta4624348568;
+    Ta4624348568 = cos_v;
+    int Ti4624448569;
+    Ti4624448569 = 1;
+    double Td4624548570;
+    Td4624548570 = cos(v248471);
+    int Tu4440448472;
+    Ta4624348568[Ti4624448569].d = Td4624548570;
+    Value* Ta4624648565;
+    Ta4624648565 = sin_v;
+    int Ti4624748566;
+    Ti4624748566 = 1;
+    double Td4624848567;
+    Td4624848567 = sin(v248471);
+    int Tu4440348473;
+    Ta4624648565[Ti4624748566].d = Td4624848567;
+    int Tu4624948564;
+    Tu4624948564 = 1;
+    double nl48474;
+    printf("Enter a float: ");
+    scanf("%d\n", &nl48474);
+    int Tu4625048563;
+    Tu4625048563 = 1;
+    double Td4625148562;
+    printf("Enter a float: ");
+    scanf("%d\n", &Td4625148562);
+    double l148475;
+    l148475 = rad46417_fun(Td4625148562, NULL);
+    double sl148476;
+    sl148476 = sin(l148475);
+    Value* Ta4625248559;
+    Ta4625248559 = light;
+    int Ti4625348560;
+    Ti4625348560 = 1;
+    double Td4625448561;
+    Td4625448561 = -sl148476;
+    int Tu4440248477;
+    Ta4625248559[Ti4625348560].d = Td4625448561;
+    int Tu4625548558;
+    Tu4625548558 = 1;
+    double Td4625648557;
+    printf("Enter a float: ");
+    scanf("%d\n", &Td4625648557);
+    double l248478;
+    l248478 = rad46417_fun(Td4625648557, NULL);
+    double cl148479;
+    cl148479 = cos(l148475);
+    double sl248480;
+    sl248480 = sin(l248478);
+    Value* Ta4625748554;
+    Ta4625748554 = light;
+    int Ti4625848555;
+    Ti4625848555 = 0;
+    double Td4625948556;
+    Td4625948556 =  cl148479 * sl248480;
+    int Tu4440148481;
+    Ta4625748554[Ti4625848555].d = Td4625948556;
+    double cl248482;
+    cl248482 = cos(l248478);
+    Value* Ta4626048551;
+    Ta4626048551 = light;
+    int Ti4626148552;
+    Ti4626148552 = 2;
+    double Td4626248553;
+    Td4626248553 =  cl148479 * cl248482;
+    int Tu4440048483;
+    Ta4626048551[Ti4626148552].d = Td4626248553;
+    Value* Ta4626348547;
+    Ta4626348547 = beam;
+    int Ti4626448548;
+    Ti4626448548 = 0;
+    int Tu4626548550;
+    Tu4626548550 = 1;
+    double Td4626648549;
+    printf("Enter a float: ");
+    scanf("%d\n", &Td4626648549);
+    int Tu4439948484;
+    Ta4626348547[Ti4626448548].d = Td4626648549;
+    Value* Ta4626748536;
+    Ta4626748536 = vp;
+    int Ti4626848537;
+    Ti4626848537 = 0;
+    Value* Ta4626948545;
+    Ta4626948545 = cos_v;
+    int Ti4627048546;
+    Ti4627048546 = 0;
+    double Td4627148541;
+    Td4627148541 = Ta4626948545[Ti4627048546].d;
+    Value* Ta4627248543;
+    Ta4627248543 = sin_v;
+    int Ti4627348544;
+    Ti4627348544 = 1;
+    double Td4627448542;
+    Td4627448542 = Ta4627248543[Ti4627348544].d;
+    double Td4627548539;
+    Td4627548539 =  Td4627148541 * Td4627448542;
+    double Td4627648540;
+    Td4627648540 = -200.000000;
+    double Td4627748538;
+    Td4627748538 =  Td4627548539 * Td4627648540;
+    int Tu4439848485;
+    Ta4626748536[Ti4626848537].d = Td4627748538;
+    Value* Ta4627848528;
+    Ta4627848528 = vp;
+    int Ti4627948529;
+    Ti4627948529 = 1;
+    Value* Ta4628048534;
+    Ta4628048534 = sin_v;
+    int Ti4628148535;
+    Ti4628148535 = 0;
+    double Td4628248533;
+    Td4628248533 = Ta4628048534[Ti4628148535].d;
+    double Td4628348531;
+    Td4628348531 = -Td4628248533;
+    double Td4628448532;
+    Td4628448532 = -200.000000;
+    double Td4628548530;
+    Td4628548530 =  Td4628348531 * Td4628448532;
+    int Tu4439748486;
+    Ta4627848528[Ti4627948529].d = Td4628548530;
+    Value* Ta4628648517;
+    Ta4628648517 = vp;
+    int Ti4628748518;
+    Ti4628748518 = 2;
+    Value* Ta4628848526;
+    Ta4628848526 = cos_v;
+    int Ti4628948527;
+    Ti4628948527 = 0;
+    double Td4629048522;
+    Td4629048522 = Ta4628848526[Ti4628948527].d;
+    Value* Ta4629148524;
+    Ta4629148524 = cos_v;
+    int Ti4629248525;
+    Ti4629248525 = 1;
+    double Td4629348523;
+    Td4629348523 = Ta4629148524[Ti4629248525].d;
+    double Td4629448520;
+    Td4629448520 =  Td4629048522 * Td4629348523;
+    double Td4629548521;
+    Td4629548521 = -200.000000;
+    double Td4629648519;
+    Td4629648519 =  Td4629448520 * Td4629548521;
+    int Tu4439648487;
+    Ta4628648517[Ti4628748518].d = Td4629648519;
+    Value* Ta4629748508;
+    Ta4629748508 = view;
+    int Ti4629848509;
+    Ti4629848509 = 0;
+    Value* Ta4629948515;
+    Ta4629948515 = vp;
+    int Ti4630048516;
+    Ti4630048516 = 0;
+    double Td4630148511;
+    Td4630148511 = Ta4629948515[Ti4630048516].d;
+    Value* Ta4630248513;
+    Ta4630248513 = screen;
+    int Ti4630348514;
+    Ti4630348514 = 0;
+    double Td4630448512;
+    Td4630448512 = Ta4630248513[Ti4630348514].d;
+    double Td4630548510;
+    Td4630548510 = Td4630148511 + Td4630448512;
+    int Tu4439548488;
+    Ta4629748508[Ti4629848509].d = Td4630548510;
+    Value* Ta4630648499;
+    Ta4630648499 = view;
+    int Ti4630748500;
+    Ti4630748500 = 1;
+    Value* Ta4630848506;
+    Ta4630848506 = vp;
+    int Ti4630948507;
+    Ti4630948507 = 1;
+    double Td4631048502;
+    Td4631048502 = Ta4630848506[Ti4630948507].d;
+    Value* Ta4631148504;
+    Ta4631148504 = screen;
+    int Ti4631248505;
+    Ti4631248505 = 1;
+    double Td4631348503;
+    Td4631348503 = Ta4631148504[Ti4631248505].d;
+    double Td4631448501;
+    Td4631448501 = Td4631048502 + Td4631348503;
+    int Tu4439448489;
+    Ta4630648499[Ti4630748500].d = Td4631448501;
+    Value* Ta4631548490;
+    Ta4631548490 = view;
+    int Ti4631648491;
+    Ti4631648491 = 2;
+    Value* Ta4631748497;
+    Ta4631748497 = vp;
+    int Ti4631848498;
+    Ti4631848498 = 2;
+    double Td4631948493;
+    Td4631948493 = Ta4631748497[Ti4631848498].d;
+    Value* Ta4632048495;
+    Ta4632048495 = screen;
+    int Ti4632148496;
+    Ti4632148496 = 2;
+    double Td4632248494;
+    Td4632248494 = Ta4632048495[Ti4632148496].d;
+    double Td4632348492;
+    Td4632348492 = Td4631948493 + Td4632248494;
+    Ta4631548490[Ti4631648491].d = Td4632348492;
+    return result;
+}
+
+bool read_nth_object46421_fun(int n46422, Value *env){
+    bool result;
+    int Tu4583148464;
+    Tu4583148464 = 1;
+    int texture48018;
+    printf("Enter an integer: ");
+    scanf("%i\n", &texture48018);
+    int Ti4583248463;
+    Ti4583248463 = 1;
+    int Ti4583348019;
+    Ti4583348019 = -Ti4583248463;
+    if(texture48018 == Ti4583348019){
+	result = 0;
+    }
+    else{
+	int Tu4583448462;
+	Tu4583448462 = 1;
+	int form48020;
+	printf("Enter an integer: ");
+	scanf("%i\n", &form48020);
+	int Tu4583548461;
+	Tu4583548461 = 1;
+	int refltype48021;
+	printf("Enter an integer: ");
+	scanf("%i\n", &refltype48021);
+	int Tu4583648460;
+	Tu4583648460 = 1;
+	int isrot_p48022;
+	printf("Enter an integer: ");
+	scanf("%i\n", &isrot_p48022);
+	int Ti4583748458;
+	Ti4583748458 = 3;
+	double Td4583848459;
+	Td4583848459 = 0.000000;
+	Value* abc48023;
+	make_double_array(&abc48023, Ti4583748458, Td4583848459);
+	int Ti4583948455;
+	Ti4583948455 = 0;
+	int Tu4584048457;
+	Tu4584048457 = 1;
+	double Td4584148456;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4584148456);
+	int Tu4444848024;
+	abc48023[Ti4583948455].d = Td4584148456;
+	int Ti4584248452;
+	Ti4584248452 = 1;
+	int Tu4584348454;
+	Tu4584348454 = 1;
+	double Td4584448453;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4584448453);
+	int Tu4444748025;
+	abc48023[Ti4584248452].d = Td4584448453;
+	int Ti4584548449;
+	Ti4584548449 = 2;
+	int Tu4584648451;
+	Tu4584648451 = 1;
+	double Td4584748450;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4584748450);
+	int Tu4444648026;
+	abc48023[Ti4584548449].d = Td4584748450;
+	int Ti4584848447;
+	Ti4584848447 = 3;
+	double Td4584948448;
+	Td4584948448 = 0.000000;
+	Value* xyz48027;
+	make_double_array(&xyz48027, Ti4584848447, Td4584948448);
+	int Ti4585048444;
+	Ti4585048444 = 0;
+	int Tu4585148446;
+	Tu4585148446 = 1;
+	double Td4585248445;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4585248445);
+	int Tu4444548028;
+	xyz48027[Ti4585048444].d = Td4585248445;
+	int Ti4585348441;
+	Ti4585348441 = 1;
+	int Tu4585448443;
+	Tu4585448443 = 1;
+	double Td4585548442;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4585548442);
+	int Tu4444448029;
+	xyz48027[Ti4585348441].d = Td4585548442;
+	int Ti4585648438;
+	Ti4585648438 = 2;
+	int Tu4585748440;
+	Tu4585748440 = 1;
+	double Td4585848439;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4585848439);
+	int Tu4444348030;
+	xyz48027[Ti4585648438].d = Td4585848439;
+	double Td4585948435;
+	Td4585948435 = 0.000000;
+	int Tu4586048437;
+	Tu4586048437 = 1;
+	double Td4586148436;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4586148436);
+	bool m_invert48031;
+	if(Td4585948435 <= Td4586148436){
+	    m_invert48031 = 0;
+	}
+	else{
+	    m_invert48031 = 1;
+	}
+	int Ti4586248433;
+	Ti4586248433 = 2;
+	double Td4586348434;
+	Td4586348434 = 0.000000;
+	Value* reflparam48032;
+	make_double_array(&reflparam48032, Ti4586248433, Td4586348434);
+	int Ti4586448430;
+	Ti4586448430 = 0;
+	int Tu4586548432;
+	Tu4586548432 = 1;
+	double Td4586648431;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4586648431);
+	int Tu4444248033;
+	reflparam48032[Ti4586448430].d = Td4586648431;
+	int Ti4586748427;
+	Ti4586748427 = 1;
+	int Tu4586848429;
+	Tu4586848429 = 1;
+	double Td4586948428;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4586948428);
+	int Tu4444148034;
+	reflparam48032[Ti4586748427].d = Td4586948428;
+	int Ti4587048425;
+	Ti4587048425 = 3;
+	double Td4587148426;
+	Td4587148426 = 0.000000;
+	Value* color48035;
+	make_double_array(&color48035, Ti4587048425, Td4587148426);
+	int Ti4587248422;
+	Ti4587248422 = 0;
+	int Tu4587348424;
+	Tu4587348424 = 1;
+	double Td4587448423;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4587448423);
+	int Tu4444048036;
+	color48035[Ti4587248422].d = Td4587448423;
+	int Ti4587548419;
+	Ti4587548419 = 1;
+	int Tu4587648421;
+	Tu4587648421 = 1;
+	double Td4587748420;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4587748420);
+	int Tu4443948037;
+	color48035[Ti4587548419].d = Td4587748420;
+	int Ti4587848416;
+	Ti4587848416 = 2;
+	int Tu4587948418;
+	Tu4587948418 = 1;
+	double Td4588048417;
+	printf("Enter a float: ");
+	scanf("%d\n", &Td4588048417);
+	int Tu4443848038;
+	color48035[Ti4587848416].d = Td4588048417;
+	int Ti4588148414;
+	Ti4588148414 = 3;
+	double Td4588248415;
+	Td4588248415 = 0.000000;
+	Value* rotation48039;
+	make_double_array(&rotation48039, Ti4588148414, Td4588248415);
+	int Ti4588348399;
+	Ti4588348399 = 0;
+	int Tu4443748040;
+	if(isrot_p48022 == Ti4588348399){
+	    Tu4443748040 = 1;
+	}
+	else{
+	    int Ti4588448410;
+	    Ti4588448410 = 0;
+	    int Tu4588548413;
+	    Tu4588548413 = 1;
+	    double Td4588648412;
+	    printf("Enter a float: ");
+	    scanf("%d\n", &Td4588648412);
+	    double Td4588748411;
+	    Td4588748411 = rad46417_fun(Td4588648412, NULL);
+	    int Tu4441148400;
+	    rotation48039[Ti4588448410].d = Td4588748411;
+	    int Ti4588848406;
+	    Ti4588848406 = 1;
+	    int Tu4588948409;
+	    Tu4588948409 = 1;
+	    double Td4589048408;
+	    printf("Enter a float: ");
+	    scanf("%d\n", &Td4589048408);
+	    double Td4589148407;
+	    Td4589148407 = rad46417_fun(Td4589048408, NULL);
+	    int Tu4441048401;
+	    rotation48039[Ti4588848406].d = Td4589148407;
+	    int Ti4589248402;
+	    Ti4589248402 = 2;
+	    int Tu4589348405;
+	    Tu4589348405 = 1;
+	    double Td4589448404;
+	    printf("Enter a float: ");
+	    scanf("%d\n", &Td4589448404);
+	    double Td4589548403;
+	    Td4589548403 = rad46417_fun(Td4589448404, NULL);
+	    rotation48039[Ti4589248402].d = Td4589548403;
+	}
+	int Ti4589648398;
+	Ti4589648398 = 2;
+	bool m_invert248041;
+	if(form48020 == Ti4589648398){
+	    m_invert248041 = 1;
+	}
+	else{
+	    m_invert248041 = m_invert48031;
+	}
+	int* obj48042;
+	obj48042 = malloc(10 * sizeof(int));
+	obj48042[0] = texture48018;
+	obj48042[1] = form48020;
+	obj48042[2] = refltype48021;
+	obj48042[3] = isrot_p48022;
+	obj48042[4] = abc48023;
+	obj48042[5] = xyz48027;
+	obj48042[6] = m_invert248041;
+	obj48042[7] = reflparam48032;
+	obj48042[8] = color48035;
+	obj48042[9] = rotation48039;
+
+	Value* Ta4589748397;
+	Ta4589748397 = objects;
+	int Tu4443648043;
+	Ta4589748397[n46422].a = obj48042;
+	int Ti4589848370;
+	Ti4589848370 = 3;
+	int Tu4443548044;
+	if(form48020 == Ti4589848370){
+	    int Ti4589948396;
+	    Ti4589948396 = 0;
+	    double a48374;
+	    a48374 = abc48023[Ti4589948396].d;
+	    int Ti4590048391;
+	    Ti4590048391 = 0;
+	    double Td4590148393;
+	    Td4590148393 = 0.000000;
+	    double Td4590448392;
+	    if(Td4590148393 == a48374){
+		Td4590448392 = 0.000000;
+	    }
+	    else{
+		double Td4590248394;
+		Td4590248394 = sgn46415_fun(a48374, NULL);
+		double Td4590348395;
+		Td4590348395 = fsqr46370_fun(a48374, NULL);
+		Td4590448392 = Td4590248394 / Td4590348395;
+	    }
+	    int Tu4441348375;
+	    abc48023[Ti4590048391].d = Td4590448392;
+	    int Ti4590548390;
+	    Ti4590548390 = 1;
+	    double b48376;
+	    b48376 = abc48023[Ti4590548390].d;
+	    int Ti4590648385;
+	    Ti4590648385 = 1;
+	    double Td4590748387;
+	    Td4590748387 = 0.000000;
+	    double Td4591048386;
+	    if(Td4590748387 == b48376){
+		Td4591048386 = 0.000000;
+	    }
+	    else{
+		double Td4590848388;
+		Td4590848388 = sgn46415_fun(b48376, NULL);
+		double Td4590948389;
+		Td4590948389 = fsqr46370_fun(b48376, NULL);
+		Td4591048386 = Td4590848388 / Td4590948389;
+	    }
+	    int Tu4441248377;
+	    abc48023[Ti4590648385].d = Td4591048386;
+	    int Ti4591148384;
+	    Ti4591148384 = 2;
+	    double c48378;
+	    c48378 = abc48023[Ti4591148384].d;
+	    int Ti4591248379;
+	    Ti4591248379 = 2;
+	    double Td4591348381;
+	    Td4591348381 = 0.000000;
+	    double Td4591648380;
+	    if(Td4591348381 == c48378){
+		Td4591648380 = 0.000000;
+	    }
+	    else{
+		double Td4591448382;
+		Td4591448382 = sgn46415_fun(c48378, NULL);
+		double Td4591548383;
+		Td4591548383 = fsqr46370_fun(c48378, NULL);
+		Td4591648380 = Td4591448382 / Td4591548383;
+	    }
+	    abc48023[Ti4591248379].d = Td4591648380;
+	}
+	else{
+	    int Ti4591748371;
+	    Ti4591748371 = 2;
+	    if(form48020 == Ti4591748371){
+		int Ti4591848373;
+		Ti4591848373 = 0;
+		int Ti4591948372;
+		if(m_invert48031 == Ti4591848373){
+		    Ti4591948372 = 1;
+		}
+		else{
+		    Ti4591948372 = 0;
+		}
+		Tu4443548044 = normalize_vector46412_fun(abc48023, Ti4591948372, NULL);
+	    }
+	    else{
+		Tu4443548044 = 1;
+	    }
+	}
+	int Ti4592048046;
+	Ti4592048046 = 0;
+	int Tu4443448045;
+	if(isrot_p48022 == Ti4592048046){
+	    Tu4443448045 = 1;
+	}
+	else{
+	    Value* Ta4592148365;
+	    Ta4592148365 = cs_temp;
+	    int Ti4592248366;
+	    Ti4592248366 = 10;
+	    int Ti4592348369;
+	    Ti4592348369 = 0;
+	    double Td4592448368;
+	    Td4592448368 = rotation48039[Ti4592348369].d;
+	    double Td4592548367;
+	    Td4592548367 = cos(Td4592448368);
+	    int Tu4443348047;
+	    Ta4592148365[Ti4592248366].d = Td4592548367;
+	    Value* Ta4592648360;
+	    Ta4592648360 = cs_temp;
+	    int Ti4592748361;
+	    Ti4592748361 = 11;
+	    int Ti4592848364;
+	    Ti4592848364 = 0;
+	    double Td4592948363;
+	    Td4592948363 = rotation48039[Ti4592848364].d;
+	    double Td4593048362;
+	    Td4593048362 = sin(Td4592948363);
+	    int Tu4443248048;
+	    Ta4592648360[Ti4592748361].d = Td4593048362;
+	    Value* Ta4593148355;
+	    Ta4593148355 = cs_temp;
+	    int Ti4593248356;
+	    Ti4593248356 = 12;
+	    int Ti4593348359;
+	    Ti4593348359 = 1;
+	    double Td4593448358;
+	    Td4593448358 = rotation48039[Ti4593348359].d;
+	    double Td4593548357;
+	    Td4593548357 = cos(Td4593448358);
+	    int Tu4443148049;
+	    Ta4593148355[Ti4593248356].d = Td4593548357;
+	    Value* Ta4593648350;
+	    Ta4593648350 = cs_temp;
+	    int Ti4593748351;
+	    Ti4593748351 = 13;
+	    int Ti4593848354;
+	    Ti4593848354 = 1;
+	    double Td4593948353;
+	    Td4593948353 = rotation48039[Ti4593848354].d;
+	    double Td4594048352;
+	    Td4594048352 = sin(Td4593948353);
+	    int Tu4443048050;
+	    Ta4593648350[Ti4593748351].d = Td4594048352;
+	    Value* Ta4594148345;
+	    Ta4594148345 = cs_temp;
+	    int Ti4594248346;
+	    Ti4594248346 = 14;
+	    int Ti4594348349;
+	    Ti4594348349 = 2;
+	    double Td4594448348;
+	    Td4594448348 = rotation48039[Ti4594348349].d;
+	    double Td4594548347;
+	    Td4594548347 = cos(Td4594448348);
+	    int Tu4442948051;
+	    Ta4594148345[Ti4594248346].d = Td4594548347;
+	    Value* Ta4594648340;
+	    Ta4594648340 = cs_temp;
+	    int Ti4594748341;
+	    Ti4594748341 = 15;
+	    int Ti4594848344;
+	    Ti4594848344 = 2;
+	    double Td4594948343;
+	    Td4594948343 = rotation48039[Ti4594848344].d;
+	    double Td4595048342;
+	    Td4595048342 = sin(Td4594948343);
+	    int Tu4442848052;
+	    Ta4594648340[Ti4594748341].d = Td4595048342;
+	    Value* Ta4595148331;
+	    Ta4595148331 = cs_temp;
+	    int Ti4595248332;
+	    Ti4595248332 = 0;
+	    Value* Ta4595348338;
+	    Ta4595348338 = cs_temp;
+	    int Ti4595448339;
+	    Ti4595448339 = 12;
+	    double Td4595548334;
+	    Td4595548334 = Ta4595348338[Ti4595448339].d;
+	    Value* Ta4595648336;
+	    Ta4595648336 = cs_temp;
+	    int Ti4595748337;
+	    Ti4595748337 = 14;
+	    double Td4595848335;
+	    Td4595848335 = Ta4595648336[Ti4595748337].d;
+	    double Td4595948333;
+	    Td4595948333 =  Td4595548334 * Td4595848335;
+	    int Tu4442748053;
+	    Ta4595148331[Ti4595248332].d = Td4595948333;
+	    Value* Ta4596048310;
+	    Ta4596048310 = cs_temp;
+	    int Ti4596148311;
+	    Ti4596148311 = 1;
+	    Value* Ta4596248329;
+	    Ta4596248329 = cs_temp;
+	    int Ti4596348330;
+	    Ti4596348330 = 11;
+	    double Td4596448325;
+	    Td4596448325 = Ta4596248329[Ti4596348330].d;
+	    Value* Ta4596548327;
+	    Ta4596548327 = cs_temp;
+	    int Ti4596648328;
+	    Ti4596648328 = 13;
+	    double Td4596748326;
+	    Td4596748326 = Ta4596548327[Ti4596648328].d;
+	    double Td4596848321;
+	    Td4596848321 =  Td4596448325 * Td4596748326;
+	    Value* Ta4596948323;
+	    Ta4596948323 = cs_temp;
+	    int Ti4597048324;
+	    Ti4597048324 = 14;
+	    double Td4597148322;
+	    Td4597148322 = Ta4596948323[Ti4597048324].d;
+	    double Td4597248313;
+	    Td4597248313 =  Td4596848321 * Td4597148322;
+	    Value* Ta4597348319;
+	    Ta4597348319 = cs_temp;
+	    int Ti4597448320;
+	    Ti4597448320 = 10;
+	    double Td4597548315;
+	    Td4597548315 = Ta4597348319[Ti4597448320].d;
+	    Value* Ta4597648317;
+	    Ta4597648317 = cs_temp;
+	    int Ti4597748318;
+	    Ti4597748318 = 15;
+	    double Td4597848316;
+	    Td4597848316 = Ta4597648317[Ti4597748318].d;
+	    double Td4597948314;
+	    Td4597948314 =  Td4597548315 * Td4597848316;
+	    double Td4598048312;
+	    Td4598048312 = Td4597248313 - Td4597948314;
+	    int Tu4442648054;
+	    Ta4596048310[Ti4596148311].d = Td4598048312;
+	    Value* Ta4598148289;
+	    Ta4598148289 = cs_temp;
+	    int Ti4598248290;
+	    Ti4598248290 = 2;
+	    Value* Ta4598348308;
+	    Ta4598348308 = cs_temp;
+	    int Ti4598448309;
+	    Ti4598448309 = 10;
+	    double Td4598548304;
+	    Td4598548304 = Ta4598348308[Ti4598448309].d;
+	    Value* Ta4598648306;
+	    Ta4598648306 = cs_temp;
+	    int Ti4598748307;
+	    Ti4598748307 = 13;
+	    double Td4598848305;
+	    Td4598848305 = Ta4598648306[Ti4598748307].d;
+	    double Td4598948300;
+	    Td4598948300 =  Td4598548304 * Td4598848305;
+	    Value* Ta4599048302;
+	    Ta4599048302 = cs_temp;
+	    int Ti4599148303;
+	    Ti4599148303 = 14;
+	    double Td4599248301;
+	    Td4599248301 = Ta4599048302[Ti4599148303].d;
+	    double Td4599348292;
+	    Td4599348292 =  Td4598948300 * Td4599248301;
+	    Value* Ta4599448298;
+	    Ta4599448298 = cs_temp;
+	    int Ti4599548299;
+	    Ti4599548299 = 11;
+	    double Td4599648294;
+	    Td4599648294 = Ta4599448298[Ti4599548299].d;
+	    Value* Ta4599748296;
+	    Ta4599748296 = cs_temp;
+	    int Ti4599848297;
+	    Ti4599848297 = 15;
+	    double Td4599948295;
+	    Td4599948295 = Ta4599748296[Ti4599848297].d;
+	    double Td4600048293;
+	    Td4600048293 =  Td4599648294 * Td4599948295;
+	    double Td4600148291;
+	    Td4600148291 = Td4599348292 + Td4600048293;
+	    int Tu4442548055;
+	    Ta4598148289[Ti4598248290].d = Td4600148291;
+	    Value* Ta4600248280;
+	    Ta4600248280 = cs_temp;
+	    int Ti4600348281;
+	    Ti4600348281 = 3;
+	    Value* Ta4600448287;
+	    Ta4600448287 = cs_temp;
+	    int Ti4600548288;
+	    Ti4600548288 = 12;
+	    double Td4600648283;
+	    Td4600648283 = Ta4600448287[Ti4600548288].d;
+	    Value* Ta4600748285;
+	    Ta4600748285 = cs_temp;
+	    int Ti4600848286;
+	    Ti4600848286 = 15;
+	    double Td4600948284;
+	    Td4600948284 = Ta4600748285[Ti4600848286].d;
+	    double Td4601048282;
+	    Td4601048282 =  Td4600648283 * Td4600948284;
+	    int Tu4442448056;
+	    Ta4600248280[Ti4600348281].d = Td4601048282;
+	    Value* Ta4601148259;
+	    Ta4601148259 = cs_temp;
+	    int Ti4601248260;
+	    Ti4601248260 = 4;
+	    Value* Ta4601348278;
+	    Ta4601348278 = cs_temp;
+	    int Ti4601448279;
+	    Ti4601448279 = 11;
+	    double Td4601548274;
+	    Td4601548274 = Ta4601348278[Ti4601448279].d;
+	    Value* Ta4601648276;
+	    Ta4601648276 = cs_temp;
+	    int Ti4601748277;
+	    Ti4601748277 = 13;
+	    double Td4601848275;
+	    Td4601848275 = Ta4601648276[Ti4601748277].d;
+	    double Td4601948270;
+	    Td4601948270 =  Td4601548274 * Td4601848275;
+	    Value* Ta4602048272;
+	    Ta4602048272 = cs_temp;
+	    int Ti4602148273;
+	    Ti4602148273 = 15;
+	    double Td4602248271;
+	    Td4602248271 = Ta4602048272[Ti4602148273].d;
+	    double Td4602348262;
+	    Td4602348262 =  Td4601948270 * Td4602248271;
+	    Value* Ta4602448268;
+	    Ta4602448268 = cs_temp;
+	    int Ti4602548269;
+	    Ti4602548269 = 10;
+	    double Td4602648264;
+	    Td4602648264 = Ta4602448268[Ti4602548269].d;
+	    Value* Ta4602748266;
+	    Ta4602748266 = cs_temp;
+	    int Ti4602848267;
+	    Ti4602848267 = 14;
+	    double Td4602948265;
+	    Td4602948265 = Ta4602748266[Ti4602848267].d;
+	    double Td4603048263;
+	    Td4603048263 =  Td4602648264 * Td4602948265;
+	    double Td4603148261;
+	    Td4603148261 = Td4602348262 + Td4603048263;
+	    int Tu4442348057;
+	    Ta4601148259[Ti4601248260].d = Td4603148261;
+	    Value* Ta4603248238;
+	    Ta4603248238 = cs_temp;
+	    int Ti4603348239;
+	    Ti4603348239 = 5;
+	    Value* Ta4603448257;
+	    Ta4603448257 = cs_temp;
+	    int Ti4603548258;
+	    Ti4603548258 = 10;
+	    double Td4603648253;
+	    Td4603648253 = Ta4603448257[Ti4603548258].d;
+	    Value* Ta4603748255;
+	    Ta4603748255 = cs_temp;
+	    int Ti4603848256;
+	    Ti4603848256 = 13;
+	    double Td4603948254;
+	    Td4603948254 = Ta4603748255[Ti4603848256].d;
+	    double Td4604048249;
+	    Td4604048249 =  Td4603648253 * Td4603948254;
+	    Value* Ta4604148251;
+	    Ta4604148251 = cs_temp;
+	    int Ti4604248252;
+	    Ti4604248252 = 15;
+	    double Td4604348250;
+	    Td4604348250 = Ta4604148251[Ti4604248252].d;
+	    double Td4604448241;
+	    Td4604448241 =  Td4604048249 * Td4604348250;
+	    Value* Ta4604548247;
+	    Ta4604548247 = cs_temp;
+	    int Ti4604648248;
+	    Ti4604648248 = 11;
+	    double Td4604748243;
+	    Td4604748243 = Ta4604548247[Ti4604648248].d;
+	    Value* Ta4604848245;
+	    Ta4604848245 = cs_temp;
+	    int Ti4604948246;
+	    Ti4604948246 = 14;
+	    double Td4605048244;
+	    Td4605048244 = Ta4604848245[Ti4604948246].d;
+	    double Td4605148242;
+	    Td4605148242 =  Td4604748243 * Td4605048244;
+	    double Td4605248240;
+	    Td4605248240 = Td4604448241 - Td4605148242;
+	    int Tu4442248058;
+	    Ta4603248238[Ti4603348239].d = Td4605248240;
+	    Value* Ta4605348232;
+	    Ta4605348232 = cs_temp;
+	    int Ti4605448233;
+	    Ti4605448233 = 6;
+	    Value* Ta4605548236;
+	    Ta4605548236 = cs_temp;
+	    int Ti4605648237;
+	    Ti4605648237 = 13;
+	    double Td4605748235;
+	    Td4605748235 = Ta4605548236[Ti4605648237].d;
+	    double Td4605848234;
+	    Td4605848234 = -Td4605748235;
+	    int Tu4442148059;
+	    Ta4605348232[Ti4605448233].d = Td4605848234;
+	    Value* Ta4605948223;
+	    Ta4605948223 = cs_temp;
+	    int Ti4606048224;
+	    Ti4606048224 = 7;
+	    Value* Ta4606148230;
+	    Ta4606148230 = cs_temp;
+	    int Ti4606248231;
+	    Ti4606248231 = 11;
+	    double Td4606348226;
+	    Td4606348226 = Ta4606148230[Ti4606248231].d;
+	    Value* Ta4606448228;
+	    Ta4606448228 = cs_temp;
+	    int Ti4606548229;
+	    Ti4606548229 = 12;
+	    double Td4606648227;
+	    Td4606648227 = Ta4606448228[Ti4606548229].d;
+	    double Td4606748225;
+	    Td4606748225 =  Td4606348226 * Td4606648227;
+	    int Tu4442048060;
+	    Ta4605948223[Ti4606048224].d = Td4606748225;
+	    Value* Ta4606848214;
+	    Ta4606848214 = cs_temp;
+	    int Ti4606948215;
+	    Ti4606948215 = 8;
+	    Value* Ta4607048221;
+	    Ta4607048221 = cs_temp;
+	    int Ti4607148222;
+	    Ti4607148222 = 10;
+	    double Td4607248217;
+	    Td4607248217 = Ta4607048221[Ti4607148222].d;
+	    Value* Ta4607348219;
+	    Ta4607348219 = cs_temp;
+	    int Ti4607448220;
+	    Ti4607448220 = 12;
+	    double Td4607548218;
+	    Td4607548218 = Ta4607348219[Ti4607448220].d;
+	    double Td4607648216;
+	    Td4607648216 =  Td4607248217 * Td4607548218;
+	    int Tu4441948061;
+	    Ta4606848214[Ti4606948215].d = Td4607648216;
+	    int Ti4607748213;
+	    Ti4607748213 = 0;
+	    double ao48062;
+	    ao48062 = abc48023[Ti4607748213].d;
+	    int Ti4607848212;
+	    Ti4607848212 = 1;
+	    double bo48063;
+	    bo48063 = abc48023[Ti4607848212].d;
+	    int Ti4607948211;
+	    Ti4607948211 = 2;
+	    double co48064;
+	    co48064 = abc48023[Ti4607948211].d;
+	    int Ti4608048193;
+	    Ti4608048193 = 0;
+	    Value* Ta4608148209;
+	    Ta4608148209 = cs_temp;
+	    int Ti4608248210;
+	    Ti4608248210 = 0;
+	    double Td4608348208;
+	    Td4608348208 = Ta4608148209[Ti4608248210].d;
+	    double Td4608448207;
+	    Td4608448207 = fsqr46370_fun(Td4608348208, NULL);
+	    double Td4608548201;
+	    Td4608548201 =  ao48062 * Td4608448207;
+	    Value* Ta4608648205;
+	    Ta4608648205 = cs_temp;
+	    int Ti4608748206;
+	    Ti4608748206 = 3;
+	    double Td4608848204;
+	    Td4608848204 = Ta4608648205[Ti4608748206].d;
+	    double Td4608948203;
+	    Td4608948203 = fsqr46370_fun(Td4608848204, NULL);
+	    double Td4609048202;
+	    Td4609048202 =  bo48063 * Td4608948203;
+	    double Td4609148195;
+	    Td4609148195 = Td4608548201 + Td4609048202;
+	    Value* Ta4609248199;
+	    Ta4609248199 = cs_temp;
+	    int Ti4609348200;
+	    Ti4609348200 = 6;
+	    double Td4609448198;
+	    Td4609448198 = Ta4609248199[Ti4609348200].d;
+	    double Td4609548197;
+	    Td4609548197 = fsqr46370_fun(Td4609448198, NULL);
+	    double Td4609648196;
+	    Td4609648196 =  co48064 * Td4609548197;
+	    double Td4609748194;
+	    Td4609748194 = Td4609148195 + Td4609648196;
+	    int Tu4441848065;
+	    abc48023[Ti4608048193].d = Td4609748194;
+	    int Ti4609848175;
+	    Ti4609848175 = 1;
+	    Value* Ta4609948191;
+	    Ta4609948191 = cs_temp;
+	    int Ti4610048192;
+	    Ti4610048192 = 1;
+	    double Td4610148190;
+	    Td4610148190 = Ta4609948191[Ti4610048192].d;
+	    double Td4610248189;
+	    Td4610248189 = fsqr46370_fun(Td4610148190, NULL);
+	    double Td4610348183;
+	    Td4610348183 =  ao48062 * Td4610248189;
+	    Value* Ta4610448187;
+	    Ta4610448187 = cs_temp;
+	    int Ti4610548188;
+	    Ti4610548188 = 4;
+	    double Td4610648186;
+	    Td4610648186 = Ta4610448187[Ti4610548188].d;
+	    double Td4610748185;
+	    Td4610748185 = fsqr46370_fun(Td4610648186, NULL);
+	    double Td4610848184;
+	    Td4610848184 =  bo48063 * Td4610748185;
+	    double Td4610948177;
+	    Td4610948177 = Td4610348183 + Td4610848184;
+	    Value* Ta4611048181;
+	    Ta4611048181 = cs_temp;
+	    int Ti4611148182;
+	    Ti4611148182 = 7;
+	    double Td4611248180;
+	    Td4611248180 = Ta4611048181[Ti4611148182].d;
+	    double Td4611348179;
+	    Td4611348179 = fsqr46370_fun(Td4611248180, NULL);
+	    double Td4611448178;
+	    Td4611448178 =  co48064 * Td4611348179;
+	    double Td4611548176;
+	    Td4611548176 = Td4610948177 + Td4611448178;
+	    int Tu4441748066;
+	    abc48023[Ti4609848175].d = Td4611548176;
+	    int Ti4611648157;
+	    Ti4611648157 = 2;
+	    Value* Ta4611748173;
+	    Ta4611748173 = cs_temp;
+	    int Ti4611848174;
+	    Ti4611848174 = 2;
+	    double Td4611948172;
+	    Td4611948172 = Ta4611748173[Ti4611848174].d;
+	    double Td4612048171;
+	    Td4612048171 = fsqr46370_fun(Td4611948172, NULL);
+	    double Td4612148165;
+	    Td4612148165 =  ao48062 * Td4612048171;
+	    Value* Ta4612248169;
+	    Ta4612248169 = cs_temp;
+	    int Ti4612348170;
+	    Ti4612348170 = 5;
+	    double Td4612448168;
+	    Td4612448168 = Ta4612248169[Ti4612348170].d;
+	    double Td4612548167;
+	    Td4612548167 = fsqr46370_fun(Td4612448168, NULL);
+	    double Td4612648166;
+	    Td4612648166 =  bo48063 * Td4612548167;
+	    double Td4612748159;
+	    Td4612748159 = Td4612148165 + Td4612648166;
+	    Value* Ta4612848163;
+	    Ta4612848163 = cs_temp;
+	    int Ti4612948164;
+	    Ti4612948164 = 8;
+	    double Td4613048162;
+	    Td4613048162 = Ta4612848163[Ti4612948164].d;
+	    double Td4613148161;
+	    Td4613148161 = fsqr46370_fun(Td4613048162, NULL);
+	    double Td4613248160;
+	    Td4613248160 =  co48064 * Td4613148161;
+	    double Td4613348158;
+	    Td4613348158 = Td4612748159 + Td4613248160;
+	    int Tu4441648067;
+	    abc48023[Ti4611648157].d = Td4613348158;
+	    int Ti4613448128;
+	    Ti4613448128 = 0;
+	    double Td4613548130;
+	    Td4613548130 = 2.000000;
+	    Value* Ta4613648155;
+	    Ta4613648155 = cs_temp;
+	    int Ti4613748156;
+	    Ti4613748156 = 1;
+	    double Td4613848154;
+	    Td4613848154 = Ta4613648155[Ti4613748156].d;
+	    double Td4613948150;
+	    Td4613948150 =  ao48062 * Td4613848154;
+	    Value* Ta4614048152;
+	    Ta4614048152 = cs_temp;
+	    int Ti4614148153;
+	    Ti4614148153 = 2;
+	    double Td4614248151;
+	    Td4614248151 = Ta4614048152[Ti4614148153].d;
+	    double Td4614348141;
+	    Td4614348141 =  Td4613948150 * Td4614248151;
+	    Value* Ta4614448148;
+	    Ta4614448148 = cs_temp;
+	    int Ti4614548149;
+	    Ti4614548149 = 4;
+	    double Td4614648147;
+	    Td4614648147 = Ta4614448148[Ti4614548149].d;
+	    double Td4614748143;
+	    Td4614748143 =  bo48063 * Td4614648147;
+	    Value* Ta4614848145;
+	    Ta4614848145 = cs_temp;
+	    int Ti4614948146;
+	    Ti4614948146 = 5;
+	    double Td4615048144;
+	    Td4615048144 = Ta4614848145[Ti4614948146].d;
+	    double Td4615148142;
+	    Td4615148142 =  Td4614748143 * Td4615048144;
+	    double Td4615248132;
+	    Td4615248132 = Td4614348141 + Td4615148142;
+	    Value* Ta4615348139;
+	    Ta4615348139 = cs_temp;
+	    int Ti4615448140;
+	    Ti4615448140 = 7;
+	    double Td4615548138;
+	    Td4615548138 = Ta4615348139[Ti4615448140].d;
+	    double Td4615648134;
+	    Td4615648134 =  co48064 * Td4615548138;
+	    Value* Ta4615748136;
+	    Ta4615748136 = cs_temp;
+	    int Ti4615848137;
+	    Ti4615848137 = 8;
+	    double Td4615948135;
+	    Td4615948135 = Ta4615748136[Ti4615848137].d;
+	    double Td4616048133;
+	    Td4616048133 =  Td4615648134 * Td4615948135;
+	    double Td4616148131;
+	    Td4616148131 = Td4615248132 + Td4616048133;
+	    double Td4616248129;
+	    Td4616248129 =  Td4613548130 * Td4616148131;
+	    int Tu4441548068;
+	    rotation48039[Ti4613448128].d = Td4616248129;
+	    int Ti4616348099;
+	    Ti4616348099 = 1;
+	    double Td4616448101;
+	    Td4616448101 = 2.000000;
+	    Value* Ta4616548126;
+	    Ta4616548126 = cs_temp;
+	    int Ti4616648127;
+	    Ti4616648127 = 0;
+	    double Td4616748125;
+	    Td4616748125 = Ta4616548126[Ti4616648127].d;
+	    double Td4616848121;
+	    Td4616848121 =  ao48062 * Td4616748125;
+	    Value* Ta4616948123;
+	    Ta4616948123 = cs_temp;
+	    int Ti4617048124;
+	    Ti4617048124 = 2;
+	    double Td4617148122;
+	    Td4617148122 = Ta4616948123[Ti4617048124].d;
+	    double Td4617248112;
+	    Td4617248112 =  Td4616848121 * Td4617148122;
+	    Value* Ta4617348119;
+	    Ta4617348119 = cs_temp;
+	    int Ti4617448120;
+	    Ti4617448120 = 3;
+	    double Td4617548118;
+	    Td4617548118 = Ta4617348119[Ti4617448120].d;
+	    double Td4617648114;
+	    Td4617648114 =  bo48063 * Td4617548118;
+	    Value* Ta4617748116;
+	    Ta4617748116 = cs_temp;
+	    int Ti4617848117;
+	    Ti4617848117 = 5;
+	    double Td4617948115;
+	    Td4617948115 = Ta4617748116[Ti4617848117].d;
+	    double Td4618048113;
+	    Td4618048113 =  Td4617648114 * Td4617948115;
+	    double Td4618148103;
+	    Td4618148103 = Td4617248112 + Td4618048113;
+	    Value* Ta4618248110;
+	    Ta4618248110 = cs_temp;
+	    int Ti4618348111;
+	    Ti4618348111 = 6;
+	    double Td4618448109;
+	    Td4618448109 = Ta4618248110[Ti4618348111].d;
+	    double Td4618548105;
+	    Td4618548105 =  co48064 * Td4618448109;
+	    Value* Ta4618648107;
+	    Ta4618648107 = cs_temp;
+	    int Ti4618748108;
+	    Ti4618748108 = 8;
+	    double Td4618848106;
+	    Td4618848106 = Ta4618648107[Ti4618748108].d;
+	    double Td4618948104;
+	    Td4618948104 =  Td4618548105 * Td4618848106;
+	    double Td4619048102;
+	    Td4619048102 = Td4618148103 + Td4618948104;
+	    double Td4619148100;
+	    Td4619148100 =  Td4616448101 * Td4619048102;
+	    int Tu4441448069;
+	    rotation48039[Ti4616348099].d = Td4619148100;
+	    int Ti4619248070;
+	    Ti4619248070 = 2;
+	    double Td4619348072;
+	    Td4619348072 = 2.000000;
+	    Value* Ta4619448097;
+	    Ta4619448097 = cs_temp;
+	    int Ti4619548098;
+	    Ti4619548098 = 0;
+	    double Td4619648096;
+	    Td4619648096 = Ta4619448097[Ti4619548098].d;
+	    double Td4619748092;
+	    Td4619748092 =  ao48062 * Td4619648096;
+	    Value* Ta4619848094;
+	    Ta4619848094 = cs_temp;
+	    int Ti4619948095;
+	    Ti4619948095 = 1;
+	    double Td4620048093;
+	    Td4620048093 = Ta4619848094[Ti4619948095].d;
+	    double Td4620148083;
+	    Td4620148083 =  Td4619748092 * Td4620048093;
+	    Value* Ta4620248090;
+	    Ta4620248090 = cs_temp;
+	    int Ti4620348091;
+	    Ti4620348091 = 3;
+	    double Td4620448089;
+	    Td4620448089 = Ta4620248090[Ti4620348091].d;
+	    double Td4620548085;
+	    Td4620548085 =  bo48063 * Td4620448089;
+	    Value* Ta4620648087;
+	    Ta4620648087 = cs_temp;
+	    int Ti4620748088;
+	    Ti4620748088 = 4;
+	    double Td4620848086;
+	    Td4620848086 = Ta4620648087[Ti4620748088].d;
+	    double Td4620948084;
+	    Td4620948084 =  Td4620548085 * Td4620848086;
+	    double Td4621048074;
+	    Td4621048074 = Td4620148083 + Td4620948084;
+	    Value* Ta4621148081;
+	    Ta4621148081 = cs_temp;
+	    int Ti4621248082;
+	    Ti4621248082 = 6;
+	    double Td4621348080;
+	    Td4621348080 = Ta4621148081[Ti4621248082].d;
+	    double Td4621448076;
+	    Td4621448076 =  co48064 * Td4621348080;
+	    Value* Ta4621548078;
+	    Ta4621548078 = cs_temp;
+	    int Ti4621648079;
+	    Ti4621648079 = 7;
+	    double Td4621748077;
+	    Td4621748077 = Ta4621548078[Ti4621648079].d;
+	    double Td4621848075;
+	    Td4621848075 =  Td4621448076 * Td4621748077;
+	    double Td4621948073;
+	    Td4621948073 = Td4621048074 + Td4621848075;
+	    double Td4622048071;
+	    Td4622048071 =  Td4619348072 * Td4621948073;
+	    rotation48039[Ti4619248070].d = Td4622048071;
+	}
+	result = 1;
+    }
+    return result;
+}
+
+int read_object46423_fun(int n46424, Value *env){
+    int result;
+    int Ti4582648013;
+    Ti4582648013 = 61;
+    if(Ti4582648013 <= n46424){
+	result = 1;
+    }
+    else{
+	bool Tb4582748014;
+	Tb4582748014 = read_nth_object46421_fun(n46424, NULL);
+	int Ti4582848015;
+	Ti4582848015 = 0;
+	if(Tb4582748014 == Ti4582848015){
+	    result = 1;
+	}
+	else{
+	    int Ti4582948017;
+	    Ti4582948017 = 1;
+	    int Ti4583048016;
+	    Ti4583048016 = n46424 + Ti4582948017;
+	    result = read_object46423_fun(Ti4583048016, NULL);
+	}
+    }
+    return result;
+}
+
+int read_all_object46425_fun(int Tu4444946426, Value *env){
+    int result;
+    int Ti4582548012;
+    Ti4582548012 = 0;
+    result = read_object46423_fun(Ti4582548012, NULL);
+    return result;
+}
+
+Value* read_net_item46427_fun(int length46428, Value *env){
+    Value* result;
+    int Tu4581648011;
+    Tu4581648011 = 1;
+    int item48000;
+    printf("Enter an integer: ");
+    scanf("%i\n", &item48000);
+    int Ti4581748010;
+    Ti4581748010 = 1;
+    int Ti4581848001;
+    Ti4581848001 = -Ti4581748010;
+    if(item48000 == Ti4581848001){
+	int Ti4581948009;
+	Ti4581948009 = 1;
+	int Ti4582048006;
+	Ti4582048006 = length46428 + Ti4581948009;
+	int Ti4582148008;
+	Ti4582148008 = 1;
+	int Ti4582248007;
+	Ti4582248007 = -Ti4582148008;
+	make_int_array(&result, Ti4582048006, Ti4582248007);
+    }
+    else{
+	int Ti4582348005;
+	Ti4582348005 = 1;
+	int Ti4582448004;
+	Ti4582448004 = length46428 + Ti4582348005;
+	Value* v48002;
+	v48002 = read_net_item46427_fun(Ti4582448004, NULL);
+	int Tu4445048003;
+	v48002[length46428].i = item48000;
+	result = v48002;
+    }
+    return result;
+}
+
+Value* read_or_network46429_fun(int length46430, Value *env){
+    Value* result;
+    int Ti4580747999;
+    Ti4580747999 = 0;
+    Value* net47988;
+    net47988 = read_net_item46427_fun(Ti4580747999, NULL);
+    int Ti4580847998;
+    Ti4580847998 = 0;
+    int Ti4580947989;
+    Ti4580947989 = net47988[Ti4580847998].i;
+    int Ti4581047997;
+    Ti4581047997 = 1;
+    int Ti4581147990;
+    Ti4581147990 = -Ti4581047997;
+    if(Ti4580947989 == Ti4581147990){
+	int Ti4581247996;
+	Ti4581247996 = 1;
+	int Ti4581347995;
+	Ti4581347995 = length46430 + Ti4581247996;
+	make_multi_array(&result, Ti4581347995, net47988);
+    }
+    else{
+	int Ti4581447994;
+	Ti4581447994 = 1;
+	int Ti4581547993;
+	Ti4581547993 = length46430 + Ti4581447994;
+	Value* v47991;
+	v47991 = read_or_network46429_fun(Ti4581547993, NULL);
+	int Tu4445147992;
+	v47991[length46430].a = net47988;
+	result = v47991;
+    }
+    return result;
+}
+
+int read_and_network46431_fun(int n46432, Value *env){
+    int result;
+    int Ti4579947987;
+    Ti4579947987 = 0;
+    Value* net47978;
+    net47978 = read_net_item46427_fun(Ti4579947987, NULL);
+    int Ti4580047986;
+    Ti4580047986 = 0;
+    int Ti4580147979;
+    Ti4580147979 = net47978[Ti4580047986].i;
+    int Ti4580247985;
+    Ti4580247985 = 1;
+    int Ti4580347980;
+    Ti4580347980 = -Ti4580247985;
+    if(Ti4580147979 == Ti4580347980){
+	result = 1;
+    }
+    else{
+	Value* Ta4580447984;
+	Ta4580447984 = and_net;
+	int Tu4445247981;
+	Ta4580447984[n46432].a = net47978;
+	int Ti4580547983;
+	Ti4580547983 = 1;
+	int Ti4580647982;
+	Ti4580647982 = n46432 + Ti4580547983;
+	result = read_and_network46431_fun(Ti4580647982, NULL);
+    }
+    return result;
+}
+
+int read_parameter46433_fun(int Tu4445346434, Value *env){
+    int result;
+    int Tu4579247977;
+    Tu4579247977 = 1;
+    int Tu4445647968;
+    Tu4445647968 = read_environ46419_fun(Tu4579247977, NULL);
+    int Tu4579347976;
+    Tu4579347976 = 1;
+    int Tu4445547969;
+    Tu4445547969 = read_all_object46425_fun(Tu4579347976, NULL);
+    int Ti4579447975;
+    Ti4579447975 = 0;
+    int Tu4445447970;
+    Tu4445447970 = read_and_network46431_fun(Ti4579447975, NULL);
+    Value* Ta4579547971;
+    Ta4579547971 = or_net;
+    int Ti4579647972;
+    Ti4579647972 = 0;
+    int Ti4579747974;
+    Ti4579747974 = 0;
+    Value* Ta4579847973;
+    Ta4579847973 = read_or_network46429_fun(Ti4579747974, NULL);
+    Ta4579547971[Ti4579647972].a = Ta4579847973;
+    return result;
+}
+
+int solver_rect46435_fun(int* m46436, Value* l46437, Value *env){
+    int result;
+    double Td4567847928;
+    Td4567847928 = 0.000000;
+    int Ti4567947967;
+    Ti4567947967 = 0;
+    double Td4568047929;
+    Td4568047929 = l46437[Ti4567947967].d;
+    bool answera47842;
+    if(Td4567847928 == Td4568047929){
+	answera47842 = 0;
+    }
+    else{
+	bool Tb4568147962;
+	Tb4568147962 = o_isinvert46380_fun(m46436, NULL);
+	double Td4568247964;
+	Td4568247964 = 0.000000;
+	int Ti4568347966;
+	Ti4568347966 = 0;
+	double Td4568447965;
+	Td4568447965 = l46437[Ti4568347966].d;
+	int Ti4568547963;
+	if(Td4568247964 <= Td4568447965){
+	    Ti4568547963 = 0;
+	}
+	else{
+	    Ti4568547963 = 1;
+	}
+	bool Tb4568647959;
+	Tb4568647959 = xor46367_fun(Tb4568147962, Ti4568547963, NULL);
+	int Ti4568747960;
+	Ti4568747960 = 0;
+	double d47930;
+	if(Tb4568647959 == Ti4568747960){
+	    double Td4568847961;
+	    Td4568847961 = o_param_a46384_fun(m46436, NULL);
+	    d47930 = -Td4568847961;
+	}
+	else{
+	    d47930 = o_param_a46384_fun(m46436, NULL);
+	}
+	Value* Ta4568947957;
+	Ta4568947957 = solver_w_vec;
+	int Ti4569047958;
+	Ti4569047958 = 0;
+	double Td4569147956;
+	Td4569147956 = Ta4568947957[Ti4569047958].d;
+	double Td4569247953;
+	Td4569247953 = d47930 - Td4569147956;
+	int Ti4569347955;
+	Ti4569347955 = 0;
+	double Td4569447954;
+	Td4569447954 = l46437[Ti4569347955].d;
+	double d247931;
+	d247931 = Td4569247953 / Td4569447954;
+	double Td4569547932;
+	Td4569547932 = o_param_b46386_fun(m46436, NULL);
+	int Ti4569647952;
+	Ti4569647952 = 1;
+	double Td4569747951;
+	Td4569747951 = l46437[Ti4569647952].d;
+	double Td4569847947;
+	Td4569847947 =  d247931 * Td4569747951;
+	Value* Ta4569947949;
+	Ta4569947949 = solver_w_vec;
+	int Ti4570047950;
+	Ti4570047950 = 1;
+	double Td4570147948;
+	Td4570147948 = Ta4569947949[Ti4570047950].d;
+	double Td4570247946;
+	Td4570247946 = Td4569847947 + Td4570147948;
+	double Td4570347933;
+	Td4570347933 = fabs(Td4570247946);
+	if(Td4569547932 <= Td4570347933){
+	    answera47842 = 0;
+	}
+	else{
+	    double Td4570447934;
+	    Td4570447934 = o_param_c46388_fun(m46436, NULL);
+	    int Ti4570547945;
+	    Ti4570547945 = 2;
+	    double Td4570647944;
+	    Td4570647944 = l46437[Ti4570547945].d;
+	    double Td4570747940;
+	    Td4570747940 =  d247931 * Td4570647944;
+	    Value* Ta4570847942;
+	    Ta4570847942 = solver_w_vec;
+	    int Ti4570947943;
+	    Ti4570947943 = 2;
+	    double Td4571047941;
+	    Td4571047941 = Ta4570847942[Ti4570947943].d;
+	    double Td4571147939;
+	    Td4571147939 = Td4570747940 + Td4571047941;
+	    double Td4571247935;
+	    Td4571247935 = fabs(Td4571147939);
+	    if(Td4570447934 <= Td4571247935){
+		answera47842 = 0;
+	    }
+	    else{
+		Value* Ta4571347937;
+		Ta4571347937 = solver_dist;
+		int Ti4571447938;
+		Ti4571447938 = 0;
+		int Tu4445747936;
+		Ta4571347937[Ti4571447938].d = d247931;
+		answera47842 = 1;
+	    }
+	}
+    }
+    int Ti4571547843;
+    Ti4571547843 = 0;
+    if(answera47842 == Ti4571547843){
+	double Td4571647888;
+	Td4571647888 = 0.000000;
+	int Ti4571747927;
+	Ti4571747927 = 1;
+	double Td4571847889;
+	Td4571847889 = l46437[Ti4571747927].d;
+	bool answerb47844;
+	if(Td4571647888 == Td4571847889){
+	    answerb47844 = 0;
+	}
+	else{
+	    bool Tb4571947922;
+	    Tb4571947922 = o_isinvert46380_fun(m46436, NULL);
+	    double Td4572047924;
+	    Td4572047924 = 0.000000;
+	    int Ti4572147926;
+	    Ti4572147926 = 1;
+	    double Td4572247925;
+	    Td4572247925 = l46437[Ti4572147926].d;
+	    int Ti4572347923;
+	    if(Td4572047924 <= Td4572247925){
+		Ti4572347923 = 0;
+	    }
+	    else{
+		Ti4572347923 = 1;
+	    }
+	    bool Tb4572447919;
+	    Tb4572447919 = xor46367_fun(Tb4571947922, Ti4572347923, NULL);
+	    int Ti4572547920;
+	    Ti4572547920 = 0;
+	    double d47890;
+	    if(Tb4572447919 == Ti4572547920){
+		double Td4572647921;
+		Td4572647921 = o_param_b46386_fun(m46436, NULL);
+		d47890 = -Td4572647921;
+	    }
+	    else{
+		d47890 = o_param_b46386_fun(m46436, NULL);
+	    }
+	    Value* Ta4572747917;
+	    Ta4572747917 = solver_w_vec;
+	    int Ti4572847918;
+	    Ti4572847918 = 1;
+	    double Td4572947916;
+	    Td4572947916 = Ta4572747917[Ti4572847918].d;
+	    double Td4573047913;
+	    Td4573047913 = d47890 - Td4572947916;
+	    int Ti4573147915;
+	    Ti4573147915 = 1;
+	    double Td4573247914;
+	    Td4573247914 = l46437[Ti4573147915].d;
+	    double d247891;
+	    d247891 = Td4573047913 / Td4573247914;
+	    double Td4573347892;
+	    Td4573347892 = o_param_c46388_fun(m46436, NULL);
+	    int Ti4573447912;
+	    Ti4573447912 = 2;
+	    double Td4573547911;
+	    Td4573547911 = l46437[Ti4573447912].d;
+	    double Td4573647907;
+	    Td4573647907 =  d247891 * Td4573547911;
+	    Value* Ta4573747909;
+	    Ta4573747909 = solver_w_vec;
+	    int Ti4573847910;
+	    Ti4573847910 = 2;
+	    double Td4573947908;
+	    Td4573947908 = Ta4573747909[Ti4573847910].d;
+	    double Td4574047906;
+	    Td4574047906 = Td4573647907 + Td4573947908;
+	    double Td4574147893;
+	    Td4574147893 = fabs(Td4574047906);
+	    if(Td4573347892 <= Td4574147893){
+		answerb47844 = 0;
+	    }
+	    else{
+		double Td4574247894;
+		Td4574247894 = o_param_a46384_fun(m46436, NULL);
+		int Ti4574347905;
+		Ti4574347905 = 0;
+		double Td4574447904;
+		Td4574447904 = l46437[Ti4574347905].d;
+		double Td4574547900;
+		Td4574547900 =  d247891 * Td4574447904;
+		Value* Ta4574647902;
+		Ta4574647902 = solver_w_vec;
+		int Ti4574747903;
+		Ti4574747903 = 0;
+		double Td4574847901;
+		Td4574847901 = Ta4574647902[Ti4574747903].d;
+		double Td4574947899;
+		Td4574947899 = Td4574547900 + Td4574847901;
+		double Td4575047895;
+		Td4575047895 = fabs(Td4574947899);
+		if(Td4574247894 <= Td4575047895){
+		    answerb47844 = 0;
+		}
+		else{
+		    Value* Ta4575147897;
+		    Ta4575147897 = solver_dist;
+		    int Ti4575247898;
+		    Ti4575247898 = 0;
+		    int Tu4445847896;
+		    Ta4575147897[Ti4575247898].d = d247891;
+		    answerb47844 = 1;
+		}
+	    }
+	}
+	int Ti4575347845;
+	Ti4575347845 = 0;
+	if(answerb47844 == Ti4575347845){
+	    double Td4575447848;
+	    Td4575447848 = 0.000000;
+	    int Ti4575547887;
+	    Ti4575547887 = 2;
+	    double Td4575647849;
+	    Td4575647849 = l46437[Ti4575547887].d;
+	    bool answerc47846;
+	    if(Td4575447848 == Td4575647849){
+		answerc47846 = 0;
+	    }
+	    else{
+		bool Tb4575747882;
+		Tb4575747882 = o_isinvert46380_fun(m46436, NULL);
+		double Td4575847884;
+		Td4575847884 = 0.000000;
+		int Ti4575947886;
+		Ti4575947886 = 2;
+		double Td4576047885;
+		Td4576047885 = l46437[Ti4575947886].d;
+		int Ti4576147883;
+		if(Td4575847884 <= Td4576047885){
+		    Ti4576147883 = 0;
+		}
+		else{
+		    Ti4576147883 = 1;
+		}
+		bool Tb4576247879;
+		Tb4576247879 = xor46367_fun(Tb4575747882, Ti4576147883, NULL);
+		int Ti4576347880;
+		Ti4576347880 = 0;
+		double d47850;
+		if(Tb4576247879 == Ti4576347880){
+		    double Td4576447881;
+		    Td4576447881 = o_param_c46388_fun(m46436, NULL);
+		    d47850 = -Td4576447881;
+		}
+		else{
+		    d47850 = o_param_c46388_fun(m46436, NULL);
+		}
+		Value* Ta4576547877;
+		Ta4576547877 = solver_w_vec;
+		int Ti4576647878;
+		Ti4576647878 = 2;
+		double Td4576747876;
+		Td4576747876 = Ta4576547877[Ti4576647878].d;
+		double Td4576847873;
+		Td4576847873 = d47850 - Td4576747876;
+		int Ti4576947875;
+		Ti4576947875 = 2;
+		double Td4577047874;
+		Td4577047874 = l46437[Ti4576947875].d;
+		double d247851;
+		d247851 = Td4576847873 / Td4577047874;
+		double Td4577147852;
+		Td4577147852 = o_param_a46384_fun(m46436, NULL);
+		int Ti4577247872;
+		Ti4577247872 = 0;
+		double Td4577347871;
+		Td4577347871 = l46437[Ti4577247872].d;
+		double Td4577447867;
+		Td4577447867 =  d247851 * Td4577347871;
+		Value* Ta4577547869;
+		Ta4577547869 = solver_w_vec;
+		int Ti4577647870;
+		Ti4577647870 = 0;
+		double Td4577747868;
+		Td4577747868 = Ta4577547869[Ti4577647870].d;
+		double Td4577847866;
+		Td4577847866 = Td4577447867 + Td4577747868;
+		double Td4577947853;
+		Td4577947853 = fabs(Td4577847866);
+		if(Td4577147852 <= Td4577947853){
+		    answerc47846 = 0;
+		}
+		else{
+		    double Td4578047854;
+		    Td4578047854 = o_param_b46386_fun(m46436, NULL);
+		    int Ti4578147865;
+		    Ti4578147865 = 1;
+		    double Td4578247864;
+		    Td4578247864 = l46437[Ti4578147865].d;
+		    double Td4578347860;
+		    Td4578347860 =  d247851 * Td4578247864;
+		    Value* Ta4578447862;
+		    Ta4578447862 = solver_w_vec;
+		    int Ti4578547863;
+		    Ti4578547863 = 1;
+		    double Td4578647861;
+		    Td4578647861 = Ta4578447862[Ti4578547863].d;
+		    double Td4578747859;
+		    Td4578747859 = Td4578347860 + Td4578647861;
+		    double Td4578847855;
+		    Td4578847855 = fabs(Td4578747859);
+		    if(Td4578047854 <= Td4578847855){
+			answerc47846 = 0;
+		    }
+		    else{
+			Value* Ta4578947857;
+			Ta4578947857 = solver_dist;
+			int Ti4579047858;
+			Ti4579047858 = 0;
+			int Tu4445947856;
+			Ta4578947857[Ti4579047858].d = d247851;
+			answerc47846 = 1;
+		    }
+		}
+	    }
+	    int Ti4579147847;
+	    Ti4579147847 = 0;
+	    if(answerc47846 == Ti4579147847){
+		result = 0;
+	    }
+	    else{
+		result = 3;
+	    }
+	}
+	else{
+	    result = 2;
+	}
+    }
+    else{
+	result = 1;
+    }
+    return result;
+}
+
+int solver_surface46438_fun(int* m46439, Value* l46440, Value *env){
+    int result;
+    int Ti4564447841;
+    Ti4564447841 = 0;
+    double Td4564547839;
+    Td4564547839 = l46440[Ti4564447841].d;
+    double Td4564647840;
+    Td4564647840 = o_param_a46384_fun(m46439, NULL);
+    double Td4564747834;
+    Td4564747834 =  Td4564547839 * Td4564647840;
+    int Ti4564847838;
+    Ti4564847838 = 1;
+    double Td4564947836;
+    Td4564947836 = l46440[Ti4564847838].d;
+    double Td4565047837;
+    Td4565047837 = o_param_b46386_fun(m46439, NULL);
+    double Td4565147835;
+    Td4565147835 =  Td4564947836 * Td4565047837;
+    double Td4565247829;
+    Td4565247829 = Td4564747834 + Td4565147835;
+    int Ti4565347833;
+    Ti4565347833 = 2;
+    double Td4565447831;
+    Td4565447831 = l46440[Ti4565347833].d;
+    double Td4565547832;
+    Td4565547832 = o_param_c46388_fun(m46439, NULL);
+    double Td4565647830;
+    Td4565647830 =  Td4565447831 * Td4565547832;
+    double q47805;
+    q47805 = Td4565247829 + Td4565647830;
+    double Td4565747806;
+    Td4565747806 = 0.000000;
+    if(q47805 <= Td4565747806){
+	result = 0;
+    }
+    else{
+	Value* Ta4565847827;
+	Ta4565847827 = solver_w_vec;
+	int Ti4565947828;
+	Ti4565947828 = 0;
+	double Td4566047825;
+	Td4566047825 = Ta4565847827[Ti4565947828].d;
+	double Td4566147826;
+	Td4566147826 = o_param_a46384_fun(m46439, NULL);
+	double Td4566247819;
+	Td4566247819 =  Td4566047825 * Td4566147826;
+	Value* Ta4566347823;
+	Ta4566347823 = solver_w_vec;
+	int Ti4566447824;
+	Ti4566447824 = 1;
+	double Td4566547821;
+	Td4566547821 = Ta4566347823[Ti4566447824].d;
+	double Td4566647822;
+	Td4566647822 = o_param_b46386_fun(m46439, NULL);
+	double Td4566747820;
+	Td4566747820 =  Td4566547821 * Td4566647822;
+	double Td4566847813;
+	Td4566847813 = Td4566247819 + Td4566747820;
+	Value* Ta4566947817;
+	Ta4566947817 = solver_w_vec;
+	int Ti4567047818;
+	Ti4567047818 = 2;
+	double Td4567147815;
+	Td4567147815 = Ta4566947817[Ti4567047818].d;
+	double Td4567247816;
+	Td4567247816 = o_param_c46388_fun(m46439, NULL);
+	double Td4567347814;
+	Td4567347814 =  Td4567147815 * Td4567247816;
+	double Td4567447812;
+	Td4567447812 = Td4566847813 + Td4567347814;
+	double t47807;
+	t47807 = Td4567447812 / q47805;
+	Value* Ta4567547809;
+	Ta4567547809 = solver_dist;
+	int Ti4567647810;
+	Ti4567647810 = 0;
+	double Td4567747811;
+	Td4567747811 = -t47807;
+	int Tu4446047808;
+	Ta4567547809[Ti4567647810].d = Td4567747811;
+	result = 1;
+    }
+    return result;
+}
+
+double in_prod_sqr_obj46441_fun(int* m46442, Value* v46443, Value *env){
+    double result;
+    int Ti4562847804;
+    Ti4562847804 = 0;
+    double Td4562947803;
+    Td4562947803 = v46443[Ti4562847804].d;
+    double Td4563047801;
+    Td4563047801 = fsqr46370_fun(Td4562947803, NULL);
+    double Td4563147802;
+    Td4563147802 = o_param_a46384_fun(m46442, NULL);
+    double Td4563247795;
+    Td4563247795 =  Td4563047801 * Td4563147802;
+    int Ti4563347800;
+    Ti4563347800 = 1;
+    double Td4563447799;
+    Td4563447799 = v46443[Ti4563347800].d;
+    double Td4563547797;
+    Td4563547797 = fsqr46370_fun(Td4563447799, NULL);
+    double Td4563647798;
+    Td4563647798 = o_param_b46386_fun(m46442, NULL);
+    double Td4563747796;
+    Td4563747796 =  Td4563547797 * Td4563647798;
+    double Td4563847789;
+    Td4563847789 = Td4563247795 + Td4563747796;
+    int Ti4563947794;
+    Ti4563947794 = 2;
+    double Td4564047793;
+    Td4564047793 = v46443[Ti4563947794].d;
+    double Td4564147791;
+    Td4564147791 = fsqr46370_fun(Td4564047793, NULL);
+    double Td4564247792;
+    Td4564247792 = o_param_c46388_fun(m46442, NULL);
+    double Td4564347790;
+    Td4564347790 =  Td4564147791 * Td4564247792;
+    result = Td4563847789 + Td4564347790;
+    return result;
+}
+
+double in_prod_co_objrot46444_fun(int* m46445, Value* v46446, Value *env){
+    double result;
+    int Ti4560647788;
+    Ti4560647788 = 1;
+    double Td4560747785;
+    Td4560747785 = v46446[Ti4560647788].d;
+    int Ti4560847787;
+    Ti4560847787 = 2;
+    double Td4560947786;
+    Td4560947786 = v46446[Ti4560847787].d;
+    double Td4561047783;
+    Td4561047783 =  Td4560747785 * Td4560947786;
+    double Td4561147784;
+    Td4561147784 = o_param_r146406_fun(m46445, NULL);
+    double Td4561247775;
+    Td4561247775 =  Td4561047783 * Td4561147784;
+    int Ti4561347782;
+    Ti4561347782 = 0;
+    double Td4561447779;
+    Td4561447779 = v46446[Ti4561347782].d;
+    int Ti4561547781;
+    Ti4561547781 = 2;
+    double Td4561647780;
+    Td4561647780 = v46446[Ti4561547781].d;
+    double Td4561747777;
+    Td4561747777 =  Td4561447779 * Td4561647780;
+    double Td4561847778;
+    Td4561847778 = o_param_r246408_fun(m46445, NULL);
+    double Td4561947776;
+    Td4561947776 =  Td4561747777 * Td4561847778;
+    double Td4562047767;
+    Td4562047767 = Td4561247775 + Td4561947776;
+    int Ti4562147774;
+    Ti4562147774 = 0;
+    double Td4562247771;
+    Td4562247771 = v46446[Ti4562147774].d;
+    int Ti4562347773;
+    Ti4562347773 = 1;
+    double Td4562447772;
+    Td4562447772 = v46446[Ti4562347773].d;
+    double Td4562547769;
+    Td4562547769 =  Td4562247771 * Td4562447772;
+    double Td4562647770;
+    Td4562647770 = o_param_r346410_fun(m46445, NULL);
+    double Td4562747768;
+    Td4562747768 =  Td4562547769 * Td4562647770;
+    result = Td4562047767 + Td4562747768;
+    return result;
+}
+
+double solver2nd_mul_b46447_fun(int* m46448, Value* l46449, Value *env){
+    double result;
+    Value* Ta4558147765;
+    Ta4558147765 = solver_w_vec;
+    int Ti4558247766;
+    Ti4558247766 = 0;
+    double Td4558347762;
+    Td4558347762 = Ta4558147765[Ti4558247766].d;
+    int Ti4558447764;
+    Ti4558447764 = 0;
+    double Td4558547763;
+    Td4558547763 = l46449[Ti4558447764].d;
+    double Td4558647760;
+    Td4558647760 =  Td4558347762 * Td4558547763;
+    double Td4558747761;
+    Td4558747761 = o_param_a46384_fun(m46448, NULL);
+    double Td4558847751;
+    Td4558847751 =  Td4558647760 * Td4558747761;
+    Value* Ta4558947758;
+    Ta4558947758 = solver_w_vec;
+    int Ti4559047759;
+    Ti4559047759 = 1;
+    double Td4559147755;
+    Td4559147755 = Ta4558947758[Ti4559047759].d;
+    int Ti4559247757;
+    Ti4559247757 = 1;
+    double Td4559347756;
+    Td4559347756 = l46449[Ti4559247757].d;
+    double Td4559447753;
+    Td4559447753 =  Td4559147755 * Td4559347756;
+    double Td4559547754;
+    Td4559547754 = o_param_b46386_fun(m46448, NULL);
+    double Td4559647752;
+    Td4559647752 =  Td4559447753 * Td4559547754;
+    double Td4559747742;
+    Td4559747742 = Td4558847751 + Td4559647752;
+    Value* Ta4559847749;
+    Ta4559847749 = solver_w_vec;
+    int Ti4559947750;
+    Ti4559947750 = 2;
+    double Td4560047746;
+    Td4560047746 = Ta4559847749[Ti4559947750].d;
+    int Ti4560147748;
+    Ti4560147748 = 2;
+    double Td4560247747;
+    Td4560247747 = l46449[Ti4560147748].d;
+    double Td4560347744;
+    Td4560347744 =  Td4560047746 * Td4560247747;
+    double Td4560447745;
+    Td4560447745 = o_param_c46388_fun(m46448, NULL);
+    double Td4560547743;
+    Td4560547743 =  Td4560347744 * Td4560447745;
+    result = Td4559747742 + Td4560547743;
+    return result;
+}
+
+double solver2nd_rot_b46450_fun(int* m46451, Value* l46452, Value *env){
+    double result;
+    Value* Ta4553547740;
+    Ta4553547740 = solver_w_vec;
+    int Ti4553647741;
+    Ti4553647741 = 2;
+    double Td4553747737;
+    Td4553747737 = Ta4553547740[Ti4553647741].d;
+    int Ti4553847739;
+    Ti4553847739 = 1;
+    double Td4553947738;
+    Td4553947738 = l46452[Ti4553847739].d;
+    double Td4554047730;
+    Td4554047730 =  Td4553747737 * Td4553947738;
+    Value* Ta4554147735;
+    Ta4554147735 = solver_w_vec;
+    int Ti4554247736;
+    Ti4554247736 = 1;
+    double Td4554347732;
+    Td4554347732 = Ta4554147735[Ti4554247736].d;
+    int Ti4554447734;
+    Ti4554447734 = 2;
+    double Td4554547733;
+    Td4554547733 = l46452[Ti4554447734].d;
+    double Td4554647731;
+    Td4554647731 =  Td4554347732 * Td4554547733;
+    double Td4554747728;
+    Td4554747728 = Td4554047730 + Td4554647731;
+    double Td4554847729;
+    Td4554847729 = o_param_r146406_fun(m46451, NULL);
+    double Td4554947712;
+    Td4554947712 =  Td4554747728 * Td4554847729;
+    Value* Ta4555047726;
+    Ta4555047726 = solver_w_vec;
+    int Ti4555147727;
+    Ti4555147727 = 0;
+    double Td4555247723;
+    Td4555247723 = Ta4555047726[Ti4555147727].d;
+    int Ti4555347725;
+    Ti4555347725 = 2;
+    double Td4555447724;
+    Td4555447724 = l46452[Ti4555347725].d;
+    double Td4555547716;
+    Td4555547716 =  Td4555247723 * Td4555447724;
+    Value* Ta4555647721;
+    Ta4555647721 = solver_w_vec;
+    int Ti4555747722;
+    Ti4555747722 = 2;
+    double Td4555847718;
+    Td4555847718 = Ta4555647721[Ti4555747722].d;
+    int Ti4555947720;
+    Ti4555947720 = 0;
+    double Td4556047719;
+    Td4556047719 = l46452[Ti4555947720].d;
+    double Td4556147717;
+    Td4556147717 =  Td4555847718 * Td4556047719;
+    double Td4556247714;
+    Td4556247714 = Td4555547716 + Td4556147717;
+    double Td4556347715;
+    Td4556347715 = o_param_r246408_fun(m46451, NULL);
+    double Td4556447713;
+    Td4556447713 =  Td4556247714 * Td4556347715;
+    double Td4556547696;
+    Td4556547696 = Td4554947712 + Td4556447713;
+    Value* Ta4556647710;
+    Ta4556647710 = solver_w_vec;
+    int Ti4556747711;
+    Ti4556747711 = 0;
+    double Td4556847707;
+    Td4556847707 = Ta4556647710[Ti4556747711].d;
+    int Ti4556947709;
+    Ti4556947709 = 1;
+    double Td4557047708;
+    Td4557047708 = l46452[Ti4556947709].d;
+    double Td4557147700;
+    Td4557147700 =  Td4556847707 * Td4557047708;
+    Value* Ta4557247705;
+    Ta4557247705 = solver_w_vec;
+    int Ti4557347706;
+    Ti4557347706 = 1;
+    double Td4557447702;
+    Td4557447702 = Ta4557247705[Ti4557347706].d;
+    int Ti4557547704;
+    Ti4557547704 = 0;
+    double Td4557647703;
+    Td4557647703 = l46452[Ti4557547704].d;
+    double Td4557747701;
+    Td4557747701 =  Td4557447702 * Td4557647703;
+    double Td4557847698;
+    Td4557847698 = Td4557147700 + Td4557747701;
+    double Td4557947699;
+    Td4557947699 = o_param_r346410_fun(m46451, NULL);
+    double Td4558047697;
+    Td4558047697 =  Td4557847698 * Td4557947699;
+    result = Td4556547696 + Td4558047697;
+    return result;
+}
+
+int solver_second46453_fun(int* m46454, Value* l46455, Value *env){
+    int result;
+    double aa047655;
+    aa047655 = in_prod_sqr_obj46441_fun(m46454, l46455, NULL);
+    int Ti4550647693;
+    Ti4550647693 = o_isrot46382_fun(m46454, NULL);
+    int Ti4550747694;
+    Ti4550747694 = 0;
+    double aa47656;
+    if(Ti4550647693 == Ti4550747694){
+	aa47656 = aa047655;
+    }
+    else{
+	double Td4550847695;
+	Td4550847695 = in_prod_co_objrot46444_fun(m46454, l46455, NULL);
+	aa47656 = aa047655 + Td4550847695;
+    }
+    double Td4550947657;
+    Td4550947657 = 0.000000;
+    if(Td4550947657 == aa47656){
+	result = 0;
+    }
+    else{
+	double Td4551047691;
+	Td4551047691 = 2.000000;
+	double Td4551147692;
+	Td4551147692 = solver2nd_mul_b46447_fun(m46454, l46455, NULL);
+	double bb047658;
+	bb047658 =  Td4551047691 * Td4551147692;
+	int Ti4551247688;
+	Ti4551247688 = o_isrot46382_fun(m46454, NULL);
+	int Ti4551347689;
+	Ti4551347689 = 0;
+	double bb47659;
+	if(Ti4551247688 == Ti4551347689){
+	    bb47659 = bb047658;
+	}
+	else{
+	    double Td4551447690;
+	    Td4551447690 = solver2nd_rot_b46450_fun(m46454, l46455, NULL);
+	    bb47659 = bb047658 + Td4551447690;
+	}
+	Value* Ta4551547687;
+	Ta4551547687 = solver_w_vec;
+	double cc047660;
+	cc047660 = in_prod_sqr_obj46441_fun(m46454, Ta4551547687, NULL);
+	int Ti4551647683;
+	Ti4551647683 = o_isrot46382_fun(m46454, NULL);
+	int Ti4551747684;
+	Ti4551747684 = 0;
+	double cc147661;
+	if(Ti4551647683 == Ti4551747684){
+	    cc147661 = cc047660;
+	}
+	else{
+	    Value* Ta4551847686;
+	    Ta4551847686 = solver_w_vec;
+	    double Td4551947685;
+	    Td4551947685 = in_prod_co_objrot46444_fun(m46454, Ta4551847686, NULL);
+	    cc147661 = cc047660 + Td4551947685;
+	}
+	int Ti4552047680;
+	Ti4552047680 = o_form46376_fun(m46454, NULL);
+	int Ti4552147681;
+	Ti4552147681 = 3;
+	double cc47662;
+	if(Ti4552047680 == Ti4552147681){
+	    double Td4552247682;
+	    Td4552247682 = 1.000000;
+	    cc47662 = cc147661 - Td4552247682;
+	}
+	else{
+	    cc47662 = cc147661;
+	}
+	double Td4552347679;
+	Td4552347679 = 4.000000;
+	double Td4552447678;
+	Td4552447678 =  Td4552347679 * aa47656;
+	double d247676;
+	d247676 =  Td4552447678 * cc47662;
+	double Td4552547677;
+	Td4552547677 = fsqr46370_fun(bb47659, NULL);
+	double d47663;
+	d47663 = Td4552547677 - d247676;
+	double Td4552647664;
+	Td4552647664 = 0.000000;
+	if(d47663 <= Td4552647664){
+	    result = 0;
+	}
+	else{
+	    double sd47665;
+	    sd47665 = sqrt(d47663);
+	    bool Tb4552747674;
+	    Tb4552747674 = o_isinvert46380_fun(m46454, NULL);
+	    int Ti4552847675;
+	    Ti4552847675 = 0;
+	    double t147666;
+	    if(Tb4552747674 == Ti4552847675){
+		t147666 = -sd47665;
+	    }
+	    else{
+		t147666 = sd47665;
+	    }
+	    Value* Ta4552947668;
+	    Ta4552947668 = solver_dist;
+	    int Ti4553047669;
+	    Ti4553047669 = 0;
+	    double Td4553147672;
+	    Td4553147672 = t147666 - bb47659;
+	    double Td4553247673;
+	    Td4553247673 = 2.000000;
+	    double Td4553347671;
+	    Td4553347671 = Td4553147672 / Td4553247673;
+	    double Td4553447670;
+	    Td4553447670 = Td4553347671 / aa47656;
+	    int Tu4446147667;
+	    Ta4552947668[Ti4553047669].d = Td4553447670;
+	    result = 1;
+	}
+    }
+    return result;
+}
+
+int solver46456_fun(int index46457, Value* l46458, Value* p46459, Value *env){
+    int result;
+    Value* Ta4548547654;
+    Ta4548547654 = objects;
+    int* m47629;
+    m47629 = Ta4548547654[index46457].a;
+    Value* Ta4548647648;
+    Ta4548647648 = solver_w_vec;
+    int Ti4548747649;
+    Ti4548747649 = 0;
+    int Ti4548847653;
+    Ti4548847653 = 0;
+    double Td4548947651;
+    Td4548947651 = p46459[Ti4548847653].d;
+    double Td4549047652;
+    Td4549047652 = o_param_x46390_fun(m47629, NULL);
+    double Td4549147650;
+    Td4549147650 = Td4548947651 - Td4549047652;
+    int Tu4446447630;
+    Ta4548647648[Ti4548747649].d = Td4549147650;
+    Value* Ta4549247642;
+    Ta4549247642 = solver_w_vec;
+    int Ti4549347643;
+    Ti4549347643 = 1;
+    int Ti4549447647;
+    Ti4549447647 = 1;
+    double Td4549547645;
+    Td4549547645 = p46459[Ti4549447647].d;
+    double Td4549647646;
+    Td4549647646 = o_param_y46392_fun(m47629, NULL);
+    double Td4549747644;
+    Td4549747644 = Td4549547645 - Td4549647646;
+    int Tu4446347631;
+    Ta4549247642[Ti4549347643].d = Td4549747644;
+    Value* Ta4549847636;
+    Ta4549847636 = solver_w_vec;
+    int Ti4549947637;
+    Ti4549947637 = 2;
+    int Ti4550047641;
+    Ti4550047641 = 2;
+    double Td4550147639;
+    Td4550147639 = p46459[Ti4550047641].d;
+    double Td4550247640;
+    Td4550247640 = o_param_z46394_fun(m47629, NULL);
+    double Td4550347638;
+    Td4550347638 = Td4550147639 - Td4550247640;
+    int Tu4446247632;
+    Ta4549847636[Ti4549947637].d = Td4550347638;
+    int m_shape47633;
+    m_shape47633 = o_form46376_fun(m47629, NULL);
+    int Ti4550447634;
+    Ti4550447634 = 1;
+    if(m_shape47633 == Ti4550447634){
+	result = solver_rect46435_fun(m47629, l46458, NULL);
+    }
+    else{
+	int Ti4550547635;
+	Ti4550547635 = 2;
+	if(m_shape47633 == Ti4550547635){
+	    result = solver_surface46438_fun(m47629, l46458, NULL);
+	}
+	else{
+	    result = solver_second46453_fun(m47629, l46458, NULL);
+	}
+    }
+    return result;
+}
+
+bool is_rect_outside46460_fun(int* m46461, Value *env){
+    bool result;
+    double Td4546647614;
+    Td4546647614 = o_param_a46384_fun(m46461, NULL);
+    Value* Ta4546747627;
+    Ta4546747627 = isoutside_q;
+    int Ti4546847628;
+    Ti4546847628 = 0;
+    double Td4546947626;
+    Td4546947626 = Ta4546747627[Ti4546847628].d;
+    double Td4547047615;
+    Td4547047615 = fabs(Td4546947626);
+    int Ti4548147610;
+    if(Td4546647614 <= Td4547047615){
+	Ti4548147610 = 0;
+    }
+    else{
+	double Td4547147616;
+	Td4547147616 = o_param_b46386_fun(m46461, NULL);
+	Value* Ta4547247624;
+	Ta4547247624 = isoutside_q;
+	int Ti4547347625;
+	Ti4547347625 = 1;
+	double Td4547447623;
+	Td4547447623 = Ta4547247624[Ti4547347625].d;
+	double Td4547547617;
+	Td4547547617 = fabs(Td4547447623);
+	if(Td4547147616 <= Td4547547617){
+	    Ti4548147610 = 0;
+	}
+	else{
+	    double Td4547647618;
+	    Td4547647618 = o_param_c46388_fun(m46461, NULL);
+	    Value* Ta4547747621;
+	    Ta4547747621 = isoutside_q;
+	    int Ti4547847622;
+	    Ti4547847622 = 2;
+	    double Td4547947620;
+	    Td4547947620 = Ta4547747621[Ti4547847622].d;
+	    double Td4548047619;
+	    Td4548047619 = fabs(Td4547947620);
+	    if(Td4547647618 <= Td4548047619){
+		Ti4548147610 = 0;
+	    }
+	    else{
+		Ti4548147610 = 1;
+	    }
+	}
+    }
+    int Ti4548247611;
+    Ti4548247611 = 0;
+    if(Ti4548147610 == Ti4548247611){
+	bool Tb4548347612;
+	Tb4548347612 = o_isinvert46380_fun(m46461, NULL);
+	int Ti4548447613;
+	Ti4548447613 = 0;
+	if(Tb4548347612 == Ti4548447613){
+	    result = 1;
+	}
+	else{
+	    result = 0;
+	}
+    }
+    else{
+	result = o_isinvert46380_fun(m46461, NULL);
+    }
+    return result;
+}
+
+bool is_plane_outside46462_fun(int* m46463, Value *env){
+    bool result;
+    double Td4544647606;
+    Td4544647606 = o_param_a46384_fun(m46463, NULL);
+    Value* Ta4544747608;
+    Ta4544747608 = isoutside_q;
+    int Ti4544847609;
+    Ti4544847609 = 0;
+    double Td4544947607;
+    Td4544947607 = Ta4544747608[Ti4544847609].d;
+    double Td4545047600;
+    Td4545047600 =  Td4544647606 * Td4544947607;
+    double Td4545147602;
+    Td4545147602 = o_param_b46386_fun(m46463, NULL);
+    Value* Ta4545247604;
+    Ta4545247604 = isoutside_q;
+    int Ti4545347605;
+    Ti4545347605 = 1;
+    double Td4545447603;
+    Td4545447603 = Ta4545247604[Ti4545347605].d;
+    double Td4545547601;
+    Td4545547601 =  Td4545147602 * Td4545447603;
+    double Td4545647594;
+    Td4545647594 = Td4545047600 + Td4545547601;
+    double Td4545747596;
+    Td4545747596 = o_param_c46388_fun(m46463, NULL);
+    Value* Ta4545847598;
+    Ta4545847598 = isoutside_q;
+    int Ti4545947599;
+    Ti4545947599 = 2;
+    double Td4546047597;
+    Td4546047597 = Ta4545847598[Ti4545947599].d;
+    double Td4546147595;
+    Td4546147595 =  Td4545747596 * Td4546047597;
+    double w47588;
+    w47588 = Td4545647594 + Td4546147595;
+    double Td4546247593;
+    Td4546247593 = 0.000000;
+    bool s47589;
+    if(Td4546247593 <= w47588){
+	s47589 = 0;
+    }
+    else{
+	s47589 = 1;
+    }
+    bool Tb4546347592;
+    Tb4546347592 = o_isinvert46380_fun(m46463, NULL);
+    bool Tb4546447590;
+    Tb4546447590 = xor46367_fun(Tb4546347592, s47589, NULL);
+    int Ti4546547591;
+    Ti4546547591 = 0;
+    if(Tb4546447590 == Ti4546547591){
+	result = 1;
+    }
+    else{
+	result = 0;
+    }
+    return result;
+}
+
+bool is_second_outside46464_fun(int* m46465, Value *env){
+    bool result;
+    Value* Ta4543447587;
+    Ta4543447587 = isoutside_q;
+    double w47572;
+    w47572 = in_prod_sqr_obj46441_fun(m46465, Ta4543447587, NULL);
+    int Ti4543547584;
+    Ti4543547584 = o_form46376_fun(m46465, NULL);
+    int Ti4543647585;
+    Ti4543647585 = 3;
+    double w247573;
+    if(Ti4543547584 == Ti4543647585){
+	double Td4543747586;
+	Td4543747586 = 1.000000;
+	w247573 = w47572 - Td4543747586;
+    }
+    else{
+	w247573 = w47572;
+    }
+    int Ti4543847580;
+    Ti4543847580 = o_isrot46382_fun(m46465, NULL);
+    int Ti4543947581;
+    Ti4543947581 = 0;
+    double w347574;
+    if(Ti4543847580 == Ti4543947581){
+	w347574 = w247573;
+    }
+    else{
+	Value* Ta4544047583;
+	Ta4544047583 = isoutside_q;
+	double Td4544147582;
+	Td4544147582 = in_prod_co_objrot46444_fun(m46465, Ta4544047583, NULL);
+	w347574 = w247573 + Td4544147582;
+    }
+    double Td4544247579;
+    Td4544247579 = 0.000000;
+    bool s47575;
+    if(Td4544247579 <= w347574){
+	s47575 = 0;
+    }
+    else{
+	s47575 = 1;
+    }
+    bool Tb4544347578;
+    Tb4544347578 = o_isinvert46380_fun(m46465, NULL);
+    bool Tb4544447576;
+    Tb4544447576 = xor46367_fun(Tb4544347578, s47575, NULL);
+    int Ti4544547577;
+    Ti4544547577 = 0;
+    if(Tb4544447576 == Ti4544547577){
+	result = 1;
+    }
+    else{
+	result = 0;
+    }
+    return result;
+}
+
+bool is_outside46466_fun(int* m46467, Value *env){
+    bool result;
+    Value* Ta4541147565;
+    Ta4541147565 = isoutside_q;
+    int Ti4541247566;
+    Ti4541247566 = 0;
+    Value* Ta4541347570;
+    Ta4541347570 = chkinside_p;
+    int Ti4541447571;
+    Ti4541447571 = 0;
+    double Td4541547568;
+    Td4541547568 = Ta4541347570[Ti4541447571].d;
+    double Td4541647569;
+    Td4541647569 = o_param_x46390_fun(m46467, NULL);
+    double Td4541747567;
+    Td4541747567 = Td4541547568 - Td4541647569;
+    int Tu4446747545;
+    Ta4541147565[Ti4541247566].d = Td4541747567;
+    Value* Ta4541847558;
+    Ta4541847558 = isoutside_q;
+    int Ti4541947559;
+    Ti4541947559 = 1;
+    Value* Ta4542047563;
+    Ta4542047563 = chkinside_p;
+    int Ti4542147564;
+    Ti4542147564 = 1;
+    double Td4542247561;
+    Td4542247561 = Ta4542047563[Ti4542147564].d;
+    double Td4542347562;
+    Td4542347562 = o_param_y46392_fun(m46467, NULL);
+    double Td4542447560;
+    Td4542447560 = Td4542247561 - Td4542347562;
+    int Tu4446647546;
+    Ta4541847558[Ti4541947559].d = Td4542447560;
+    Value* Ta4542547551;
+    Ta4542547551 = isoutside_q;
+    int Ti4542647552;
+    Ti4542647552 = 2;
+    Value* Ta4542747556;
+    Ta4542747556 = chkinside_p;
+    int Ti4542847557;
+    Ti4542847557 = 2;
+    double Td4542947554;
+    Td4542947554 = Ta4542747556[Ti4542847557].d;
+    double Td4543047555;
+    Td4543047555 = o_param_z46394_fun(m46467, NULL);
+    double Td4543147553;
+    Td4543147553 = Td4542947554 - Td4543047555;
+    int Tu4446547547;
+    Ta4542547551[Ti4542647552].d = Td4543147553;
+    int m_shape47548;
+    m_shape47548 = o_form46376_fun(m46467, NULL);
+    int Ti4543247549;
+    Ti4543247549 = 1;
+    if(m_shape47548 == Ti4543247549){
+	result = is_rect_outside46460_fun(m46467, NULL);
+    }
+    else{
+	int Ti4543347550;
+	Ti4543347550 = 2;
+	if(m_shape47548 == Ti4543347550){
+	    result = is_plane_outside46462_fun(m46467, NULL);
+	}
+	else{
+	    result = is_second_outside46464_fun(m46467, NULL);
+	}
+    }
+    return result;
+}
+
+bool check_all_inside46468_fun(int ofs46469, Value* iand46470, Value *env){
+    bool result;
+    int head47536;
+    head47536 = iand46470[ofs46469].i;
+    int Ti4540347544;
+    Ti4540347544 = 1;
+    int Ti4540447537;
+    Ti4540447537 = -Ti4540347544;
+    if(head47536 == Ti4540447537){
+	result = 1;
+    }
+    else{
+	Value* Ta4540547543;
+	Ta4540547543 = objects;
+	int* Tt4540647542;
+	Tt4540647542 = Ta4540547543[head47536].a;
+	bool Tb4540747538;
+	Tb4540747538 = is_outside46466_fun(Tt4540647542, NULL);
+	int Ti4540847539;
+	Ti4540847539 = 0;
+	if(Tb4540747538 == Ti4540847539){
+	    int Ti4540947541;
+	    Ti4540947541 = 1;
+	    int Ti4541047540;
+	    Ti4541047540 = ofs46469 + Ti4540947541;
+	    result = check_all_inside46468_fun(Ti4541047540, iand46470, NULL);
+	}
+	else{
+	    result = 0;
+	}
+    }
+    return result;
+}
+
+bool shadow_check_and_group46471_fun(int iand_ofs46472, Value* and_group46473, Value* p46474, Value *env){
+    bool result;
+    int Ti4535447480;
+    Ti4535447480 = and_group46473[iand_ofs46472].i;
+    int Ti4535547535;
+    Ti4535547535 = 1;
+    int Ti4535647481;
+    Ti4535647481 = -Ti4535547535;
+    if(Ti4535447480 == Ti4535647481){
+	result = 0;
+    }
+    else{
+	int obj47482;
+	obj47482 = and_group46473[iand_ofs46472].i;
+	Value* Ta4535747534;
+	Ta4535747534 = light;
+	int t047483;
+	t047483 = solver46456_fun(obj47482, Ta4535747534, p46474, NULL);
+	Value* Ta4535847532;
+	Ta4535847532 = solver_dist;
+	int Ti4535947533;
+	Ti4535947533 = 0;
+	double t0p47484;
+	t0p47484 = Ta4535847532[Ti4535947533].d;
+	int Ti4536047530;
+	Ti4536047530 = 0;
+	int Ti4536247485;
+	if(t047483 == Ti4536047530){
+	    Ti4536247485 = 0;
+	}
+	else{
+	    double Td4536147531;
+	    Td4536147531 = -0.200000;
+	    if(Td4536147531 <= t0p47484){
+		Ti4536247485 = 0;
+	    }
+	    else{
+		Ti4536247485 = 1;
+	    }
+	}
+	int Ti4536347486;
+	Ti4536347486 = 0;
+	if(Ti4536247485 == Ti4536347486){
+	    Value* Ta4536447529;
+	    Ta4536447529 = objects;
+	    int* Tt4536547528;
+	    Tt4536547528 = Ta4536447529[obj47482].a;
+	    bool Tb4536647524;
+	    Tb4536647524 = o_isinvert46380_fun(Tt4536547528, NULL);
+	    int Ti4536747525;
+	    Ti4536747525 = 0;
+	    if(Tb4536647524 == Ti4536747525){
+		result = 0;
+	    }
+	    else{
+		int Ti4536847527;
+		Ti4536847527 = 1;
+		int Ti4536947526;
+		Ti4536947526 = iand_ofs46472 + Ti4536847527;
+		result = shadow_check_and_group46471_fun(Ti4536947526, and_group46473, p46474, NULL);
+	    }
+	}
+	else{
+	    double Td4537047523;
+	    Td4537047523 = 0.010000;
+	    double t47487;
+	    t47487 = t0p47484 + Td4537047523;
+	    Value* Ta4537147514;
+	    Ta4537147514 = chkinside_p;
+	    int Ti4537247515;
+	    Ti4537247515 = 0;
+	    Value* Ta4537347521;
+	    Ta4537347521 = light;
+	    int Ti4537447522;
+	    Ti4537447522 = 0;
+	    double Td4537547520;
+	    Td4537547520 = Ta4537347521[Ti4537447522].d;
+	    double Td4537647517;
+	    Td4537647517 =  Td4537547520 * t47487;
+	    int Ti4537747519;
+	    Ti4537747519 = 0;
+	    double Td4537847518;
+	    Td4537847518 = p46474[Ti4537747519].d;
+	    double Td4537947516;
+	    Td4537947516 = Td4537647517 + Td4537847518;
+	    int Tu4447047488;
+	    Ta4537147514[Ti4537247515].d = Td4537947516;
+	    Value* Ta4538047505;
+	    Ta4538047505 = chkinside_p;
+	    int Ti4538147506;
+	    Ti4538147506 = 1;
+	    Value* Ta4538247512;
+	    Ta4538247512 = light;
+	    int Ti4538347513;
+	    Ti4538347513 = 1;
+	    double Td4538447511;
+	    Td4538447511 = Ta4538247512[Ti4538347513].d;
+	    double Td4538547508;
+	    Td4538547508 =  Td4538447511 * t47487;
+	    int Ti4538647510;
+	    Ti4538647510 = 1;
+	    double Td4538747509;
+	    Td4538747509 = p46474[Ti4538647510].d;
+	    double Td4538847507;
+	    Td4538847507 = Td4538547508 + Td4538747509;
+	    int Tu4446947489;
+	    Ta4538047505[Ti4538147506].d = Td4538847507;
+	    Value* Ta4538947496;
+	    Ta4538947496 = chkinside_p;
+	    int Ti4539047497;
+	    Ti4539047497 = 2;
+	    Value* Ta4539147503;
+	    Ta4539147503 = light;
+	    int Ti4539247504;
+	    Ti4539247504 = 2;
+	    double Td4539347502;
+	    Td4539347502 = Ta4539147503[Ti4539247504].d;
+	    double Td4539447499;
+	    Td4539447499 =  Td4539347502 * t47487;
+	    int Ti4539547501;
+	    Ti4539547501 = 2;
+	    double Td4539647500;
+	    Td4539647500 = p46474[Ti4539547501].d;
+	    double Td4539747498;
+	    Td4539747498 = Td4539447499 + Td4539647500;
+	    int Tu4446847490;
+	    Ta4538947496[Ti4539047497].d = Td4539747498;
+	    int Ti4539847495;
+	    Ti4539847495 = 0;
+	    bool Tb4539947491;
+	    Tb4539947491 = check_all_inside46468_fun(Ti4539847495, and_group46473, NULL);
+	    int Ti4540047492;
+	    Ti4540047492 = 0;
+	    if(Tb4539947491 == Ti4540047492){
+		int Ti4540147494;
+		Ti4540147494 = 1;
+		int Ti4540247493;
+		Ti4540247493 = iand_ofs46472 + Ti4540147494;
+		result = shadow_check_and_group46471_fun(Ti4540247493, and_group46473, p46474, NULL);
+	    }
+	    else{
+		result = 1;
+	    }
+	}
+    }
+    return result;
+}
+
+bool shadow_check_one_or_group46475_fun(int ofs46476, Value* or_group46477, Value* p46478, Value *env){
+    bool result;
+    int head47470;
+    head47470 = or_group46477[ofs46476].i;
+    int Ti4534747479;
+    Ti4534747479 = 1;
+    int Ti4534847471;
+    Ti4534847471 = -Ti4534747479;
+    if(head47470 == Ti4534847471){
+	result = 0;
+    }
+    else{
+	Value* Ta4534947478;
+	Ta4534947478 = and_net;
+	Value* and_group47472;
+	and_group47472 = Ta4534947478[head47470].a;
+	int Ti4535047477;
+	Ti4535047477 = 0;
+	bool shadow_p47473;
+	shadow_p47473 = shadow_check_and_group46471_fun(Ti4535047477, and_group47472, p46478, NULL);
+	int Ti4535147474;
+	Ti4535147474 = 0;
+	if(shadow_p47473 == Ti4535147474){
+	    int Ti4535247476;
+	    Ti4535247476 = 1;
+	    int Ti4535347475;
+	    Ti4535347475 = ofs46476 + Ti4535247476;
+	    result = shadow_check_one_or_group46475_fun(Ti4535347475, or_group46477, p46478, NULL);
+	}
+	else{
+	    result = 1;
+	}
+    }
+    return result;
+}
+
+bool shadow_check_one_or_matrix46479_fun(int ofs46480, Value* or_matrix46481, Value* p46482, Value *env){
+    bool result;
+    Value* head47443;
+    head47443 = or_matrix46481[ofs46480].a;
+    int Ti4532347469;
+    Ti4532347469 = 0;
+    int range_primitive47444;
+    range_primitive47444 = head47443[Ti4532347469].i;
+    int Ti4532447468;
+    Ti4532447468 = 1;
+    int Ti4532547445;
+    Ti4532547445 = -Ti4532447468;
+    if(range_primitive47444 == Ti4532547445){
+	result = 0;
+    }
+    else{
+	int Ti4532647446;
+	Ti4532647446 = 99;
+	if(range_primitive47444 == Ti4532647446){
+	    int Ti4532747467;
+	    Ti4532747467 = 1;
+	    bool Tb4532847463;
+	    Tb4532847463 = shadow_check_one_or_group46475_fun(Ti4532747467, head47443, p46482, NULL);
+	    int Ti4532947464;
+	    Ti4532947464 = 0;
+	    if(Tb4532847463 == Ti4532947464){
+		int Ti4533047466;
+		Ti4533047466 = 1;
+		int Ti4533147465;
+		Ti4533147465 = ofs46480 + Ti4533047466;
+		result = shadow_check_one_or_matrix46479_fun(Ti4533147465, or_matrix46481, p46482, NULL);
+	    }
+	    else{
+		result = 1;
+	    }
+	}
+	else{
+	    Value* Ta4533247462;
+	    Ta4533247462 = light;
+	    int t47447;
+	    t47447 = solver46456_fun(range_primitive47444, Ta4533247462, p46482, NULL);
+	    int Ti4533347448;
+	    Ti4533347448 = 0;
+	    if(t47447 == Ti4533347448){
+		int Ti4533447461;
+		Ti4533447461 = 1;
+		int Ti4533547460;
+		Ti4533547460 = ofs46480 + Ti4533447461;
+		result = shadow_check_one_or_matrix46479_fun(Ti4533547460, or_matrix46481, p46482, NULL);
+	    }
+	    else{
+		double Td4533647449;
+		Td4533647449 = -0.100000;
+		Value* Ta4533747458;
+		Ta4533747458 = solver_dist;
+		int Ti4533847459;
+		Ti4533847459 = 0;
+		double Td4533947450;
+		Td4533947450 = Ta4533747458[Ti4533847459].d;
+		if(Td4533647449 <= Td4533947450){
+		    int Ti4534047457;
+		    Ti4534047457 = 1;
+		    int Ti4534147456;
+		    Ti4534147456 = ofs46480 + Ti4534047457;
+		    result = shadow_check_one_or_matrix46479_fun(Ti4534147456, or_matrix46481, p46482, NULL);
+		}
+		else{
+		    int Ti4534247455;
+		    Ti4534247455 = 1;
+		    bool Tb4534347451;
+		    Tb4534347451 = shadow_check_one_or_group46475_fun(Ti4534247455, head47443, p46482, NULL);
+		    int Ti4534447452;
+		    Ti4534447452 = 0;
+		    if(Tb4534347451 == Ti4534447452){
+			int Ti4534547454;
+			Ti4534547454 = 1;
+			int Ti4534647453;
+			Ti4534647453 = ofs46480 + Ti4534547454;
+			result = shadow_check_one_or_matrix46479_fun(Ti4534647453, or_matrix46481, p46482, NULL);
+		    }
+		    else{
+			result = 1;
+		    }
+		}
+	    }
+	}
+    }
+    return result;
+}
+
+int solve_each_element46483_fun(int iand_ofs46484, Value* and_group46485, Value *env){
+    int result;
+    int iobj47351;
+    iobj47351 = and_group46485[iand_ofs46484].i;
+    int Ti4524447442;
+    Ti4524447442 = 1;
+    int Ti4524547352;
+    Ti4524547352 = -Ti4524447442;
+    if(iobj47351 == Ti4524547352){
+	result = 1;
+    }
+    else{
+	Value* Ta4524647440;
+	Ta4524647440 = vscan;
+	Value* Ta4524747441;
+	Ta4524747441 = viewpoint;
+	int t047353;
+	t047353 = solver46456_fun(iobj47351, Ta4524647440, Ta4524747441, NULL);
+	int Ti4524847361;
+	Ti4524847361 = 0;
+	int Tu4447947354;
+	if(t047353 == Ti4524847361){
+	    Value* Ta4524947439;
+	    Ta4524947439 = objects;
+	    int* Tt4525047438;
+	    Tt4525047438 = Ta4524947439[iobj47351].a;
+	    bool Tb4525147433;
+	    Tb4525147433 = o_isinvert46380_fun(Tt4525047438, NULL);
+	    int Ti4525247434;
+	    Ti4525247434 = 0;
+	    if(Tb4525147433 == Ti4525247434){
+		Value* Ta4525347435;
+		Ta4525347435 = end_flag;
+		int Ti4525447436;
+		Ti4525447436 = 0;
+		int Ti4525547437;
+		Ti4525547437 = 1;
+		Ta4525347435[Ti4525447436].i = Ti4525547437;
+	    }
+	    else{
+		Tu4447947354 = 1;
+	    }
+	}
+	else{
+	    Value* Ta4525647431;
+	    Ta4525647431 = solver_dist;
+	    int Ti4525747432;
+	    Ti4525747432 = 0;
+	    double t0p47362;
+	    t0p47362 = Ta4525647431[Ti4525747432].d;
+	    double Td4525847363;
+	    Td4525847363 = -0.100000;
+	    if(t0p47362 <= Td4525847363){
+		Tu4447947354 = 1;
+	    }
+	    else{
+		Value* Ta4525947429;
+		Ta4525947429 = tmin;
+		int Ti4526047430;
+		Ti4526047430 = 0;
+		double Td4526147364;
+		Td4526147364 = Ta4525947429[Ti4526047430].d;
+		if(Td4526147364 <= t0p47362){
+		    Tu4447947354 = 1;
+		}
+		else{
+		    double Td4526247428;
+		    Td4526247428 = 0.010000;
+		    double t47365;
+		    t47365 = t0p47362 + Td4526247428;
+		    Value* Ta4526347418;
+		    Ta4526347418 = chkinside_p;
+		    int Ti4526447419;
+		    Ti4526447419 = 0;
+		    Value* Ta4526547426;
+		    Ta4526547426 = vscan;
+		    int Ti4526647427;
+		    Ti4526647427 = 0;
+		    double Td4526747425;
+		    Td4526747425 = Ta4526547426[Ti4526647427].d;
+		    double Td4526847421;
+		    Td4526847421 =  Td4526747425 * t47365;
+		    Value* Ta4526947423;
+		    Ta4526947423 = viewpoint;
+		    int Ti4527047424;
+		    Ti4527047424 = 0;
+		    double Td4527147422;
+		    Td4527147422 = Ta4526947423[Ti4527047424].d;
+		    double Td4527247420;
+		    Td4527247420 = Td4526847421 + Td4527147422;
+		    int Tu4447847366;
+		    Ta4526347418[Ti4526447419].d = Td4527247420;
+		    Value* Ta4527347408;
+		    Ta4527347408 = chkinside_p;
+		    int Ti4527447409;
+		    Ti4527447409 = 1;
+		    Value* Ta4527547416;
+		    Ta4527547416 = vscan;
+		    int Ti4527647417;
+		    Ti4527647417 = 1;
+		    double Td4527747415;
+		    Td4527747415 = Ta4527547416[Ti4527647417].d;
+		    double Td4527847411;
+		    Td4527847411 =  Td4527747415 * t47365;
+		    Value* Ta4527947413;
+		    Ta4527947413 = viewpoint;
+		    int Ti4528047414;
+		    Ti4528047414 = 1;
+		    double Td4528147412;
+		    Td4528147412 = Ta4527947413[Ti4528047414].d;
+		    double Td4528247410;
+		    Td4528247410 = Td4527847411 + Td4528147412;
+		    int Tu4447747367;
+		    Ta4527347408[Ti4527447409].d = Td4528247410;
+		    Value* Ta4528347398;
+		    Ta4528347398 = chkinside_p;
+		    int Ti4528447399;
+		    Ti4528447399 = 2;
+		    Value* Ta4528547406;
+		    Ta4528547406 = vscan;
+		    int Ti4528647407;
+		    Ti4528647407 = 2;
+		    double Td4528747405;
+		    Td4528747405 = Ta4528547406[Ti4528647407].d;
+		    double Td4528847401;
+		    Td4528847401 =  Td4528747405 * t47365;
+		    Value* Ta4528947403;
+		    Ta4528947403 = viewpoint;
+		    int Ti4529047404;
+		    Ti4529047404 = 2;
+		    double Td4529147402;
+		    Td4529147402 = Ta4528947403[Ti4529047404].d;
+		    double Td4529247400;
+		    Td4529247400 = Td4528847401 + Td4529147402;
+		    int Tu4447647368;
+		    Ta4528347398[Ti4528447399].d = Td4529247400;
+		    int Ti4529347397;
+		    Ti4529347397 = 0;
+		    bool Tb4529447369;
+		    Tb4529447369 = check_all_inside46468_fun(Ti4529347397, and_group46485, NULL);
+		    int Ti4529547370;
+		    Ti4529547370 = 0;
+		    if(Tb4529447369 == Ti4529547370){
+			Tu4447947354 = 1;
+		    }
+		    else{
+			Value* Ta4529647395;
+			Ta4529647395 = tmin;
+			int Ti4529747396;
+			Ti4529747396 = 0;
+			int Tu4447547371;
+			Ta4529647395[Ti4529747396].d = t47365;
+			Value* Ta4529847390;
+			Ta4529847390 = crashed_point;
+			int Ti4529947391;
+			Ti4529947391 = 0;
+			Value* Ta4530047393;
+			Ta4530047393 = chkinside_p;
+			int Ti4530147394;
+			Ti4530147394 = 0;
+			double Td4530247392;
+			Td4530247392 = Ta4530047393[Ti4530147394].d;
+			int Tu4447447372;
+			Ta4529847390[Ti4529947391].d = Td4530247392;
+			Value* Ta4530347385;
+			Ta4530347385 = crashed_point;
+			int Ti4530447386;
+			Ti4530447386 = 1;
+			Value* Ta4530547388;
+			Ta4530547388 = chkinside_p;
+			int Ti4530647389;
+			Ti4530647389 = 1;
+			double Td4530747387;
+			Td4530747387 = Ta4530547388[Ti4530647389].d;
+			int Tu4447347373;
+			Ta4530347385[Ti4530447386].d = Td4530747387;
+			Value* Ta4530847380;
+			Ta4530847380 = crashed_point;
+			int Ti4530947381;
+			Ti4530947381 = 2;
+			Value* Ta4531047383;
+			Ta4531047383 = chkinside_p;
+			int Ti4531147384;
+			Ti4531147384 = 2;
+			double Td4531247382;
+			Td4531247382 = Ta4531047383[Ti4531147384].d;
+			int Tu4447247374;
+			Ta4530847380[Ti4530947381].d = Td4531247382;
+			Value* Ta4531347378;
+			Ta4531347378 = intsec_rectside;
+			int Ti4531447379;
+			Ti4531447379 = 0;
+			int Tu4447147375;
+			Ta4531347378[Ti4531447379].i = t047353;
+			Value* Ta4531547376;
+			Ta4531547376 = crashed_object;
+			int Ti4531647377;
+			Ti4531647377 = 0;
+			Ta4531547376[Ti4531647377].i = iobj47351;
+		    }
+		}
+	    }
+	}
+	Value* Ta4531747359;
+	Ta4531747359 = end_flag;
+	int Ti4531847360;
+	Ti4531847360 = 0;
+	bool Tb4531947355;
+	Tb4531947355 = Ta4531747359[Ti4531847360].b;
+	int Ti4532047356;
+	Ti4532047356 = 0;
+	if(Tb4531947355 == Ti4532047356){
+	    int Ti4532147358;
+	    Ti4532147358 = 1;
+	    int Ti4532247357;
+	    Ti4532247357 = iand_ofs46484 + Ti4532147358;
+	    result = solve_each_element46483_fun(Ti4532247357, and_group46485, NULL);
+	}
+	else{
+	    result = 1;
+	}
+    }
+    return result;
+}
+
+int solve_one_or_network46486_fun(int ofs46487, Value* or_group46488, Value *env){
+    int result;
+    int head47338;
+    head47338 = or_group46488[ofs46487].i;
+    int Ti4523547350;
+    Ti4523547350 = 1;
+    int Ti4523647339;
+    Ti4523647339 = -Ti4523547350;
+    if(head47338 == Ti4523647339){
+	result = 1;
+    }
+    else{
+	Value* Ta4523747349;
+	Ta4523747349 = and_net;
+	Value* and_group47340;
+	and_group47340 = Ta4523747349[head47338].a;
+	Value* Ta4523847346;
+	Ta4523847346 = end_flag;
+	int Ti4523947347;
+	Ti4523947347 = 0;
+	int Ti4524047348;
+	Ti4524047348 = 0;
+	int Tu4448147341;
+	Ta4523847346[Ti4523947347].i = Ti4524047348;
+	int Ti4524147345;
+	Ti4524147345 = 0;
+	int Tu4448047342;
+	Tu4448047342 = solve_each_element46483_fun(Ti4524147345, and_group47340, NULL);
+	int Ti4524247344;
+	Ti4524247344 = 1;
+	int Ti4524347343;
+	Ti4524347343 = ofs46487 + Ti4524247344;
+	result = solve_one_or_network46486_fun(Ti4524347343, or_group46488, NULL);
+    }
+    return result;
+}
+
+int trace_or_matrix46489_fun(int ofs46490, Value* or_network46491, Value *env){
+    int result;
+    Value* head47317;
+    head47317 = or_network46491[ofs46490].a;
+    int Ti4521947337;
+    Ti4521947337 = 0;
+    int range_primitive47318;
+    range_primitive47318 = head47317[Ti4521947337].i;
+    int Ti4522047336;
+    Ti4522047336 = 1;
+    int Ti4522147319;
+    Ti4522147319 = -Ti4522047336;
+    if(range_primitive47318 == Ti4522147319){
+	result = 1;
+    }
+    else{
+	int Ti4522247323;
+	Ti4522247323 = 99;
+	int Tu4448247320;
+	if(range_primitive47318 == Ti4522247323){
+	    int Ti4522347335;
+	    Ti4522347335 = 1;
+	    Tu4448247320 = solve_one_or_network46486_fun(Ti4522347335, head47317, NULL);
+	}
+	else{
+	    Value* Ta4522447333;
+	    Ta4522447333 = vscan;
+	    Value* Ta4522547334;
+	    Ta4522547334 = viewpoint;
+	    int t47324;
+	    t47324 = solver46456_fun(range_primitive47318, Ta4522447333, Ta4522547334, NULL);
+	    int Ti4522647325;
+	    Ti4522647325 = 0;
+	    if(t47324 == Ti4522647325){
+		Tu4448247320 = 1;
+	    }
+	    else{
+		Value* Ta4522747331;
+		Ta4522747331 = solver_dist;
+		int Ti4522847332;
+		Ti4522847332 = 0;
+		double tp47326;
+		tp47326 = Ta4522747331[Ti4522847332].d;
+		Value* Ta4522947329;
+		Ta4522947329 = tmin;
+		int Ti4523047330;
+		Ti4523047330 = 0;
+		double Td4523147327;
+		Td4523147327 = Ta4522947329[Ti4523047330].d;
+		if(Td4523147327 <= tp47326){
+		    Tu4448247320 = 1;
+		}
+		else{
+		    int Ti4523247328;
+		    Ti4523247328 = 1;
+		    Tu4448247320 = solve_one_or_network46486_fun(Ti4523247328, head47317, NULL);
+		}
+	    }
+	}
+	int Ti4523347322;
+	Ti4523347322 = 1;
+	int Ti4523447321;
+	Ti4523447321 = ofs46490 + Ti4523347322;
+	result = trace_or_matrix46489_fun(Ti4523447321, or_network46491, NULL);
+    }
+    return result;
+}
+
+bool tracer46492_fun(Value* viewpoint46493, Value* vscan46494, Value *env){
+    bool result;
+    Value* Ta4520847314;
+    Ta4520847314 = tmin;
+    int Ti4520947315;
+    Ti4520947315 = 0;
+    double Td4521047316;
+    Td4521047316 = 1000000000.000000;
+    int Tu4448447303;
+    Ta4520847314[Ti4520947315].d = Td4521047316;
+    int Ti4521147310;
+    Ti4521147310 = 0;
+    Value* Ta4521247312;
+    Ta4521247312 = or_net;
+    int Ti4521347313;
+    Ti4521347313 = 0;
+    Value* Ta4521447311;
+    Ta4521447311 = Ta4521247312[Ti4521347313].a;
+    int Tu4448347304;
+    Tu4448347304 = trace_or_matrix46489_fun(Ti4521147310, Ta4521447311, NULL);
+    Value* Ta4521547308;
+    Ta4521547308 = tmin;
+    int Ti4521647309;
+    Ti4521647309 = 0;
+    double t47305;
+    t47305 = Ta4521547308[Ti4521647309].d;
+    double Td4521747306;
+    Td4521747306 = -0.100000;
+    if(t47305 <= Td4521747306){
+	result = 0;
+    }
+    else{
+	double Td4521847307;
+	Td4521847307 = 100000000.000000;
+	if(Td4521847307 <= t47305){
+	    result = 0;
+	}
+	else{
+	    result = 1;
+	}
+    }
+    return result;
+}
+
+int get_nvector_rect46495_fun(int Tu4448546496, Value *env){
+    int result;
+    Value* Ta4516447301;
+    Ta4516447301 = intsec_rectside;
+    int Ti4516547302;
+    Ti4516547302 = 0;
+    int rectside47252;
+    rectside47252 = Ta4516447301[Ti4516547302].i;
+    int Ti4516647253;
+    Ti4516647253 = 1;
+    if(rectside47252 == Ti4516647253){
+	Value* Ta4516747294;
+	Ta4516747294 = nvector;
+	int Ti4516847295;
+	Ti4516847295 = 0;
+	Value* Ta4516947299;
+	Ta4516947299 = vscan;
+	int Ti4517047300;
+	Ti4517047300 = 0;
+	double Td4517147298;
+	Td4517147298 = Ta4516947299[Ti4517047300].d;
+	double Td4517247297;
+	Td4517247297 = sgn46415_fun(Td4517147298, NULL);
+	double Td4517347296;
+	Td4517347296 = -Td4517247297;
+	int Tu4448747286;
+	Ta4516747294[Ti4516847295].d = Td4517347296;
+	Value* Ta4517447291;
+	Ta4517447291 = nvector;
+	int Ti4517547292;
+	Ti4517547292 = 1;
+	double Td4517647293;
+	Td4517647293 = 0.000000;
+	int Tu4448647287;
+	Ta4517447291[Ti4517547292].d = Td4517647293;
+	Value* Ta4517747288;
+	Ta4517747288 = nvector;
+	int Ti4517847289;
+	Ti4517847289 = 2;
+	double Td4517947290;
+	Td4517947290 = 0.000000;
+	Ta4517747288[Ti4517847289].d = Td4517947290;
+    }
+    else{
+	int Ti4518047254;
+	Ti4518047254 = 2;
+	if(rectside47252 == Ti4518047254){
+	    Value* Ta4518147283;
+	    Ta4518147283 = nvector;
+	    int Ti4518247284;
+	    Ti4518247284 = 0;
+	    double Td4518347285;
+	    Td4518347285 = 0.000000;
+	    int Tu4448947271;
+	    Ta4518147283[Ti4518247284].d = Td4518347285;
+	    Value* Ta4518447276;
+	    Ta4518447276 = nvector;
+	    int Ti4518547277;
+	    Ti4518547277 = 1;
+	    Value* Ta4518647281;
+	    Ta4518647281 = vscan;
+	    int Ti4518747282;
+	    Ti4518747282 = 1;
+	    double Td4518847280;
+	    Td4518847280 = Ta4518647281[Ti4518747282].d;
+	    double Td4518947279;
+	    Td4518947279 = sgn46415_fun(Td4518847280, NULL);
+	    double Td4519047278;
+	    Td4519047278 = -Td4518947279;
+	    int Tu4448847272;
+	    Ta4518447276[Ti4518547277].d = Td4519047278;
+	    Value* Ta4519147273;
+	    Ta4519147273 = nvector;
+	    int Ti4519247274;
+	    Ti4519247274 = 2;
+	    double Td4519347275;
+	    Td4519347275 = 0.000000;
+	    Ta4519147273[Ti4519247274].d = Td4519347275;
+	}
+	else{
+	    int Ti4519447255;
+	    Ti4519447255 = 3;
+	    if(rectside47252 == Ti4519447255){
+		Value* Ta4519547268;
+		Ta4519547268 = nvector;
+		int Ti4519647269;
+		Ti4519647269 = 0;
+		double Td4519747270;
+		Td4519747270 = 0.000000;
+		int Tu4449147256;
+		Ta4519547268[Ti4519647269].d = Td4519747270;
+		Value* Ta4519847265;
+		Ta4519847265 = nvector;
+		int Ti4519947266;
+		Ti4519947266 = 1;
+		double Td4520047267;
+		Td4520047267 = 0.000000;
+		int Tu4449047257;
+		Ta4519847265[Ti4519947266].d = Td4520047267;
+		Value* Ta4520147258;
+		Ta4520147258 = nvector;
+		int Ti4520247259;
+		Ti4520247259 = 2;
+		Value* Ta4520347263;
+		Ta4520347263 = vscan;
+		int Ti4520447264;
+		Ti4520447264 = 2;
+		double Td4520547262;
+		Td4520547262 = Ta4520347263[Ti4520447264].d;
+		double Td4520647261;
+		Td4520647261 = sgn46415_fun(Td4520547262, NULL);
+		double Td4520747260;
+		Td4520747260 = -Td4520647261;
+		Ta4520147258[Ti4520247259].d = Td4520747260;
+	    }
+	    else{
+		result = 1;
+	    }
+	}
+    }
+    return result;
+}
+
+int get_nvector_plane46497_fun(int* m46498, Value *env){
+    int result;
+    Value* Ta4515247248;
+    Ta4515247248 = nvector;
+    int Ti4515347249;
+    Ti4515347249 = 0;
+    double Td4515447251;
+    Td4515447251 = o_param_a46384_fun(m46498, NULL);
+    double Td4515547250;
+    Td4515547250 = -Td4515447251;
+    int Tu4449347238;
+    Ta4515247248[Ti4515347249].d = Td4515547250;
+    Value* Ta4515647244;
+    Ta4515647244 = nvector;
+    int Ti4515747245;
+    Ti4515747245 = 1;
+    double Td4515847247;
+    Td4515847247 = o_param_b46386_fun(m46498, NULL);
+    double Td4515947246;
+    Td4515947246 = -Td4515847247;
+    int Tu4449247239;
+    Ta4515647244[Ti4515747245].d = Td4515947246;
+    Value* Ta4516047240;
+    Ta4516047240 = nvector;
+    int Ti4516147241;
+    Ti4516147241 = 2;
+    double Td4516247243;
+    Td4516247243 = o_param_c46388_fun(m46498, NULL);
+    double Td4516347242;
+    Td4516347242 = -Td4516247243;
+    Ta4516047240[Ti4516147241].d = Td4516347242;
+    return result;
+}
+
+int get_nvector_second_norot46499_fun(int* m46500, Value* p46501, Value *env){
+    int result;
+    Value* Ta4512647230;
+    Ta4512647230 = nvector;
+    int Ti4512747231;
+    Ti4512747231 = 0;
+    int Ti4512847237;
+    Ti4512847237 = 0;
+    double Td4512947235;
+    Td4512947235 = p46501[Ti4512847237].d;
+    double Td4513047236;
+    Td4513047236 = o_param_x46390_fun(m46500, NULL);
+    double Td4513147233;
+    Td4513147233 = Td4512947235 - Td4513047236;
+    double Td4513247234;
+    Td4513247234 = o_param_a46384_fun(m46500, NULL);
+    double Td4513347232;
+    Td4513347232 =  Td4513147233 * Td4513247234;
+    int Tu4449647209;
+    Ta4512647230[Ti4512747231].d = Td4513347232;
+    Value* Ta4513447222;
+    Ta4513447222 = nvector;
+    int Ti4513547223;
+    Ti4513547223 = 1;
+    int Ti4513647229;
+    Ti4513647229 = 1;
+    double Td4513747227;
+    Td4513747227 = p46501[Ti4513647229].d;
+    double Td4513847228;
+    Td4513847228 = o_param_y46392_fun(m46500, NULL);
+    double Td4513947225;
+    Td4513947225 = Td4513747227 - Td4513847228;
+    double Td4514047226;
+    Td4514047226 = o_param_b46386_fun(m46500, NULL);
+    double Td4514147224;
+    Td4514147224 =  Td4513947225 * Td4514047226;
+    int Tu4449547210;
+    Ta4513447222[Ti4513547223].d = Td4514147224;
+    Value* Ta4514247214;
+    Ta4514247214 = nvector;
+    int Ti4514347215;
+    Ti4514347215 = 2;
+    int Ti4514447221;
+    Ti4514447221 = 2;
+    double Td4514547219;
+    Td4514547219 = p46501[Ti4514447221].d;
+    double Td4514647220;
+    Td4514647220 = o_param_z46394_fun(m46500, NULL);
+    double Td4514747217;
+    Td4514747217 = Td4514547219 - Td4514647220;
+    double Td4514847218;
+    Td4514847218 = o_param_c46388_fun(m46500, NULL);
+    double Td4514947216;
+    Td4514947216 =  Td4514747217 * Td4514847218;
+    int Tu4449447211;
+    Ta4514247214[Ti4514347215].d = Td4514947216;
+    Value* Ta4515047212;
+    Ta4515047212 = nvector;
+    bool Tb4515147213;
+    Tb4515147213 = o_isinvert46380_fun(m46500, NULL);
+    result = normalize_vector46412_fun(Ta4515047212, Tb4515147213, NULL);
+    return result;
+}
+
+int get_nvector_second_rot46502_fun(int* m46503, Value* p46504, Value *env){
+    int result;
+    Value* Ta4504647203;
+    Ta4504647203 = nvector_w;
+    int Ti4504747204;
+    Ti4504747204 = 0;
+    int Ti4504847208;
+    Ti4504847208 = 0;
+    double Td4504947206;
+    Td4504947206 = p46504[Ti4504847208].d;
+    double Td4505047207;
+    Td4505047207 = o_param_x46390_fun(m46503, NULL);
+    double Td4505147205;
+    Td4505147205 = Td4504947206 - Td4505047207;
+    int Tu4450247123;
+    Ta4504647203[Ti4504747204].d = Td4505147205;
+    Value* Ta4505247197;
+    Ta4505247197 = nvector_w;
+    int Ti4505347198;
+    Ti4505347198 = 1;
+    int Ti4505447202;
+    Ti4505447202 = 1;
+    double Td4505547200;
+    Td4505547200 = p46504[Ti4505447202].d;
+    double Td4505647201;
+    Td4505647201 = o_param_y46392_fun(m46503, NULL);
+    double Td4505747199;
+    Td4505747199 = Td4505547200 - Td4505647201;
+    int Tu4450147124;
+    Ta4505247197[Ti4505347198].d = Td4505747199;
+    Value* Ta4505847191;
+    Ta4505847191 = nvector_w;
+    int Ti4505947192;
+    Ti4505947192 = 2;
+    int Ti4506047196;
+    Ti4506047196 = 2;
+    double Td4506147194;
+    Td4506147194 = p46504[Ti4506047196].d;
+    double Td4506247195;
+    Td4506247195 = o_param_z46394_fun(m46503, NULL);
+    double Td4506347193;
+    Td4506347193 = Td4506147194 - Td4506247195;
+    int Tu4450047125;
+    Ta4505847191[Ti4505947192].d = Td4506347193;
+    Value* Ta4506447171;
+    Ta4506447171 = nvector;
+    int Ti4506547172;
+    Ti4506547172 = 0;
+    Value* Ta4506647189;
+    Ta4506647189 = nvector_w;
+    int Ti4506747190;
+    Ti4506747190 = 0;
+    double Td4506847187;
+    Td4506847187 = Ta4506647189[Ti4506747190].d;
+    double Td4506947188;
+    Td4506947188 = o_param_a46384_fun(m46503, NULL);
+    double Td4507047174;
+    Td4507047174 =  Td4506847187 * Td4506947188;
+    Value* Ta4507147185;
+    Ta4507147185 = nvector_w;
+    int Ti4507247186;
+    Ti4507247186 = 1;
+    double Td4507347183;
+    Td4507347183 = Ta4507147185[Ti4507247186].d;
+    double Td4507447184;
+    Td4507447184 = o_param_r346410_fun(m46503, NULL);
+    double Td4507547177;
+    Td4507547177 =  Td4507347183 * Td4507447184;
+    Value* Ta4507647181;
+    Ta4507647181 = nvector_w;
+    int Ti4507747182;
+    Ti4507747182 = 2;
+    double Td4507847179;
+    Td4507847179 = Ta4507647181[Ti4507747182].d;
+    double Td4507947180;
+    Td4507947180 = o_param_r246408_fun(m46503, NULL);
+    double Td4508047178;
+    Td4508047178 =  Td4507847179 * Td4507947180;
+    double Td4508147176;
+    Td4508147176 = Td4507547177 + Td4508047178;
+    double Td4508247175;
+    Td4508247175 = fhalf46372_fun(Td4508147176, NULL);
+    double Td4508347173;
+    Td4508347173 = Td4507047174 + Td4508247175;
+    int Tu4449947126;
+    Ta4506447171[Ti4506547172].d = Td4508347173;
+    Value* Ta4508447151;
+    Ta4508447151 = nvector;
+    int Ti4508547152;
+    Ti4508547152 = 1;
+    Value* Ta4508647169;
+    Ta4508647169 = nvector_w;
+    int Ti4508747170;
+    Ti4508747170 = 1;
+    double Td4508847167;
+    Td4508847167 = Ta4508647169[Ti4508747170].d;
+    double Td4508947168;
+    Td4508947168 = o_param_b46386_fun(m46503, NULL);
+    double Td4509047154;
+    Td4509047154 =  Td4508847167 * Td4508947168;
+    Value* Ta4509147165;
+    Ta4509147165 = nvector_w;
+    int Ti4509247166;
+    Ti4509247166 = 0;
+    double Td4509347163;
+    Td4509347163 = Ta4509147165[Ti4509247166].d;
+    double Td4509447164;
+    Td4509447164 = o_param_r346410_fun(m46503, NULL);
+    double Td4509547157;
+    Td4509547157 =  Td4509347163 * Td4509447164;
+    Value* Ta4509647161;
+    Ta4509647161 = nvector_w;
+    int Ti4509747162;
+    Ti4509747162 = 2;
+    double Td4509847159;
+    Td4509847159 = Ta4509647161[Ti4509747162].d;
+    double Td4509947160;
+    Td4509947160 = o_param_r146406_fun(m46503, NULL);
+    double Td4510047158;
+    Td4510047158 =  Td4509847159 * Td4509947160;
+    double Td4510147156;
+    Td4510147156 = Td4509547157 + Td4510047158;
+    double Td4510247155;
+    Td4510247155 = fhalf46372_fun(Td4510147156, NULL);
+    double Td4510347153;
+    Td4510347153 = Td4509047154 + Td4510247155;
+    int Tu4449847127;
+    Ta4508447151[Ti4508547152].d = Td4510347153;
+    Value* Ta4510447131;
+    Ta4510447131 = nvector;
+    int Ti4510547132;
+    Ti4510547132 = 2;
+    Value* Ta4510647149;
+    Ta4510647149 = nvector_w;
+    int Ti4510747150;
+    Ti4510747150 = 2;
+    double Td4510847147;
+    Td4510847147 = Ta4510647149[Ti4510747150].d;
+    double Td4510947148;
+    Td4510947148 = o_param_c46388_fun(m46503, NULL);
+    double Td4511047134;
+    Td4511047134 =  Td4510847147 * Td4510947148;
+    Value* Ta4511147145;
+    Ta4511147145 = nvector_w;
+    int Ti4511247146;
+    Ti4511247146 = 0;
+    double Td4511347143;
+    Td4511347143 = Ta4511147145[Ti4511247146].d;
+    double Td4511447144;
+    Td4511447144 = o_param_r246408_fun(m46503, NULL);
+    double Td4511547137;
+    Td4511547137 =  Td4511347143 * Td4511447144;
+    Value* Ta4511647141;
+    Ta4511647141 = nvector_w;
+    int Ti4511747142;
+    Ti4511747142 = 1;
+    double Td4511847139;
+    Td4511847139 = Ta4511647141[Ti4511747142].d;
+    double Td4511947140;
+    Td4511947140 = o_param_r146406_fun(m46503, NULL);
+    double Td4512047138;
+    Td4512047138 =  Td4511847139 * Td4511947140;
+    double Td4512147136;
+    Td4512147136 = Td4511547137 + Td4512047138;
+    double Td4512247135;
+    Td4512247135 = fhalf46372_fun(Td4512147136, NULL);
+    double Td4512347133;
+    Td4512347133 = Td4511047134 + Td4512247135;
+    int Tu4449747128;
+    Ta4510447131[Ti4510547132].d = Td4512347133;
+    Value* Ta4512447129;
+    Ta4512447129 = nvector;
+    bool Tb4512547130;
+    Tb4512547130 = o_isinvert46380_fun(m46503, NULL);
+    result = normalize_vector46412_fun(Ta4512447129, Tb4512547130, NULL);
+    return result;
+}
+
+int get_nvector46505_fun(int* m46506, Value* p46507, Value *env){
+    int result;
+    int m_shape47117;
+    m_shape47117 = o_form46376_fun(m46506, NULL);
+    int Ti4504147118;
+    Ti4504147118 = 1;
+    if(m_shape47117 == Ti4504147118){
+	int Tu4504247122;
+	Tu4504247122 = 1;
+	result = get_nvector_rect46495_fun(Tu4504247122, NULL);
+    }
+    else{
+	int Ti4504347119;
+	Ti4504347119 = 2;
+	if(m_shape47117 == Ti4504347119){
+	    result = get_nvector_plane46497_fun(m46506, NULL);
+	}
+	else{
+	    int Ti4504447120;
+	    Ti4504447120 = o_isrot46382_fun(m46506, NULL);
+	    int Ti4504547121;
+	    Ti4504547121 = 0;
+	    if(Ti4504447120 == Ti4504547121){
+		result = get_nvector_second_norot46499_fun(m46506, p46507, NULL);
+	    }
+	    else{
+		result = get_nvector_second_rot46502_fun(m46506, p46507, NULL);
+	    }
+	}
+    }
+    return result;
+}
+
+int utexture46508_fun(int* m46509, Value* p46510, Value *env){
+    int result;
+    int m_tex46959;
+    m_tex46959 = o_texturetype46374_fun(m46509, NULL);
+    Value* Ta4491247114;
+    Ta4491247114 = texture_color;
+    int Ti4491347115;
+    Ti4491347115 = 0;
+    double Td4491447116;
+    Td4491447116 = o_color_red46400_fun(m46509, NULL);
+    int Tu4450746960;
+    Ta4491247114[Ti4491347115].d = Td4491447116;
+    Value* Ta4491547111;
+    Ta4491547111 = texture_color;
+    int Ti4491647112;
+    Ti4491647112 = 1;
+    double Td4491747113;
+    Td4491747113 = o_color_green46402_fun(m46509, NULL);
+    int Tu4450646961;
+    Ta4491547111[Ti4491647112].d = Td4491747113;
+    Value* Ta4491847108;
+    Ta4491847108 = texture_color;
+    int Ti4491947109;
+    Ti4491947109 = 2;
+    double Td4492047110;
+    Td4492047110 = o_color_blue46404_fun(m46509, NULL);
+    int Tu4450546962;
+    Ta4491847108[Ti4491947109].d = Td4492047110;
+    int Ti4492146963;
+    Ti4492146963 = 1;
+    if(m_tex46959 == Ti4492146963){
+	int Ti4492247107;
+	Ti4492247107 = 0;
+	double Td4492347105;
+	Td4492347105 = p46510[Ti4492247107].d;
+	double Td4492447106;
+	Td4492447106 = o_param_x46390_fun(m46509, NULL);
+	double w147078;
+	w147078 = Td4492347105 - Td4492447106;
+	double Td4492547104;
+	Td4492547104 = 0.050000;
+	double Td4492647103;
+	Td4492647103 =  w147078 * Td4492547104;
+	double Td4492747101;
+	Td4492747101 = floor(Td4492647103);
+	double Td4492847102;
+	Td4492847102 = 20.000000;
+	double d147098;
+	d147098 =  Td4492747101 * Td4492847102;
+	double Td4492947099;
+	Td4492947099 = 10.000000;
+	double Td4493047100;
+	Td4493047100 = w147078 - d147098;
+	bool flag147079;
+	if(Td4492947099 <= Td4493047100){
+	    flag147079 = 0;
+	}
+	else{
+	    flag147079 = 1;
+	}
+	int Ti4493147097;
+	Ti4493147097 = 2;
+	double Td4493247095;
+	Td4493247095 = p46510[Ti4493147097].d;
+	double Td4493347096;
+	Td4493347096 = o_param_z46394_fun(m46509, NULL);
+	double w347080;
+	w347080 = Td4493247095 - Td4493347096;
+	double Td4493447094;
+	Td4493447094 = 0.050000;
+	double Td4493547093;
+	Td4493547093 =  w347080 * Td4493447094;
+	double Td4493647091;
+	Td4493647091 = floor(Td4493547093);
+	double Td4493747092;
+	Td4493747092 = 20.000000;
+	double d247088;
+	d247088 =  Td4493647091 * Td4493747092;
+	double Td4493847089;
+	Td4493847089 = 10.000000;
+	double Td4493947090;
+	Td4493947090 = w347080 - d247088;
+	bool flag247081;
+	if(Td4493847089 <= Td4493947090){
+	    flag247081 = 0;
+	}
+	else{
+	    flag247081 = 1;
+	}
+	Value* Ta4494047082;
+	Ta4494047082 = texture_color;
+	int Ti4494147083;
+	Ti4494147083 = 1;
+	int Ti4494247085;
+	Ti4494247085 = 0;
+	double Td4494547084;
+	if(flag147079 == Ti4494247085){
+	    int Ti4494347087;
+	    Ti4494347087 = 0;
+	    if(flag247081 == Ti4494347087){
+		Td4494547084 = 255.000000;
+	    }
+	    else{
+		Td4494547084 = 0.000000;
+	    }
+	}
+	else{
+	    int Ti4494447086;
+	    Ti4494447086 = 0;
+	    if(flag247081 == Ti4494447086){
+		Td4494547084 = 0.000000;
+	    }
+	    else{
+		Td4494547084 = 255.000000;
+	    }
+	}
+	Ta4494047082[Ti4494147083].d = Td4494547084;
+    }
+    else{
+	int Ti4494646964;
+	Ti4494646964 = 2;
+	if(m_tex46959 == Ti4494646964){
+	    int Ti4494747077;
+	    Ti4494747077 = 1;
+	    double Td4494847075;
+	    Td4494847075 = p46510[Ti4494747077].d;
+	    double Td4494947076;
+	    Td4494947076 = 0.250000;
+	    double Td4495047074;
+	    Td4495047074 =  Td4494847075 * Td4494947076;
+	    double Td4495147073;
+	    Td4495147073 = sin(Td4495047074);
+	    double w247061;
+	    w247061 = fsqr46370_fun(Td4495147073, NULL);
+	    Value* Ta4495247069;
+	    Ta4495247069 = texture_color;
+	    int Ti4495347070;
+	    Ti4495347070 = 0;
+	    double Td4495447072;
+	    Td4495447072 = 255.000000;
+	    double Td4495547071;
+	    Td4495547071 =  Td4495447072 * w247061;
+	    int Tu4450347062;
+	    Ta4495247069[Ti4495347070].d = Td4495547071;
+	    Value* Ta4495647063;
+	    Ta4495647063 = texture_color;
+	    int Ti4495747064;
+	    Ti4495747064 = 1;
+	    double Td4495847066;
+	    Td4495847066 = 255.000000;
+	    double Td4495947068;
+	    Td4495947068 = 1.000000;
+	    double Td4496047067;
+	    Td4496047067 = Td4495947068 - w247061;
+	    double Td4496147065;
+	    Td4496147065 =  Td4495847066 * Td4496047067;
+	    Ta4495647063[Ti4495747064].d = Td4496147065;
+	}
+	else{
+	    int Ti4496246965;
+	    Ti4496246965 = 3;
+	    if(m_tex46959 == Ti4496246965){
+		int Ti4496347060;
+		Ti4496347060 = 0;
+		double Td4496447058;
+		Td4496447058 = p46510[Ti4496347060].d;
+		double Td4496547059;
+		Td4496547059 = o_param_x46390_fun(m46509, NULL);
+		double w147030;
+		w147030 = Td4496447058 - Td4496547059;
+		int Ti4496647057;
+		Ti4496647057 = 2;
+		double Td4496747055;
+		Td4496747055 = p46510[Ti4496647057].d;
+		double Td4496847056;
+		Td4496847056 = o_param_z46394_fun(m46509, NULL);
+		double w347031;
+		w347031 = Td4496747055 - Td4496847056;
+		double Td4496947053;
+		Td4496947053 = fsqr46370_fun(w147030, NULL);
+		double Td4497047054;
+		Td4497047054 = fsqr46370_fun(w347031, NULL);
+		double Td4497147052;
+		Td4497147052 = Td4496947053 + Td4497047054;
+		double Td4497247050;
+		Td4497247050 = sqrt(Td4497147052);
+		double Td4497347051;
+		Td4497347051 = 10.000000;
+		double w247032;
+		w247032 = Td4497247050 / Td4497347051;
+		double Td4497447049;
+		Td4497447049 = floor(w247032);
+		double Td4497547047;
+		Td4497547047 = w247032 - Td4497447049;
+		double Td4497647048;
+		Td4497647048 = 3.141593;
+		double w447033;
+		w447033 =  Td4497547047 * Td4497647048;
+		double Td4497747046;
+		Td4497747046 = cos(w447033);
+		double cws47034;
+		cws47034 = fsqr46370_fun(Td4497747046, NULL);
+		Value* Ta4497847042;
+		Ta4497847042 = texture_color;
+		int Ti4497947043;
+		Ti4497947043 = 1;
+		double Td4498047045;
+		Td4498047045 = 255.000000;
+		double Td4498147044;
+		Td4498147044 =  cws47034 * Td4498047045;
+		int Tu4450447035;
+		Ta4497847042[Ti4497947043].d = Td4498147044;
+		Value* Ta4498247036;
+		Ta4498247036 = texture_color;
+		int Ti4498347037;
+		Ti4498347037 = 2;
+		double Td4498447041;
+		Td4498447041 = 1.000000;
+		double Td4498547039;
+		Td4498547039 = Td4498447041 - cws47034;
+		double Td4498647040;
+		Td4498647040 = 255.000000;
+		double Td4498747038;
+		Td4498747038 =  Td4498547039 * Td4498647040;
+		Ta4498247036[Ti4498347037].d = Td4498747038;
+	    }
+	    else{
+		int Ti4498846966;
+		Ti4498846966 = 4;
+		if(m_tex46959 == Ti4498846966){
+		    int Ti4498947029;
+		    Ti4498947029 = 0;
+		    double Td4499047027;
+		    Td4499047027 = p46510[Ti4498947029].d;
+		    double Td4499147028;
+		    Td4499147028 = o_param_x46390_fun(m46509, NULL);
+		    double Td4499247024;
+		    Td4499247024 = Td4499047027 - Td4499147028;
+		    double Td4499347026;
+		    Td4499347026 = o_param_a46384_fun(m46509, NULL);
+		    double Td4499447025;
+		    Td4499447025 = sqrt(Td4499347026);
+		    double w146967;
+		    w146967 =  Td4499247024 * Td4499447025;
+		    int Ti4499547023;
+		    Ti4499547023 = 2;
+		    double Td4499647021;
+		    Td4499647021 = p46510[Ti4499547023].d;
+		    double Td4499747022;
+		    Td4499747022 = o_param_z46394_fun(m46509, NULL);
+		    double Td4499847018;
+		    Td4499847018 = Td4499647021 - Td4499747022;
+		    double Td4499947020;
+		    Td4499947020 = o_param_c46388_fun(m46509, NULL);
+		    double Td4500047019;
+		    Td4500047019 = sqrt(Td4499947020);
+		    double w346968;
+		    w346968 =  Td4499847018 * Td4500047019;
+		    double Td4500147016;
+		    Td4500147016 = fsqr46370_fun(w146967, NULL);
+		    double Td4500247017;
+		    Td4500247017 = fsqr46370_fun(w346968, NULL);
+		    double Td4500347015;
+		    Td4500347015 = Td4500147016 + Td4500247017;
+		    double w446969;
+		    w446969 = sqrt(Td4500347015);
+		    double Td4500447007;
+		    Td4500447007 = 0.000100;
+		    double Td4500547008;
+		    Td4500547008 = fabs(w146967);
+		    double w746970;
+		    if(Td4500447007 <= Td4500547008){
+			double Td4500647014;
+			Td4500647014 = w346968 / w146967;
+			double w547009;
+			w547009 = fabs(Td4500647014);
+			double Td4500747010;
+			Td4500747010 = atan(w547009);
+			double Td4500847012;
+			Td4500847012 = 30.000000;
+			double Td4500947013;
+			Td4500947013 = 3.141593;
+			double Td4501047011;
+			Td4501047011 = Td4500847012 / Td4500947013;
+			w746970 =  Td4500747010 * Td4501047011;
+		    }
+		    else{
+			w746970 = 15.000000;
+		    }
+		    double Td4501147006;
+		    Td4501147006 = floor(w746970);
+		    double w946971;
+		    w946971 = w746970 - Td4501147006;
+		    int Ti4501247005;
+		    Ti4501247005 = 1;
+		    double Td4501347003;
+		    Td4501347003 = p46510[Ti4501247005].d;
+		    double Td4501447004;
+		    Td4501447004 = o_param_y46392_fun(m46509, NULL);
+		    double Td4501547000;
+		    Td4501547000 = Td4501347003 - Td4501447004;
+		    double Td4501647002;
+		    Td4501647002 = o_param_b46386_fun(m46509, NULL);
+		    double Td4501747001;
+		    Td4501747001 = sqrt(Td4501647002);
+		    double w246972;
+		    w246972 =  Td4501547000 * Td4501747001;
+		    double Td4501846992;
+		    Td4501846992 = 0.000100;
+		    double Td4501946993;
+		    Td4501946993 = fabs(w746970);
+		    double w846973;
+		    if(Td4501846992 <= Td4501946993){
+			double Td4502046999;
+			Td4502046999 = w246972 / w446969;
+			double w646994;
+			w646994 = fabs(Td4502046999);
+			double Td4502146995;
+			Td4502146995 = atan(w646994);
+			double Td4502246997;
+			Td4502246997 = 30.000000;
+			double Td4502346998;
+			Td4502346998 = 3.141593;
+			double Td4502446996;
+			Td4502446996 = Td4502246997 / Td4502346998;
+			w846973 =  Td4502146995 * Td4502446996;
+		    }
+		    else{
+			w846973 = 15.000000;
+		    }
+		    double Td4502546991;
+		    Td4502546991 = floor(w846973);
+		    double w1046974;
+		    w1046974 = w846973 - Td4502546991;
+		    double Td4502646987;
+		    Td4502646987 = 0.150000;
+		    double Td4502746990;
+		    Td4502746990 = 0.500000;
+		    double Td4502846989;
+		    Td4502846989 = Td4502746990 - w946971;
+		    double Td4502946988;
+		    Td4502946988 = fsqr46370_fun(Td4502846989, NULL);
+		    double Td4503046983;
+		    Td4503046983 = Td4502646987 - Td4502946988;
+		    double Td4503146986;
+		    Td4503146986 = 0.500000;
+		    double Td4503246985;
+		    Td4503246985 = Td4503146986 - w1046974;
+		    double Td4503346984;
+		    Td4503346984 = fsqr46370_fun(Td4503246985, NULL);
+		    double w1146975;
+		    w1146975 = Td4503046983 - Td4503346984;
+		    Value* Ta4503446976;
+		    Ta4503446976 = texture_color;
+		    int Ti4503546977;
+		    Ti4503546977 = 2;
+		    double Td4503646979;
+		    Td4503646979 = 0.000000;
+		    double Td4504046978;
+		    if(w1146975 <= Td4503646979){
+			Td4504046978 = 0.000000;
+		    }
+		    else{
+			double Td4503746981;
+			Td4503746981 = 255.000000;
+			double Td4503846982;
+			Td4503846982 = 0.300000;
+			double Td4503946980;
+			Td4503946980 = Td4503746981 / Td4503846982;
+			Td4504046978 =  w1146975 * Td4503946980;
+		    }
+		    Ta4503446976[Ti4503546977].d = Td4504046978;
+		}
+		else{
+		    result = 1;
+		}
+	    }
+	}
+    }
+    return result;
+}
+
+double in_prod46511_fun(Value* v146512, Value* v246513, Value *env){
+    double result;
+    int Ti4489646958;
+    Ti4489646958 = 0;
+    double Td4489746955;
+    Td4489746955 = v146512[Ti4489646958].d;
+    int Ti4489846957;
+    Ti4489846957 = 0;
+    double Td4489946956;
+    Td4489946956 = v246513[Ti4489846957].d;
+    double Td4490046949;
+    Td4490046949 =  Td4489746955 * Td4489946956;
+    int Ti4490146954;
+    Ti4490146954 = 1;
+    double Td4490246951;
+    Td4490246951 = v146512[Ti4490146954].d;
+    int Ti4490346953;
+    Ti4490346953 = 1;
+    double Td4490446952;
+    Td4490446952 = v246513[Ti4490346953].d;
+    double Td4490546950;
+    Td4490546950 =  Td4490246951 * Td4490446952;
+    double Td4490646943;
+    Td4490646943 = Td4490046949 + Td4490546950;
+    int Ti4490746948;
+    Ti4490746948 = 2;
+    double Td4490846945;
+    Td4490846945 = v146512[Ti4490746948].d;
+    int Ti4490946947;
+    Ti4490946947 = 2;
+    double Td4491046946;
+    Td4491046946 = v246513[Ti4490946947].d;
+    double Td4491146944;
+    Td4491146944 =  Td4490846945 * Td4491046946;
+    result = Td4490646943 + Td4491146944;
+    return result;
+}
+
+int accumulate_vec_mul46514_fun(Value* v146515, Value* v246516, double w46517, Value *env){
+    int result;
+    int Ti4487546936;
+    Ti4487546936 = 0;
+    int Ti4487646942;
+    Ti4487646942 = 0;
+    double Td4487746938;
+    Td4487746938 = v146515[Ti4487646942].d;
+    int Ti4487846941;
+    Ti4487846941 = 0;
+    double Td4487946940;
+    Td4487946940 = v246516[Ti4487846941].d;
+    double Td4488046939;
+    Td4488046939 =  w46517 * Td4487946940;
+    double Td4488146937;
+    Td4488146937 = Td4487746938 + Td4488046939;
+    int Tu4450946920;
+    v146515[Ti4487546936].d = Td4488146937;
+    int Ti4488246929;
+    Ti4488246929 = 1;
+    int Ti4488346935;
+    Ti4488346935 = 1;
+    double Td4488446931;
+    Td4488446931 = v146515[Ti4488346935].d;
+    int Ti4488546934;
+    Ti4488546934 = 1;
+    double Td4488646933;
+    Td4488646933 = v246516[Ti4488546934].d;
+    double Td4488746932;
+    Td4488746932 =  w46517 * Td4488646933;
+    double Td4488846930;
+    Td4488846930 = Td4488446931 + Td4488746932;
+    int Tu4450846921;
+    v146515[Ti4488246929].d = Td4488846930;
+    int Ti4488946922;
+    Ti4488946922 = 2;
+    int Ti4489046928;
+    Ti4489046928 = 2;
+    double Td4489146924;
+    Td4489146924 = v146515[Ti4489046928].d;
+    int Ti4489246927;
+    Ti4489246927 = 2;
+    double Td4489346926;
+    Td4489346926 = v246516[Ti4489246927].d;
+    double Td4489446925;
+    Td4489446925 =  w46517 * Td4489346926;
+    double Td4489546923;
+    Td4489546923 = Td4489146924 + Td4489446925;
+    v146515[Ti4488946922].d = Td4489546923;
+    return result;
+}
+
+int raytracing46518_fun(int nref46519, double energy46520, Value *env){
+    int result;
+    Value* Ta4476146918;
+    Ta4476146918 = viewpoint;
+    Value* Ta4476246919;
+    Ta4476246919 = vscan;
+    bool crashed_p46782;
+    crashed_p46782 = tracer46492_fun(Ta4476146918, Ta4476246919, NULL);
+    int Ti4476346884;
+    Ti4476346884 = 0;
+    int Tu4452146783;
+    if(crashed_p46782 == Ti4476346884){
+	int Ti4476446885;
+	Ti4476446885 = 0;
+	if(nref46519 == Ti4476446885){
+	    Tu4452146783 = 1;
+	}
+	else{
+	    Value* Ta4476546916;
+	    Ta4476546916 = vscan;
+	    Value* Ta4476646917;
+	    Ta4476646917 = light;
+	    double Td4476746915;
+	    Td4476746915 = in_prod46511_fun(Ta4476546916, Ta4476646917, NULL);
+	    double hl46886;
+	    hl46886 = -Td4476746915;
+	    double Td4476846887;
+	    Td4476846887 = 0.000000;
+	    if(hl46886 <= Td4476846887){
+		Tu4452146783 = 1;
+	    }
+	    else{
+		double Td4476946914;
+		Td4476946914 = fsqr46370_fun(hl46886, NULL);
+		double Td4477046913;
+		Td4477046913 =  Td4476946914 * hl46886;
+		double Td4477146909;
+		Td4477146909 =  Td4477046913 * energy46520;
+		Value* Ta4477246911;
+		Ta4477246911 = beam;
+		int Ti4477346912;
+		Ti4477346912 = 0;
+		double Td4477446910;
+		Td4477446910 = Ta4477246911[Ti4477346912].d;
+		double ihl46888;
+		ihl46888 =  Td4477146909 * Td4477446910;
+		Value* Ta4477546903;
+		Ta4477546903 = rgb;
+		int Ti4477646904;
+		Ti4477646904 = 0;
+		Value* Ta4477746907;
+		Ta4477746907 = rgb;
+		int Ti4477846908;
+		Ti4477846908 = 0;
+		double Td4477946906;
+		Td4477946906 = Ta4477746907[Ti4477846908].d;
+		double Td4478046905;
+		Td4478046905 = Td4477946906 + ihl46888;
+		int Tu4451146889;
+		Ta4477546903[Ti4477646904].d = Td4478046905;
+		Value* Ta4478146897;
+		Ta4478146897 = rgb;
+		int Ti4478246898;
+		Ti4478246898 = 1;
+		Value* Ta4478346901;
+		Ta4478346901 = rgb;
+		int Ti4478446902;
+		Ti4478446902 = 1;
+		double Td4478546900;
+		Td4478546900 = Ta4478346901[Ti4478446902].d;
+		double Td4478646899;
+		Td4478646899 = Td4478546900 + ihl46888;
+		int Tu4451046890;
+		Ta4478146897[Ti4478246898].d = Td4478646899;
+		Value* Ta4478746891;
+		Ta4478746891 = rgb;
+		int Ti4478846892;
+		Ti4478846892 = 2;
+		Value* Ta4478946895;
+		Ta4478946895 = rgb;
+		int Ti4479046896;
+		Ti4479046896 = 2;
+		double Td4479146894;
+		Td4479146894 = Ta4478946895[Ti4479046896].d;
+		double Td4479246893;
+		Td4479246893 = Td4479146894 + ihl46888;
+		Ta4478746891[Ti4478846892].d = Td4479246893;
+	    }
+	}
+    }
+    else{
+	Tu4452146783 = 1;
+    }
+    int Ti4479346784;
+    Ti4479346784 = 0;
+    if(crashed_p46782 == Ti4479346784){
+	result = 1;
+    }
+    else{
+	Value* Ta4479446880;
+	Ta4479446880 = objects;
+	Value* Ta4479546882;
+	Ta4479546882 = crashed_object;
+	int Ti4479646883;
+	Ti4479646883 = 0;
+	int Ti4479746881;
+	Ti4479746881 = Ta4479546882[Ti4479646883].i;
+	int* cobj46785;
+	cobj46785 = Ta4479446880[Ti4479746881].a;
+	Value* Ta4479846879;
+	Ta4479846879 = crashed_point;
+	int Tu4452046786;
+	Tu4452046786 = get_nvector46505_fun(cobj46785, Ta4479846879, NULL);
+	int Ti4479946874;
+	Ti4479946874 = 0;
+	Value* Ta4480046877;
+	Ta4480046877 = or_net;
+	int Ti4480146878;
+	Ti4480146878 = 0;
+	Value* Ta4480246875;
+	Ta4480246875 = Ta4480046877[Ti4480146878].a;
+	Value* Ta4480346876;
+	Ta4480346876 = crashed_point;
+	bool Tb4480446863;
+	Tb4480446863 = shadow_check_one_or_matrix46479_fun(Ti4479946874, Ta4480246875, Ta4480346876, NULL);
+	int Ti4480546864;
+	Ti4480546864 = 0;
+	double bright46787;
+	if(Tb4480446863 == Ti4480546864){
+	    Value* Ta4480646872;
+	    Ta4480646872 = nvector;
+	    Value* Ta4480746873;
+	    Ta4480746873 = light;
+	    double Td4480846871;
+	    Td4480846871 = in_prod46511_fun(Ta4480646872, Ta4480746873, NULL);
+	    double br46865;
+	    br46865 = -Td4480846871;
+	    double Td4480946869;
+	    Td4480946869 = 0.000000;
+	    double br146866;
+	    if(Td4480946869 <= br46865){
+		double Td4481046870;
+		Td4481046870 = 0.200000;
+		br146866 = br46865 + Td4481046870;
+	    }
+	    else{
+		br146866 = 0.200000;
+	    }
+	    double Td4481146867;
+	    Td4481146867 =  br146866 * energy46520;
+	    double Td4481246868;
+	    Td4481246868 = o_diffuse46396_fun(cobj46785, NULL);
+	    bright46787 =  Td4481146867 * Td4481246868;
+	}
+	else{
+	    bright46787 = 0.000000;
+	}
+	Value* Ta4481346862;
+	Ta4481346862 = crashed_point;
+	int Tu4451946788;
+	Tu4451946788 = utexture46508_fun(cobj46785, Ta4481346862, NULL);
+	Value* Ta4481446860;
+	Ta4481446860 = rgb;
+	Value* Ta4481546861;
+	Ta4481546861 = texture_color;
+	int Tu4451846789;
+	Tu4451846789 = accumulate_vec_mul46514_fun(Ta4481446860, Ta4481546861, bright46787, NULL);
+	int Ti4481646790;
+	Ti4481646790 = 4;
+	if(nref46519 <= Ti4481646790){
+	    double Td4481746791;
+	    Td4481746791 = 0.100000;
+	    if(energy46520 <= Td4481746791){
+		result = 1;
+	    }
+	    else{
+		double Td4481846856;
+		Td4481846856 = -2.000000;
+		Value* Ta4481946858;
+		Ta4481946858 = vscan;
+		Value* Ta4482046859;
+		Ta4482046859 = nvector;
+		double Td4482146857;
+		Td4482146857 = in_prod46511_fun(Ta4481946858, Ta4482046859, NULL);
+		double w46792;
+		w46792 =  Td4481846856 * Td4482146857;
+		Value* Ta4482246854;
+		Ta4482246854 = vscan;
+		Value* Ta4482346855;
+		Ta4482346855 = nvector;
+		int Tu4451746793;
+		Tu4451746793 = accumulate_vec_mul46514_fun(Ta4482246854, Ta4482346855, w46792, NULL);
+		int m_surface46794;
+		m_surface46794 = o_reflectiontype46378_fun(cobj46785, NULL);
+		int Ti4482446795;
+		Ti4482446795 = 1;
+		if(m_surface46794 == Ti4482446795){
+		    double Td4482546821;
+		    Td4482546821 = 0.000000;
+		    double Td4482646822;
+		    Td4482646822 = o_hilight46398_fun(cobj46785, NULL);
+		    if(Td4482546821 == Td4482646822){
+			result = 1;
+		    }
+		    else{
+			Value* Ta4482746852;
+			Ta4482746852 = vscan;
+			Value* Ta4482846853;
+			Ta4482846853 = light;
+			double Td4482946851;
+			Td4482946851 = in_prod46511_fun(Ta4482746852, Ta4482846853, NULL);
+			double hl46823;
+			hl46823 = -Td4482946851;
+			double Td4483046824;
+			Td4483046824 = 0.000000;
+			if(hl46823 <= Td4483046824){
+			    result = 1;
+			}
+			else{
+			    double Td4483146850;
+			    Td4483146850 = fsqr46370_fun(hl46823, NULL);
+			    double Td4483246849;
+			    Td4483246849 = fsqr46370_fun(Td4483146850, NULL);
+			    double Td4483346848;
+			    Td4483346848 =  Td4483246849 * energy46520;
+			    double Td4483446846;
+			    Td4483446846 =  Td4483346848 * bright46787;
+			    double Td4483546847;
+			    Td4483546847 = o_hilight46398_fun(cobj46785, NULL);
+			    double ihl46825;
+			    ihl46825 =  Td4483446846 * Td4483546847;
+			    Value* Ta4483646840;
+			    Ta4483646840 = rgb;
+			    int Ti4483746841;
+			    Ti4483746841 = 0;
+			    Value* Ta4483846844;
+			    Ta4483846844 = rgb;
+			    int Ti4483946845;
+			    Ti4483946845 = 0;
+			    double Td4484046843;
+			    Td4484046843 = Ta4483846844[Ti4483946845].d;
+			    double Td4484146842;
+			    Td4484146842 = Td4484046843 + ihl46825;
+			    int Tu4451346826;
+			    Ta4483646840[Ti4483746841].d = Td4484146842;
+			    Value* Ta4484246834;
+			    Ta4484246834 = rgb;
+			    int Ti4484346835;
+			    Ti4484346835 = 1;
+			    Value* Ta4484446838;
+			    Ta4484446838 = rgb;
+			    int Ti4484546839;
+			    Ti4484546839 = 1;
+			    double Td4484646837;
+			    Td4484646837 = Ta4484446838[Ti4484546839].d;
+			    double Td4484746836;
+			    Td4484746836 = Td4484646837 + ihl46825;
+			    int Tu4451246827;
+			    Ta4484246834[Ti4484346835].d = Td4484746836;
+			    Value* Ta4484846828;
+			    Ta4484846828 = rgb;
+			    int Ti4484946829;
+			    Ti4484946829 = 2;
+			    Value* Ta4485046832;
+			    Ta4485046832 = rgb;
+			    int Ti4485146833;
+			    Ti4485146833 = 2;
+			    double Td4485246831;
+			    Td4485246831 = Ta4485046832[Ti4485146833].d;
+			    double Td4485346830;
+			    Td4485346830 = Td4485246831 + ihl46825;
+			    Ta4484846828[Ti4484946829].d = Td4485346830;
+			}
+		    }
+		}
+		else{
+		    int Ti4485446796;
+		    Ti4485446796 = 2;
+		    if(m_surface46794 == Ti4485446796){
+			Value* Ta4485546816;
+			Ta4485546816 = viewpoint;
+			int Ti4485646817;
+			Ti4485646817 = 0;
+			Value* Ta4485746819;
+			Ta4485746819 = crashed_point;
+			int Ti4485846820;
+			Ti4485846820 = 0;
+			double Td4485946818;
+			Td4485946818 = Ta4485746819[Ti4485846820].d;
+			int Tu4451646797;
+			Ta4485546816[Ti4485646817].d = Td4485946818;
+			Value* Ta4486046811;
+			Ta4486046811 = viewpoint;
+			int Ti4486146812;
+			Ti4486146812 = 1;
+			Value* Ta4486246814;
+			Ta4486246814 = crashed_point;
+			int Ti4486346815;
+			Ti4486346815 = 1;
+			double Td4486446813;
+			Td4486446813 = Ta4486246814[Ti4486346815].d;
+			int Tu4451546798;
+			Ta4486046811[Ti4486146812].d = Td4486446813;
+			Value* Ta4486546806;
+			Ta4486546806 = viewpoint;
+			int Ti4486646807;
+			Ti4486646807 = 2;
+			Value* Ta4486746809;
+			Ta4486746809 = crashed_point;
+			int Ti4486846810;
+			Ti4486846810 = 2;
+			double Td4486946808;
+			Td4486946808 = Ta4486746809[Ti4486846810].d;
+			int Tu4451446799;
+			Ta4486546806[Ti4486646807].d = Td4486946808;
+			double Td4487046804;
+			Td4487046804 = 1.000000;
+			double Td4487146805;
+			Td4487146805 = o_diffuse46396_fun(cobj46785, NULL);
+			double Td4487246803;
+			Td4487246803 = Td4487046804 - Td4487146805;
+			double energy246800;
+			energy246800 =  energy46520 * Td4487246803;
+			int Ti4487346802;
+			Ti4487346802 = 1;
+			int Ti4487446801;
+			Ti4487446801 = nref46519 + Ti4487346802;
+			result = raytracing46518_fun(Ti4487446801, energy246800, NULL);
+		    }
+		    else{
+			result = 1;
+		    }
+		}
+	    }
+	}
+	else{
+	    result = 1;
+	}
+    }
+    return result;
+}
+
+int write_rgb46521_fun(int Tu4452246522, Value *env){
+    int result;
+    Value* Ta4474946780;
+    Ta4474946780 = rgb;
+    int Ti4475046781;
+    Ti4475046781 = 0;
+    double Td4475146779;
+    Td4475146779 = Ta4474946780[Ti4475046781].d;
+    int red46762;
+    red46762 = (int) Td4475146779;
+    int Ti4475246778;
+    Ti4475246778 = 255;
+    int red46763;
+    if(red46762 <= Ti4475246778){
+	red46763 = red46762;
+    }
+    else{
+	red46763 = 255;
+    }
+    int Tu4452446764;
+    printf("%d", red46763);
+    Value* Ta4475346776;
+    Ta4475346776 = rgb;
+    int Ti4475446777;
+    Ti4475446777 = 1;
+    double Td4475546775;
+    Td4475546775 = Ta4475346776[Ti4475446777].d;
+    int green46765;
+    green46765 = (int) Td4475546775;
+    int Ti4475646774;
+    Ti4475646774 = 255;
+    int green46766;
+    if(green46765 <= Ti4475646774){
+	green46766 = green46765;
+    }
+    else{
+	green46766 = 255;
+    }
+    int Tu4452346767;
+    printf("%d", green46766);
+    Value* Ta4475746772;
+    Ta4475746772 = rgb;
+    int Ti4475846773;
+    Ti4475846773 = 2;
+    double Td4475946771;
+    Td4475946771 = Ta4475746772[Ti4475846773].d;
+    int blue46768;
+    blue46768 = (int) Td4475946771;
+    int Ti4476046770;
+    Ti4476046770 = 255;
+    int blue46769;
+    if(blue46768 <= Ti4476046770){
+	blue46769 = blue46768;
+    }
+    else{
+	blue46769 = 255;
+    }
+    printf("%d", blue46769);
+    return result;
+}
+
+int write_ppm_header46523_fun(int Tu4452546524, Value *env){
+    int result;
+    int Ti4473446761;
+    Ti4473446761 = 80;
+    int Tu4453346739;
+    printf("%d", Ti4473446761);
+    int Ti4473546759;
+    Ti4473546759 = 48;
+    int Ti4473646760;
+    Ti4473646760 = 6;
+    int Ti4473746758;
+    Ti4473746758 = Ti4473546759 + Ti4473646760;
+    int Tu4453246740;
+    printf("%d", Ti4473746758);
+    int Ti4473846757;
+    Ti4473846757 = 10;
+    int Tu4453146741;
+    printf("%d", Ti4473846757);
+    Value* Ta4473946755;
+    Ta4473946755 = size;
+    int Ti4474046756;
+    Ti4474046756 = 0;
+    int Ti4474146754;
+    Ti4474146754 = Ta4473946755[Ti4474046756].i;
+    int Tu4453046742;
+    printf("%d", Ti4474146754);
+    int Ti4474246753;
+    Ti4474246753 = 32;
+    int Tu4452946743;
+    printf("%d", Ti4474246753);
+    Value* Ta4474346751;
+    Ta4474346751 = size;
+    int Ti4474446752;
+    Ti4474446752 = 1;
+    int Ti4474546750;
+    Ti4474546750 = Ta4474346751[Ti4474446752].i;
+    int Tu4452846744;
+    printf("%d", Ti4474546750);
+    int Ti4474646749;
+    Ti4474646749 = 10;
+    int Tu4452746745;
+    printf("%d", Ti4474646749);
+    int Ti4474746748;
+    Ti4474746748 = 255;
+    int Tu4452646746;
+    printf("%d", Ti4474746748);
+    int Ti4474846747;
+    Ti4474846747 = 10;
+    printf("%d", Ti4474846747);
+    return result;
+}
+
+int scan_point46525_fun(int scanx46526, Value *env){
+    int result;
+    Value* Ta4463746737;
+    Ta4463746737 = size;
+    int Ti4463846738;
+    Ti4463846738 = 0;
+    int Ti4463946626;
+    Ti4463946626 = Ta4463746737[Ti4463846738].i;
+    if(Ti4463946626 <= scanx46526){
+	result = 1;
+    }
+    else{
+	double Td4464046733;
+	Td4464046733 = (double) scanx46526;
+	Value* Ta4464146735;
+	Ta4464146735 = scan_offset;
+	int Ti4464246736;
+	Ti4464246736 = 0;
+	double Td4464346734;
+	Td4464346734 = Ta4464146735[Ti4464246736].d;
+	double Td4464446729;
+	Td4464446729 = Td4464046733 - Td4464346734;
+	Value* Ta4464546731;
+	Ta4464546731 = scan_d;
+	int Ti4464646732;
+	Ti4464646732 = 0;
+	double Td4464746730;
+	Td4464746730 = Ta4464546731[Ti4464646732].d;
+	double sscanx46627;
+	sscanx46627 =  Td4464446729 * Td4464746730;
+	Value* Ta4464846719;
+	Ta4464846719 = vscan;
+	int Ti4464946720;
+	Ti4464946720 = 0;
+	Value* Ta4465046727;
+	Ta4465046727 = cos_v;
+	int Ti4465146728;
+	Ti4465146728 = 1;
+	double Td4465246726;
+	Td4465246726 = Ta4465046727[Ti4465146728].d;
+	double Td4465346722;
+	Td4465346722 =  sscanx46627 * Td4465246726;
+	Value* Ta4465446724;
+	Ta4465446724 = wscan;
+	int Ti4465546725;
+	Ti4465546725 = 0;
+	double Td4465646723;
+	Td4465646723 = Ta4465446724[Ti4465546725].d;
+	double Td4465746721;
+	Td4465746721 = Td4465346722 + Td4465646723;
+	int Tu4454746628;
+	Ta4464846719[Ti4464946720].d = Td4465746721;
+	Value* Ta4465846706;
+	Ta4465846706 = vscan;
+	int Ti4465946707;
+	Ti4465946707 = 1;
+	Value* Ta4466046717;
+	Ta4466046717 = scan_sscany;
+	int Ti4466146718;
+	Ti4466146718 = 0;
+	double Td4466246713;
+	Td4466246713 = Ta4466046717[Ti4466146718].d;
+	Value* Ta4466346715;
+	Ta4466346715 = cos_v;
+	int Ti4466446716;
+	Ti4466446716 = 0;
+	double Td4466546714;
+	Td4466546714 = Ta4466346715[Ti4466446716].d;
+	double Td4466646709;
+	Td4466646709 =  Td4466246713 * Td4466546714;
+	Value* Ta4466746711;
+	Ta4466746711 = vp;
+	int Ti4466846712;
+	Ti4466846712 = 1;
+	double Td4466946710;
+	Td4466946710 = Ta4466746711[Ti4466846712].d;
+	double Td4467046708;
+	Td4467046708 = Td4466646709 - Td4466946710;
+	int Tu4454646629;
+	Ta4465846706[Ti4465946707].d = Td4467046708;
+	Value* Ta4467146695;
+	Ta4467146695 = vscan;
+	int Ti4467246696;
+	Ti4467246696 = 2;
+	double Td4467346702;
+	Td4467346702 = -sscanx46627;
+	Value* Ta4467446704;
+	Ta4467446704 = sin_v;
+	int Ti4467546705;
+	Ti4467546705 = 1;
+	double Td4467646703;
+	Td4467646703 = Ta4467446704[Ti4467546705].d;
+	double Td4467746698;
+	Td4467746698 =  Td4467346702 * Td4467646703;
+	Value* Ta4467846700;
+	Ta4467846700 = wscan;
+	int Ti4467946701;
+	Ti4467946701 = 2;
+	double Td4468046699;
+	Td4468046699 = Ta4467846700[Ti4467946701].d;
+	double Td4468146697;
+	Td4468146697 = Td4467746698 + Td4468046699;
+	int Tu4454546630;
+	Ta4467146695[Ti4467246696].d = Td4468146697;
+	double Td4468246691;
+	Td4468246691 = fsqr46370_fun(sscanx46627, NULL);
+	Value* Ta4468346693;
+	Ta4468346693 = scan_met1;
+	int Ti4468446694;
+	Ti4468446694 = 0;
+	double Td4468546692;
+	Td4468546692 = Ta4468346693[Ti4468446694].d;
+	double Td4468646690;
+	Td4468646690 = Td4468246691 + Td4468546692;
+	double metric46631;
+	metric46631 = sqrt(Td4468646690);
+	Value* Ta4468746684;
+	Ta4468746684 = vscan;
+	int Ti4468846685;
+	Ti4468846685 = 0;
+	Value* Ta4468946688;
+	Ta4468946688 = vscan;
+	int Ti4469046689;
+	Ti4469046689 = 0;
+	double Td4469146687;
+	Td4469146687 = Ta4468946688[Ti4469046689].d;
+	double Td4469246686;
+	Td4469246686 = Td4469146687 / metric46631;
+	int Tu4454446632;
+	Ta4468746684[Ti4468846685].d = Td4469246686;
+	Value* Ta4469346678;
+	Ta4469346678 = vscan;
+	int Ti4469446679;
+	Ti4469446679 = 1;
+	Value* Ta4469546682;
+	Ta4469546682 = vscan;
+	int Ti4469646683;
+	Ti4469646683 = 1;
+	double Td4469746681;
+	Td4469746681 = Ta4469546682[Ti4469646683].d;
+	double Td4469846680;
+	Td4469846680 = Td4469746681 / metric46631;
+	int Tu4454346633;
+	Ta4469346678[Ti4469446679].d = Td4469846680;
+	Value* Ta4469946672;
+	Ta4469946672 = vscan;
+	int Ti4470046673;
+	Ti4470046673 = 2;
+	Value* Ta4470146676;
+	Ta4470146676 = vscan;
+	int Ti4470246677;
+	Ti4470246677 = 2;
+	double Td4470346675;
+	Td4470346675 = Ta4470146676[Ti4470246677].d;
+	double Td4470446674;
+	Td4470446674 = Td4470346675 / metric46631;
+	int Tu4454246634;
+	Ta4469946672[Ti4470046673].d = Td4470446674;
+	Value* Ta4470546667;
+	Ta4470546667 = viewpoint;
+	int Ti4470646668;
+	Ti4470646668 = 0;
+	Value* Ta4470746670;
+	Ta4470746670 = view;
+	int Ti4470846671;
+	Ti4470846671 = 0;
+	double Td4470946669;
+	Td4470946669 = Ta4470746670[Ti4470846671].d;
+	int Tu4454146635;
+	Ta4470546667[Ti4470646668].d = Td4470946669;
+	Value* Ta4471046662;
+	Ta4471046662 = viewpoint;
+	int Ti4471146663;
+	Ti4471146663 = 1;
+	Value* Ta4471246665;
+	Ta4471246665 = view;
+	int Ti4471346666;
+	Ti4471346666 = 1;
+	double Td4471446664;
+	Td4471446664 = Ta4471246665[Ti4471346666].d;
+	int Tu4454046636;
+	Ta4471046662[Ti4471146663].d = Td4471446664;
+	Value* Ta4471546657;
+	Ta4471546657 = viewpoint;
+	int Ti4471646658;
+	Ti4471646658 = 2;
+	Value* Ta4471746660;
+	Ta4471746660 = view;
+	int Ti4471846661;
+	Ti4471846661 = 2;
+	double Td4471946659;
+	Td4471946659 = Ta4471746660[Ti4471846661].d;
+	int Tu4453946637;
+	Ta4471546657[Ti4471646658].d = Td4471946659;
+	Value* Ta4472046654;
+	Ta4472046654 = rgb;
+	int Ti4472146655;
+	Ti4472146655 = 0;
+	double Td4472246656;
+	Td4472246656 = 0.000000;
+	int Tu4453846638;
+	Ta4472046654[Ti4472146655].d = Td4472246656;
+	Value* Ta4472346651;
+	Ta4472346651 = rgb;
+	int Ti4472446652;
+	Ti4472446652 = 1;
+	double Td4472546653;
+	Td4472546653 = 0.000000;
+	int Tu4453746639;
+	Ta4472346651[Ti4472446652].d = Td4472546653;
+	Value* Ta4472646648;
+	Ta4472646648 = rgb;
+	int Ti4472746649;
+	Ti4472746649 = 2;
+	double Td4472846650;
+	Td4472846650 = 0.000000;
+	int Tu4453646640;
+	Ta4472646648[Ti4472746649].d = Td4472846650;
+	int Ti4472946646;
+	Ti4472946646 = 0;
+	double Td4473046647;
+	Td4473046647 = 1.000000;
+	int Tu4453546641;
+	Tu4453546641 = raytracing46518_fun(Ti4472946646, Td4473046647, NULL);
+	int Tu4473146645;
+	Tu4473146645 = 1;
+	int Tu4453446642;
+	Tu4453446642 = write_rgb46521_fun(Tu4473146645, NULL);
+	int Ti4473246644;
+	Ti4473246644 = 1;
+	int Ti4473346643;
+	Ti4473346643 = scanx46526 + Ti4473246644;
+	result = scan_point46525_fun(Ti4473346643, NULL);
+    }
+    return result;
+}
+
+int scan_line46527_fun(int scany46528, Value *env){
+    int result;
+    Value* Ta4458546624;
+    Ta4458546624 = size;
+    int Ti4458646625;
+    Ti4458646625 = 0;
+    int Ti4458746567;
+    Ti4458746567 = Ta4458546624[Ti4458646625].i;
+    if(Ti4458746567 <= scany46528){
+	result = 1;
+    }
+    else{
+	Value* Ta4458846611;
+	Ta4458846611 = scan_sscany;
+	int Ti4458946612;
+	Ti4458946612 = 0;
+	Value* Ta4459046622;
+	Ta4459046622 = scan_offset;
+	int Ti4459146623;
+	Ti4459146623 = 0;
+	double Td4459246620;
+	Td4459246620 = Ta4459046622[Ti4459146623].d;
+	double Td4459346621;
+	Td4459346621 = 1.000000;
+	double Td4459446618;
+	Td4459446618 = Td4459246620 - Td4459346621;
+	double Td4459546619;
+	Td4459546619 = (double) scany46528;
+	double t46614;
+	t46614 = Td4459446618 - Td4459546619;
+	Value* Ta4459646616;
+	Ta4459646616 = scan_d;
+	int Ti4459746617;
+	Ti4459746617 = 0;
+	double Td4459846615;
+	Td4459846615 = Ta4459646616[Ti4459746617].d;
+	double Td4459946613;
+	Td4459946613 =  Td4459846615 * t46614;
+	int Tu4455246568;
+	Ta4458846611[Ti4458946612].d = Td4459946613;
+	Value* Ta4460046603;
+	Ta4460046603 = scan_met1;
+	int Ti4460146604;
+	Ti4460146604 = 0;
+	Value* Ta4460246609;
+	Ta4460246609 = scan_sscany;
+	int Ti4460346610;
+	Ti4460346610 = 0;
+	double Td4460446608;
+	Td4460446608 = Ta4460246609[Ti4460346610].d;
+	double Td4460546606;
+	Td4460546606 = fsqr46370_fun(Td4460446608, NULL);
+	double Td4460646607;
+	Td4460646607 = 40000.000000;
+	double Td4460746605;
+	Td4460746605 = Td4460546606 + Td4460646607;
+	int Tu4455146569;
+	Ta4460046603[Ti4460146604].d = Td4460746605;
+	Value* Ta4460846601;
+	Ta4460846601 = scan_sscany;
+	int Ti4460946602;
+	Ti4460946602 = 0;
+	double Td4461046597;
+	Td4461046597 = Ta4460846601[Ti4460946602].d;
+	Value* Ta4461146599;
+	Ta4461146599 = sin_v;
+	int Ti4461246600;
+	Ti4461246600 = 0;
+	double Td4461346598;
+	Td4461346598 = Ta4461146599[Ti4461246600].d;
+	double t146570;
+	t146570 =  Td4461046597 * Td4461346598;
+	Value* Ta4461446587;
+	Ta4461446587 = wscan;
+	int Ti4461546588;
+	Ti4461546588 = 0;
+	Value* Ta4461646595;
+	Ta4461646595 = sin_v;
+	int Ti4461746596;
+	Ti4461746596 = 1;
+	double Td4461846594;
+	Td4461846594 = Ta4461646595[Ti4461746596].d;
+	double Td4461946590;
+	Td4461946590 =  t146570 * Td4461846594;
+	Value* Ta4462046592;
+	Ta4462046592 = vp;
+	int Ti4462146593;
+	Ti4462146593 = 0;
+	double Td4462246591;
+	Td4462246591 = Ta4462046592[Ti4462146593].d;
+	double Td4462346589;
+	Td4462346589 = Td4461946590 - Td4462246591;
+	int Tu4455046571;
+	Ta4461446587[Ti4461546588].d = Td4462346589;
+	Value* Ta4462446577;
+	Ta4462446577 = wscan;
+	int Ti4462546578;
+	Ti4462546578 = 2;
+	Value* Ta4462646585;
+	Ta4462646585 = cos_v;
+	int Ti4462746586;
+	Ti4462746586 = 1;
+	double Td4462846584;
+	Td4462846584 = Ta4462646585[Ti4462746586].d;
+	double Td4462946580;
+	Td4462946580 =  t146570 * Td4462846584;
+	Value* Ta4463046582;
+	Ta4463046582 = vp;
+	int Ti4463146583;
+	Ti4463146583 = 2;
+	double Td4463246581;
+	Td4463246581 = Ta4463046582[Ti4463146583].d;
+	double Td4463346579;
+	Td4463346579 = Td4462946580 - Td4463246581;
+	int Tu4454946572;
+	Ta4462446577[Ti4462546578].d = Td4463346579;
+	int Ti4463446576;
+	Ti4463446576 = 0;
+	int Tu4454846573;
+	Tu4454846573 = scan_point46525_fun(Ti4463446576, NULL);
+	int Ti4463546575;
+	Ti4463546575 = 1;
+	int Ti4463646574;
+	Ti4463646574 = scany46528 + Ti4463546575;
+	result = scan_line46527_fun(Ti4463646574, NULL);
+    }
+    return result;
+}
+
+int scan_start46529_fun(int Tu4455346530, Value *env){
+    int result;
+    int Tu4457246566;
+    Tu4457246566 = 1;
+    int Tu4455646550;
+    Tu4455646550 = write_ppm_header46523_fun(Tu4457246566, NULL);
+    Value* Ta4457346564;
+    Ta4457346564 = size;
+    int Ti4457446565;
+    Ti4457446565 = 0;
+    int Ti4457546563;
+    Ti4457546563 = Ta4457346564[Ti4457446565].i;
+    double sizex46551;
+    sizex46551 = (int) Ti4457546563;
+    Value* Ta4457646559;
+    Ta4457646559 = scan_d;
+    int Ti4457746560;
+    Ti4457746560 = 0;
+    double Td4457846562;
+    Td4457846562 = 128.000000;
+    double Td4457946561;
+    Td4457946561 = Td4457846562 / sizex46551;
+    int Tu4455546552;
+    Ta4457646559[Ti4457746560].d = Td4457946561;
+    Value* Ta4458046555;
+    Ta4458046555 = scan_offset;
+    int Ti4458146556;
+    Ti4458146556 = 0;
+    double Td4458246558;
+    Td4458246558 = 2.000000;
+    double Td4458346557;
+    Td4458346557 = sizex46551 / Td4458246558;
+    int Tu4455446553;
+    Ta4458046555[Ti4458146556].d = Td4458346557;
+    int Ti4458446554;
+    Ti4458446554 = 0;
+    result = scan_line46527_fun(Ti4458446554, NULL);
+    return result;
+}
+
+int rt46531_fun(int size_x46532, int size_y46533, bool debug_p46534, Value *env){
+    int result;
+    Value* Ta4456446548;
+    Ta4456446548 = size;
+    int Ti4456546549;
+    Ti4456546549 = 0;
+    int Tu4456046538;
+    Ta4456446548[Ti4456546549].i = size_x46532;
+    Value* Ta4456646546;
+    Ta4456646546 = size;
+    int Ti4456746547;
+    Ti4456746547 = 1;
+    int Tu4455946539;
+    Ta4456646546[Ti4456746547].i = size_y46533;
+    Value* Ta4456846544;
+    Ta4456846544 = dbg;
+    int Ti4456946545;
+    Ti4456946545 = 0;
+    int Tu4455846540;
+    Ta4456846544[Ti4456946545].b = debug_p46534;
+    int Tu4457046543;
+    Tu4457046543 = 1;
+    int Tu4455746541;
+    Tu4455746541 = read_parameter46433_fun(Tu4457046543, NULL);
+    int Tu4457146542;
+    Tu4457146542 = 1;
+    result = scan_start46529_fun(Tu4457146542, NULL);
+    return result;
 }
 
 int main(){
-int ans = 1;
-int Ti9049.11023;
-Ti9049_11023 = 768;
-int Ti9050.11024;
-Ti9050_11024 = 768;
-int Ti9051.11025;
-Ti9051_11025 = 0;
-ans = rt.11019_fun(Ti9049.11023, Ti9050.11024, Ti9051.11025, NULL);
-return ans;
+    int ans = 1;
+    int Ti4456146535;
+    Ti4456146535 = 768;
+    int Ti4456246536;
+    Ti4456246536 = 768;
+    int Ti4456346537;
+    Ti4456346537 = 0;
+    ans = rt46531_fun(Ti4456146535, Ti4456246536, Ti4456346537, NULL);
+    return ans;
 }
