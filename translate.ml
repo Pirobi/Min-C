@@ -164,7 +164,13 @@ let create_tuple xts y =
   |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
     
 (*This function will translate a single line of the OCaml intermediate code and decide the translated C version*)
-let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_names : string list) (env_name : string) (func_name : string) = function
+let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_names : string list) (env_name : string) (func_name : string) = 
+  let r = if String.contains r' '.' then 
+	    let index = String.index r' '.' in
+	    let len = (String.length r') in
+	    (String.sub r' 0 index) ^ "_" ^ (String.sub r' index (len - index))
+	  else r' in
+  function
   | Unit -> Printf.sprintf "%s = 1;" r
   | Int(i) -> Printf.sprintf "%s = %d;" r i
   | Float(d) -> Printf.sprintf "%s = %f;" r d
@@ -245,8 +251,8 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
       | "min_caml_sqrt" -> Printf.sprintf "%s = sqrt(%s);" r params
       | "min_caml_floor" -> Printf.sprintf "%s = floor(%s);" r params
       | "min_caml_abs_float" -> Printf.sprintf "%s = fabs(%s);" r params
-      | "min_caml_read_int" -> Printf.sprintf "printf(\"Enter an integer: \");\nscanf(\"%%i\\n\", &%s);" params
-      | "min_caml_read_float" -> Printf.sprintf "printf(\"Enter a float: \");\nscanf(\"%%d\\n\", &%s);" params
+      | "min_caml_read_int" -> Printf.sprintf "printf(\"Enter an integer: \");\nscanf(\"%%i\\n\", &%s);" r
+      | "min_caml_read_float" -> Printf.sprintf "printf(\"Enter a float: \");\nscanf(\"%%d\\n\", &%s);" r
       | "float_0" -> Printf.sprintf "%s = 0;" r
       | "float_1" -> Printf.sprintf "%s = 1;" r
       | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> Printf.sprintf "fprintf(stderr, %s);" params
@@ -260,7 +266,7 @@ let rec trans_exp r (rt : Type.t) (t_env : (string * Type.t) list) (typedef_name
      let (name, typ) = 
        List.find (fun (n, t) -> n = z) t_env in
      Printf.sprintf "%s[%s].%s = %s;" x y (type_for_union typ) z
-  | ExtArray(_) -> ""(*Will evaluate when working with the ray tracer*)
+  | ExtArray(Id.L s) -> Printf.sprintf "%s = %s;" r s
 
 
 (*This function will go through all fundefs and translate each function into C*)
@@ -301,17 +307,15 @@ let debug s =
 	       |> Assoc.f
 	       |> Inline.f
 	       |> Elim.f
-	       |> Closure.f
-	       |> (fun (Prog (p, t)) -> (p, t))
-	       |> Printf.sprintf "%a%a" in result
-							 
-							     
+	       |> Closure.f in result
+			        			     
 (*Compiles Min-Caml code through closure conversion, then translates the resulting intermediate code into C*)
 let translate s =
   let (funcs, mainf) = Lexing.from_string s
 		       |> Parser.exp Lexer.token
 		       |> Typing.f 
 		       |> KNormal.f
+		       |> Alpha.f
 		       |> Assoc.f
 		       |> Inline.f
 		       |> Elim.f
@@ -338,23 +342,6 @@ let main file =
     output_string out_channel result;
     close_out out_channel;
     Format.eprintf "Translation complete.@."
-
-let dmain file =
-  Format.eprintf "Reading file %s...@." file;
-  let lines = ref "" in
-  let in_channel = open_in file in
-  try
-    while true do 
-      lines := Printf.sprintf "%s%s\n" !lines (input_line in_channel)
-    done;
-  with End_of_file ->
-    close_in in_channel;
-    let out_channel = open_out (file ^ ".txt") in
-    let result = debug !lines in
-    Format.eprintf "Outputting intermediate code to %s.txt...@." file;
-    output_string out_channel result;
-    close_out out_channel;
-    Format.eprintf "Intermediate code generated.@."
 		   
 (* let () = *)
 (*   if Array.length Sys.argv = 1 *)
