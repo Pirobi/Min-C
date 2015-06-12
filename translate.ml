@@ -1,3 +1,12 @@
+(****************************************************************)
+(*                                                              *)
+(* Translation program from (Mini) Objective Caml to C          *)
+(*                                                              *)
+(* Min-Caml compiler originally by E. Sumii                     *)
+(* Translator and C implementation design by K. Garrone         *)
+(*                                                              *)
+(****************************************************************)
+
 open Closure
 
 (*Create the header of the output *.c file*)
@@ -391,8 +400,8 @@ let main file =
     close_out out_channel;
     Format.eprintf "Translation complete.@."
 		   
-(* let () = *)
-(*   if Array.length Sys.argv = 1 *)
-(*   then begin Format.printf "Usage: min-caml filename@."; exit 0 end *)
-(*   else main Sys.argv.(1) *)
+let () =
+  if Array.length Sys.argv = 1
+  then begin Format.printf "Usage: min-caml filename@."; exit 0 end
+  else main Sys.argv.(1)
       
