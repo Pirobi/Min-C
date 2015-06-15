@@ -351,7 +351,42 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 
 (*This function creates the C main function*)
 let make_main r typedef_names body =
-  Printf.sprintf "int main(){\nint %s = 1;\n%s\nreturn %s;\n}\n" r (trans_exp r Type.Int [] typedef_names "" "main" body) r
+  let extenv = if not (M.is_empty !Typing.extenv) then
+		 Printf.sprintf "and_net = malloc(200 * sizeof(Value));
+				 beam = malloc(8 * sizeof(Value));
+				 chkinside_p = malloc(24 * sizeof(Value));
+				 cos_v = malloc(16 * sizeof(Value));
+				 crashed_object = malloc(4 * sizeof(Value));
+				 crashed_point = malloc(4 * sizeof(Value));
+				 cs_temp = malloc(128 * sizeof(Value));
+				 dbg = malloc(4 * sizeof(Value));
+				 end_flag = malloc(4 * sizeof(Value));
+				 intsec_rectside = malloc(4 * sizeof(Value));
+				 isoutside_q = malloc(24 * sizeof(Value));
+				 light = malloc(24 * sizeof(Value));
+				 nvector = malloc(24 * sizeof(Value));
+				 nvector_w = malloc(24 * sizeof(Value));
+				 objects = malloc(240 * sizeof(Value));
+				 or_net = malloc(4 * sizeof(Value));
+				 rgb = malloc(24 * sizeof(Value));
+				 scan_d = malloc(8 * sizeof(Value));
+				 scan_met1 = malloc(8 * sizeof(Value));
+				 scan_offset = malloc(8 * sizeof(Value));
+				 scan_sscany = malloc(8 * sizeof(Value));
+				 screen = malloc(24 * sizeof(Value));
+				 sin_v = malloc(16 * sizeof(Value));
+				 size = malloc(8 * sizeof(Value));
+				 solver_dist = malloc(8 * sizeof(Value));
+				 solver_w_vec = malloc(24 * sizeof(Value));
+				 texture_color = malloc(24 * sizeof(Value));
+				 tmin = malloc(8 * sizeof(Value));
+				 view = malloc(24 * sizeof(Value));
+				 viewpoint = malloc(24 * sizeof(Value));
+				 vp = malloc(24 * sizeof(Value));
+				 vscan = malloc(24 * sizeof(Value));
+				 wscan = malloc(24 * sizeof(Value));\n"
+	       else Printf.sprintf "" in
+  Printf.sprintf "int main(){\n%sint %s = 1;\n%s\nreturn %s;\n}\n" extenv r (trans_exp r Type.Int [] typedef_names "" "main" body) r
 
 (*Generates the intermediate code for use in debugging the translation*)
 let debug s =
@@ -400,8 +435,8 @@ let main file =
     close_out out_channel;
     Format.eprintf "Translation complete.@."
 		   
-let () =
-  if Array.length Sys.argv = 1
-  then begin Format.printf "Usage: min-caml filename@."; exit 0 end
-  else main Sys.argv.(1)
+(* let () = *)
+(*   if Array.length Sys.argv = 1 *)
+(*   then begin Format.printf "Usage: min-caml filename@."; exit 0 end *)
+(*   else main Sys.argv.(1) *)
       
