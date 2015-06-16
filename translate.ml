@@ -297,14 +297,14 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
       | "min_caml_print_newline" -> Printf.sprintf "printf(\"\\n\");"
       | "min_caml_print_endline" -> Printf.sprintf "printf(\"%%s\\n\", %s);" params
       | "min_caml_truncate"  | "min_caml_int_of_float" | "min_caml_float_of_int" -> 
-							  Printf.sprintf "%s = (%s) %s;" r (type_of_string r) params
+							  Printf.sprintf "%s = (%s) %s;" r (string_of_type rt) params
       | "min_caml_cos" -> Printf.sprintf "%s = cos(%s);" r params
       | "min_caml_sin" -> Printf.sprintf "%s = sin(%s);" r params
       | "min_caml_atan" -> Printf.sprintf "%s = atan(%s);" r params
       | "min_caml_sqrt" -> Printf.sprintf "%s = sqrt(%s);" r params
       | "min_caml_floor" -> Printf.sprintf "%s = floor(%s);" r params
       | "min_caml_abs_float" -> Printf.sprintf "%s = fabs(%s);" r params
-      | "min_caml_read_int" -> Printf.sprintf "printf(\"Enter an integer: \");\nscanf(\"%%i\\n\", &%s);" r
+      | "min_caml_read_int" -> Printf.sprintf "printf(\"Enter an int: \");\nscanf(\"%%d\\n\", &%s);" r
       | "min_caml_read_float" -> Printf.sprintf "printf(\"Enter a float: \");\nscanf(\"%%d\\n\", &%s);" r
       | "float_0" -> Printf.sprintf "%s = 0;" r
       | "float_1" -> Printf.sprintf "%s = 1;" r
