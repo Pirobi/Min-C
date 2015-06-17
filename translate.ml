@@ -287,7 +287,7 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
      (match l with
       | "min_caml_print_int" -> Printf.sprintf "printf(\"%%d\", %s);" params
       | "min_caml_print_byte" -> Printf.sprintf "putchar(%s);" params
-      | "min_caml_print_float" -> Printf.sprintf "printf(\"%%s\", %s);" params
+      | "min_caml_print_float" -> Printf.sprintf "printf(\"%%f\", %s);" params
       | "min_caml_create_float_array" | "min_caml_create_array" -> 
         let (size, init) = ((List.nth xs 0), (List.nth xs 1)) in
         let(init_n, init_typ) = List.find (fun (n, t) -> n = init) t_env in
@@ -307,8 +307,6 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
       | "min_caml_abs_float" -> Printf.sprintf "%s = fabs(%s);" r params
       | "min_caml_read_int" -> Printf.sprintf "scanf(\"%%d\", &%s);" r
       | "min_caml_read_float" -> Printf.sprintf "scanf(\"%%f\", &%s);" r
-      | "float_0" -> Printf.sprintf "%s = 0;" r
-      | "float_1" -> Printf.sprintf "%s = 1;" r
       | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> Printf.sprintf "fprintf(stderr, %s);" params
       | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r (alpha_convert l) params)
   | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(%s));\n%s" r (List.length xs) (tuple_of_type rt) (set_tuple r xs)
