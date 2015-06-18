@@ -305,8 +305,8 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
       | "min_caml_sqrt" -> Printf.sprintf "%s = sqrt(%s);" r params
       | "min_caml_floor" -> Printf.sprintf "%s = floor(%s);" r params
       | "min_caml_abs_float" -> Printf.sprintf "%s = fabs(%s);" r params
-      | "min_caml_read_int" -> Printf.sprintf "scanf(\"%%d\", &%s);" r
-      | "min_caml_read_float" -> Printf.sprintf "scanf(\"%%f\", &%s);" r
+      | "min_caml_read_int" -> Printf.sprintf "double d%s;\n%s = scanf(\"%%lf\", &d%s);\n %s = (int) d%s;\nfprintf(stderr, \"debug %%d\\n\", %s);" r params r r r r
+      | "min_caml_read_float" -> Printf.sprintf "%s = scanf(\"%%lf\", &%s);\nfprintf(stderr, \"debug %%lf\\n\", %s);" params r r
       | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> Printf.sprintf "fprintf(stderr, %s);" params
       | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r (alpha_convert l) params)
   | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(%s));\n%s" r (List.length xs) (tuple_of_type rt) (set_tuple r xs)
