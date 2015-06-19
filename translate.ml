@@ -103,8 +103,8 @@ let type_of_string s =
     | _ -> "int"
   else "int"
 
-let generate_extenv r = 
-  if not (M.is_empty !Typing.extenv) then 
+let generate_extenv r n = 
+  if not (M.is_empty !Typing.extenv) && n = "min_rt/min_rt.ml" then 
     M.iter (fun x t -> 
 	    (match t with 
 	     | Type.Fun _ -> ()
@@ -124,7 +124,7 @@ let set_environment fv =
   | _::_ ->
     List.mapi (fun i l -> begin
           let (n, t) = l in
-          Printf.sprintf "%s %s = env[%d].%s;\n" (string_of_type t) n i (type_for_union t)
+          Printf.sprintf "%s %s = env[%d].%s;\n" (string_of_type t) (alpha_convert n) i (type_for_union t)
         end) fv 
      |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
 
@@ -263,7 +263,7 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
         let closure_creation = make_closure x' l (x' ^ "_env") in
         Printf.sprintf "%s%s%s" environment_creation closure_creation (trans_exp r rt ((x, t) :: t_env) typedef_names (x' ^ "_") func_name e)
       with Not_found -> print_endline ("ys: " ^ (List.fold_left (fun acc s -> acc ^ ", " ^ s) "" ys)); 
-			Printf.sprintf "t_env: %s" (List.fold_left (fun acc (x, y) -> acc ^ "," ^ x) "" t_env); assert false;
+			Printf.sprintf "t_env: %s" (List.fold_left (fun acc (x, y) -> acc ^ "," ^ x) "" t_env); assert false
     end
   | AppCls(x, ys) ->
      let x' = alpha_convert x in
@@ -342,15 +342,15 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 						      | "" -> acc ^ (string_of_type typ) ^ " " ^ s' 
 						      | _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ s') "" a) in
        let func_end = end_function "result" in
-       let t_env = (l, t) :: (List.append fv a) in
+       let t_env = (l', t) :: (List.append fv a) in
        let return_typ = get_return_type t in
        Printf.sprintf "%s%s{\n%s result;\n%s%s%s\n\n%s" name signature return_typ (set_environment fv) 
 		      (trans_exp "result" t t_env typedef_names "" l b) func_end (make_functions (List.tl f) typedef_names)  
      end
 
 (*This function creates the C main function*)
-let make_main r typedef_names body =
-  let extenv = if not (M.is_empty !Typing.extenv) then
+let make_main r typedef_names body n =
+  let extenv = if not (M.is_empty !Typing.extenv) && n = "min_rt/min_rt.ml"  then
 		 Printf.sprintf "and_net = malloc(200 * sizeof(Value));
 				 beam = malloc(8 * sizeof(Value));
 				 chkinside_p = malloc(24 * sizeof(Value));
@@ -399,7 +399,7 @@ let debug s =
 	       |> Closure.f in result
 			        			     
 (*Compiles Min-Caml code through closure conversion, then translates the resulting intermediate code into C*)
-let translate s =
+let translate s n =
   let (funcs, mainf) = Lexing.from_string s
 		       |> Parser.exp Lexer.token
 		       |> Typing.f 
@@ -412,9 +412,9 @@ let translate s =
 		       |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
   let (typedef_names, typedefs) = make_typedefs funcs [] [] in
   let r = ref "" in
-  let () = generate_extenv r in
+  let () = generate_extenv r n in
   Format.eprintf "Translating intermediate code to C...@.";
-  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ !r ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
+  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ !r ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf n) 
 																	     
 (*Reads a file and translates the Min-Caml code*)
 let main file = 
@@ -427,15 +427,15 @@ let main file =
     done;
   with End_of_file ->
     close_in in_channel;
-    let result = translate !lines in
+    let result = translate !lines file in
     let out_channel = open_out (file ^ ".c") in
     Format.eprintf "Outputting to %s.c...@." file;
     output_string out_channel result;
     close_out out_channel;
     Format.eprintf "Translation complete.@."
 		   
-(* let () = *)
-(*   if Array.length Sys.argv = 1 *)
-(*   then begin Format.printf "Usage: min-caml filename@."; exit 0 end *)
-(*   else main Sys.argv.(1) *)
+let () =
+  if Array.length Sys.argv = 1
+  then begin Format.printf "Usage: min-caml filename@."; exit 0 end
+  else main Sys.argv.(1)
       
