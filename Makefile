@@ -6,7 +6,7 @@
 RESULT = min-caml
 NCSUFFIX = .opt
 CC = gcc
-CFLAGS = -g -O2 -Wall
+CFLAGS = -g -O3 -Wall
 
 FLAG = -I ./translation translation/csyntax.o
 
