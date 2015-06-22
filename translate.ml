@@ -418,9 +418,9 @@ let translate s n =
 																	     
 (*Reads a file and translates the Min-Caml code*)
 let main file = 
-  Format.eprintf "Reading file %s...@." file;
+  Format.eprintf "Reading file %s.ml...@." file;
   let lines = ref "" in
-  let in_channel = open_in file in
+  let in_channel = open_in (file ^ ".ml") in
   try
     while true do
       lines := Printf.sprintf "%s%s\n" !lines (input_line in_channel)
@@ -428,8 +428,8 @@ let main file =
   with End_of_file ->
     close_in in_channel;
     let result = translate !lines file in
-    let out_channel = open_out (file ^ ".c") in
-    Format.eprintf "Outputting to %s.c...@." file;
+    let out_channel = open_out (file ^ ".ml.c") in
+    Format.eprintf "Outputting to %s.ml.c...@." file;
     output_string out_channel result;
     close_out out_channel;
     Format.eprintf "Translation complete.@."
