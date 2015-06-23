@@ -417,7 +417,7 @@ let translate s n =
 																	     
 (*Reads a file and translates the Min-Caml code*)
 let main file = 
-  Format.eprintf "Reading file %s.ml...@." file;
+  Format.eprintf "Preparing file %s.ml for translation...@." file;
   let lines = ref "" in
   let in_channel = open_in (file ^ ".ml") in
   let min_rt = (match file with
@@ -435,9 +435,15 @@ let main file =
     output_string out_channel result;
     close_out out_channel;
     Format.eprintf "Translation complete.@."
-		   
+
+let time f x =
+  let start = Sys.time () in
+  let res = f x in
+  let () = Printf.eprintf "Translation Time: %fs\n%!" (Sys.time () -. start) in
+  res
+	   
 let () =
   if Array.length Sys.argv = 1
   then begin Format.printf "Usage: min-caml filename@."; exit 0 end
-  else main Sys.argv.(1)
+  else time main Sys.argv.(1)
       
