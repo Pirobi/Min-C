@@ -7,7 +7,7 @@ RESULT = min-caml
 NCSUFFIX = .opt
 CC = gcc
 CFLAGS = -g -O3 -Wall
-MINCFLAGS = -g -O3 -I ./translation translation/csyntax.o
+MINCFLAGS = -g -O3 -Wall -I ./translation/
 
 default: debug-code top $(RESULT) do_test
 $(RESULT): debug-code top
@@ -52,16 +52,16 @@ test/%.cmp: test/%.res test/%.ans
 	diff $^ > $@
 
 test/%.min-caml.time: test/%.min-caml
-	time -o $@ $<
-test/%.ml.c: test/%.ml
-	indent $@
+	-time -p -o $@ ./$<
+test/%.ml.c: test/%.s
+	indent -brf -br -di0 $@
 	rm $@~
-test/%.min-c: test/%.ml.c translation/csyntax.o
+test/%.min-c: test/%.ml.c
 	$(CC) $(MINCFLAGS) $^ -lm -o $@
 test/%.min-c.time: test/%.min-c
-	time -o $@ $<
-test/%.timecmp: test/%.min-caml.time test/%.min-c.time
-	diff $^ > $@
+	-time -p -o $@ ./$<
+test/%.timecmp: test/%.min-c.time test/%.min-caml.time
+	-diff -b -y $^ > $@
 
 min-caml.html: main.mli main.ml id.ml m.ml s.ml \
 		syntax.ml type.ml parser.mly lexer.mll typing.mli typing.ml kNormal.mli kNormal.ml \

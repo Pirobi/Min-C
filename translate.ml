@@ -385,7 +385,7 @@ let make_main r typedef_names body n =
 				 vscan = malloc(24 * sizeof(Value));
 				 wscan = malloc(24 * sizeof(Value));\n"
 	       else Printf.sprintf "" in
-  Printf.sprintf "int main(){\n%sint %s = 1;\n%s\nreturn %s;\n}\n" extenv r (trans_exp r Type.Int [] typedef_names "" "main" body) r
+  Printf.sprintf "int main(){\n%sint %s = 0;\n%s\nreturn %s;\n}\n" extenv r (trans_exp r Type.Int [] typedef_names "" "main" body) r
 
 (*Generates the intermediate code for use in debugging the translation*)
 let debug s =
