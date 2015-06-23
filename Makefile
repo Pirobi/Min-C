@@ -7,6 +7,7 @@ RESULT = min-caml
 NCSUFFIX = .opt
 CC = gcc
 CFLAGS = -g -O3 -Wall
+MINCFLAGS = -g -O3 -I ./translation translation/csyntax.o
 
 default: debug-code top $(RESULT) do_test
 $(RESULT): debug-code top
@@ -35,28 +36,31 @@ inprod inprod-rec inprod-loop matmul matmul-flat
 
 do_test: $(TESTS:%=test/%.timecmp)
 
-.PRECIOUS: test/%.s test/% test/%.res test/%.ans test/%.cmp test/%.min-caml test/%.min-c test/%.timecmp
-TRASH = $(TESTS:%=test/%.s) $(TESTS:%=test/%) $(TESTS:%=test/%.res) $(TESTS:%=test/%.ans) $(TESTS:%=test/%.cmp) $(TESTS:%=test/%.ml.c) $(TESTS:%s=test/%.min-caml) $(TESTS:%s=test/%.min-c)
+.PRECIOUS: test/%.s test/%.min-caml test/%.res test/%.ans test/%.cmp test/%.ml.c test/%.min-c test/%.timecmp test/%.min-caml.time test/%.min-c.time
+TRASH = $(TESTS:%=test/%.s) $(TESTS:%=test/%.min-caml) $(TESTS:%=test/%.res) $(TESTS:%=test/%.ans) $(TESTS:%=test/%.cmp) $(TESTS:%=test/%.ml.c) \
+	$(TESTS:%=test/%.min-c) $(TESTS:%=test/%.timecmp) $(TESTS:%=test/%.min-caml.time) $(TESTS:%=test/%.min-c.time)
 
 test/%.s: $(RESULT) test/%.ml
 	./$(RESULT) test/$*
-test/%: test/%.s libmincaml.S stub.c
+test/%.min-caml: test/%.s libmincaml.S stub.c
 	$(CC) $(CFLAGS) -m32 $^ -lm -o $@
-test/%.res: test/%
+test/%.res: test/%.min-caml
 	$< > $@
-test/%.ans: test/%
+test/%.ans: test/%.ml
 	ocaml $< > $@
-test/%.res.time: test/%.res
-	time $< > $@
-test/%.ml.c: $(RESULT) test/%.ml
-	./$(RESULT) test/%.ml
-test/%.min-c: test/%.ml.c translation/csyntax.o
-	$(CC) $(CFLAGS) $^ -lm -o $@
-test/%.min-c.time: test/%.min-c
-	time $< > $@
 test/%.cmp: test/%.res test/%.ans
 	diff $^ > $@
-test/%.timecmp: test/%.res.time test/%.min-c.time
+
+test/%.min-caml.time: test/%.min-caml
+	time -o $@ $<
+test/%.ml.c: test/%.ml
+	indent $@
+	rm $@~
+test/%.min-c: test/%.ml.c translation/csyntax.o
+	$(CC) $(MINCFLAGS) $^ -lm -o $@
+test/%.min-c.time: test/%.min-c
+	time -o $@ $<
+test/%.timecmp: test/%.min-caml.time test/%.min-c.time
 	diff $^ > $@
 
 min-caml.html: main.mli main.ml id.ml m.ml s.ml \

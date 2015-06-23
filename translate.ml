@@ -109,7 +109,7 @@ let generate_extenv r n =
 	    (match t with 
 	     | Type.Fun _ -> ()
 	     | _ -> r := !r ^ Printf.sprintf "%s %s;\n" (string_of_type t) x)) !Typing.extenv
-  else Printf.printf "No extenv" 
+  else Printf.printf "No extenv\n" 
 
 (*If the return variable has already been declared, omit the type*)
 let include_type r rt = 
