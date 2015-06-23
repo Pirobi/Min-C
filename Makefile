@@ -34,11 +34,12 @@ shuffle spill spill2 spill3 join-stack join-stack2 join-stack3 \
 join-reg join-reg2 non-tail-if non-tail-if2 \
 inprod inprod-rec inprod-loop matmul matmul-flat
 
+MIN-RT = min-rt
+
 do_test: $(TESTS:%=test/%.timecmp)
 
 show_results: $(TESTS:%=test/%.timecmp)
 	cat $^
-
 
 .PRECIOUS: test/%.s test/%.min-caml test/%.res test/%.ans test/%.cmp test/%.ml.c test/%.min-c test/%.timecmp test/%.min-caml.time test/%.min-c.time
 TRASH = $(TESTS:%=test/%.s) $(TESTS:%=test/%.min-caml) $(TESTS:%=test/%.res) $(TESTS:%=test/%.ans) $(TESTS:%=test/%.cmp) $(TESTS:%=test/%.ml.c) \

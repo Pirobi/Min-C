@@ -103,8 +103,8 @@ let type_of_string s =
     | _ -> "int"
   else "int"
 
-let generate_extenv r n = 
-  if not (M.is_empty !Typing.extenv) && n = "min_rt/min_rt.ml" then 
+let generate_extenv r min_rt = 
+  if min_rt = true then 
     M.iter (fun x t -> 
 	    (match t with 
 	     | Type.Fun _ -> ()
@@ -349,8 +349,8 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
      end
 
 (*This function creates the C main function*)
-let make_main r typedef_names body n =
-  let extenv = if not (M.is_empty !Typing.extenv) && n = "min_rt/min_rt.ml"  then
+let make_main r typedef_names body min_rt =
+  let extenv = if min_rt = true  then
 		 Printf.sprintf "and_net = malloc(200 * sizeof(Value));
 				 beam = malloc(8 * sizeof(Value));
 				 chkinside_p = malloc(24 * sizeof(Value));
@@ -421,13 +421,16 @@ let main file =
   Format.eprintf "Reading file %s.ml...@." file;
   let lines = ref "" in
   let in_channel = open_in (file ^ ".ml") in
+  let min_rt = (match file with
+		| "min-rt" -> true
+		| _ -> false) in
   try
     while true do
       lines := Printf.sprintf "%s%s\n" !lines (input_line in_channel)
     done;
   with End_of_file ->
     close_in in_channel;
-    let result = translate !lines file in
+    let result = translate !lines min_rt in
     let out_channel = open_out (file ^ ".ml.c") in
     Format.eprintf "Outputting to %s.ml.c...@." file;
     output_string out_channel result;

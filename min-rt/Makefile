@@ -8,10 +8,10 @@ shuttle test test2 test3 tileball tron tsu tsu2 tsu3
 test: $(SLDS:%=%.cmp) $(SLDS:%=%.diff.ocamlopt-gcc.ppm) $(SLDS:%=%.diff.gcc-GCC.ppm)
 
 clean:
-	rm -f *.cmp *.ppm *.ppm.tmp ppmdiff raytrace RayTrace *.sld_ *.cmo *.cmx *.cmi *.o min-rt_b min-rt min-rt.s min-rt.min-caml min-rt.min-c
+	rm -f *.cmp *.ppm *.ppm.tmp ppmdiff raytrace RayTrace *.sld_ *.cmo *.cmx *.cmi *.o min-rt_b min-rt min-rt.s min-rt.min-caml min-rt.min-c min-rt.ml.c
 
 %.cmp: %.mincaml.ppm %.minc.ppm # avoid 80-bit float on x86
-	diff $^ > $@
+	-diff $^ > $@
 %.diff.gcc-GCC.ppm: ppmdiff %.gcc.ppm %.GCC.ppm
 	./$^ $@
 %.diff.ocamlopt-gcc.ppm: ppmdiff %.ocamlopt.ppm %.gcc.ppm
@@ -20,18 +20,21 @@ ppmdiff: ppm.ml diff.ml
 	ocamlopt $^ -o $@
 
 %.minc.ppm: %.sld min-rt.min-c
-	time ./min-rt.min-c < $< > $@.tmp
+	-time ./min-rt.min-c < $< > $@.tmp
 	mv $@.tmp $@
 min-rt.min-c: min-rt.ml.c
 	gcc -g -O3 -I ../translation/ min-rt.ml.c -lm -o min-rt.min-c
+min-rt.ml.c: min-rt.s
+	indent -brf -br -di0 $@
+	rm $@~
 
 %.mincaml.ppm: %.sld min-rt.min-caml
-	time ./min-rt.min-caml < $< > $@.tmp
+	-time ./min-rt.min-caml < $< > $@.tmp
 	mv $@.tmp $@
 min-rt.min-caml: min-rt.s globals.s ../libmincaml.S ../stub.c
 	gcc -m32 -g -O2 -Wall $^ -lm -o min-rt.min-caml
 min-rt.s: min-rt.ml ../min-caml
-	../min-caml -inline 100 min-rt
+	../min-caml min-rt -inline 100
 
 %.gcc.ppm: %.sld raytrace
 	echo 768 > $<_
