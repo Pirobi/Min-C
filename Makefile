@@ -36,6 +36,10 @@ inprod inprod-rec inprod-loop matmul matmul-flat
 
 do_test: $(TESTS:%=test/%.timecmp)
 
+show_results: $(TESTS:%=test/%.timecmp)
+	cat $^
+
+
 .PRECIOUS: test/%.s test/%.min-caml test/%.res test/%.ans test/%.cmp test/%.ml.c test/%.min-c test/%.timecmp test/%.min-caml.time test/%.min-c.time
 TRASH = $(TESTS:%=test/%.s) $(TESTS:%=test/%.min-caml) $(TESTS:%=test/%.res) $(TESTS:%=test/%.ans) $(TESTS:%=test/%.cmp) $(TESTS:%=test/%.ml.c) \
 	$(TESTS:%=test/%.min-c) $(TESTS:%=test/%.timecmp) $(TESTS:%=test/%.min-caml.time) $(TESTS:%=test/%.min-c.time)
@@ -52,14 +56,14 @@ test/%.cmp: test/%.res test/%.ans
 	diff $^ > $@
 
 test/%.min-caml.time: test/%.min-caml
-	-time -p -o $@ ./$<
+	time -p -o $@ ./$<
 test/%.ml.c: test/%.s
 	indent -brf -br -di0 $@
 	rm $@~
 test/%.min-c: test/%.ml.c
 	$(CC) $(MINCFLAGS) $^ -lm -o $@
 test/%.min-c.time: test/%.min-c
-	-time -p -o $@ ./$<
+	time -p -o $@ ./$<
 test/%.timecmp: test/%.min-c.time test/%.min-caml.time
 	-diff -b -y $^ > $@
 

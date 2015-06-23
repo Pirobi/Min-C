@@ -194,7 +194,7 @@ let create_tuple xts y =
 let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_names : string list) (env_name : string) (func_name : string) = 
   let r =  alpha_convert r' in
   function
-  | Unit -> Printf.sprintf "%s = 1;" r
+  | Unit -> Printf.sprintf "%s = 0;" r
   | Int(i) -> Printf.sprintf "%s = %d;" r i
   | Float(d) -> Printf.sprintf "%s = %f;" r d
   | Neg(n) -> Printf.sprintf "%s = -%s;" r (alpha_convert n)
