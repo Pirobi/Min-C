@@ -315,10 +315,9 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
      Printf.sprintf "%s%s" (create_tuple xts y) t
   | Get(x, y) -> Printf.sprintf "%s = %s[%s].%s;" r (alpha_convert x) (alpha_convert y) (type_for_union rt)
   | Put(x, y, z) ->
-     let z' = alpha_convert z in  
      let (name, typ) = 
        List.find (fun (n, t) -> n = z) t_env in
-     Printf.sprintf "%s[%s].%s = %s;" (alpha_convert x) (alpha_convert y) (type_for_union typ) z'
+     Printf.sprintf "%s[%s].%s = %s;" (alpha_convert x) (alpha_convert y) (type_for_union typ) (alpha_convert z)
   | ExtArray(Id.L s) -> Printf.sprintf "%s = %s;" r (alpha_convert s)
 
 

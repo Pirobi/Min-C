@@ -1,11 +1,13 @@
 # added by Sumii
-
+RESULT = ../min-caml
 SLDS = ball contest cup dra lattice mange mir orange piero1 piero2 planet \
 shuttle test test2 test3 tileball tron tsu tsu2 tsu3
+CC = gcc
+FLAGS = -g -O3 -I ../translation/
 
 .PRECIOUS: %.cmp %.diff.gcc-GCC.ppm %.diff.ocamlopt-gcc.ppm %.mincaml.ppm %.gcc.ppm %.GCC.ppm %.ocamlopt.ppm %.ocamlc.ppm %.minc.ppm
 
-test: $(SLDS:%=%.cmp) $(SLDS:%=%.diff.ocamlopt-gcc.ppm) $(SLDS:%=%.diff.gcc-GCC.ppm)
+test: $(SLDS:%=%.cmp) #$(SLDS:%=%.diff.ocamlopt-gcc.ppm) $(SLDS:%=%.diff.gcc-GCC.ppm)
 
 clean:
 	rm -f *.cmp *.ppm *.ppm.tmp ppmdiff raytrace RayTrace *.sld_ *.cmo *.cmx *.cmi *.o min-rt_b min-rt min-rt.s min-rt.min-caml min-rt.min-c min-rt.ml.c
@@ -20,21 +22,21 @@ ppmdiff: ppm.ml diff.ml
 	ocamlopt $^ -o $@
 
 %.minc.ppm: %.sld min-rt.min-c
-	-time ./min-rt.min-c < $< > $@.tmp
+	-time -p ./min-rt.min-c < $< > $@.tmp
 	mv $@.tmp $@
 min-rt.min-c: min-rt.ml.c
-	gcc -g -O3 -I ../translation/ min-rt.ml.c -lm -o min-rt.min-c
+	$(CC) $(FLAGS) $^ -lm -o $@
 min-rt.ml.c: min-rt.s
 	indent -brf -br -di0 $@
 	rm $@~
 
 %.mincaml.ppm: %.sld min-rt.min-caml
-	-time ./min-rt.min-caml < $< > $@.tmp
+	-time -p ./min-rt.min-caml < $< > $@.tmp
 	mv $@.tmp $@
 min-rt.min-caml: min-rt.s globals.s ../libmincaml.S ../stub.c
 	gcc -m32 -g -O2 -Wall $^ -lm -o min-rt.min-caml
-min-rt.s: min-rt.ml ../min-caml
-	../min-caml min-rt -inline 100
+min-rt.s: min-rt.ml $(RESULT)
+	$(RESULT) min-rt #-inline 100 NEEDED TO COMMENT OUT BECAUSE OF INCOMPATIBILITY WITH MIN-C
 
 %.gcc.ppm: %.sld raytrace
 	echo 768 > $<_
