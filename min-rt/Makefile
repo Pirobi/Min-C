@@ -3,7 +3,7 @@ RESULT = ../min-caml
 SLDS = ball contest cup dra lattice mange mir orange piero1 piero2 planet \
 shuttle test test2 test3 tileball tron tsu tsu2 tsu3
 CC = gcc
-FLAGS = -g -O3 -I ../translation/
+FLAGS = -g -ffloat-store -O3 -I ../translation/
 
 .PRECIOUS: %.cmp %.diff.gcc-GCC.ppm %.diff.ocamlopt-gcc.ppm %.mincaml.ppm %.gcc.ppm %.GCC.ppm %.ocamlopt.ppm %.ocamlc.ppm %.minc.ppm
 
@@ -44,13 +44,13 @@ min-rt.s: min-rt.ml $(RESULT)
 	time ./raytrace < $<_ > $@.tmp
 	mv $@.tmp $@
 raytrace: raytrace.c
-	gcc -m32 -Wall -O3 raytrace.c -lm -o raytrace
+	gcc -ffloat-store -Wall -O3 raytrace.c -lm -o raytrace
 
 %.GCC.ppm: %.sld RayTrace
 	time ./RayTrace -s -w 768 -h 768 < $< > $@.tmp
 	mv $@.tmp $@
 RayTrace: RayTrace.cxx
-	g++ -m32 -Wall -O3 RayTrace.cxx -lm -o RayTrace
+	g++ -Wall -O3 RayTrace.cxx -lm -o RayTrace
 
 %.ocamlopt.ppm: %.sld min-rt
 	time ./min-rt < $< > $@.tmp

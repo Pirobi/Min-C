@@ -32,7 +32,7 @@ let rec string_of_type t = match t with
   | Type.Float -> "double"
   | Type.Fun(l, r) -> "Closure*"
   | Type.Array(t') -> "Value*"
-  | Type.Tuple(xs) -> string_of_type (List.hd xs) ^ "*"
+  | Type.Tuple(xs) -> "Value*"
   | _ -> ""
 
 (*Used to get the value from a Value union*)
@@ -46,7 +46,7 @@ let rec type_for_union t = match t with
       | Type.Fun(l', r') -> "c"
       | _ -> type_for_union r)
   | Type.Array(t') -> "a"
-  | Type.Tuple(xs) -> "a"
+  | Type.Tuple(xs) -> type_for_union (List.hd xs)
   | _ -> ""
 
 let type_for_array t = match t with
@@ -82,11 +82,7 @@ let rec get_return_type t = match t with
   | Type.Float -> "double"
   | Type.Fun(l, r) -> string_of_type r
   | Type.Array(t') -> "Value*"
-  | Type.Tuple(xs) -> string_of_type (List.hd xs) ^ "*"
-  | _ -> ""
-
-let tuple_of_type t = match t with
-  | Type.Tuple(xs) -> string_of_type (List.hd xs)
+  | Type.Tuple(xs) -> "Value*"
   | _ -> ""
 
 (*Determine the type of the given string and return a string*)
@@ -97,9 +93,9 @@ let type_of_string s =
     | 'd' -> "double"
     | 'b' -> "bool"
     | 'f' -> "Closure"
-    | 't' -> "tuple"
+    | 't' -> "Value*"
     | 'u' -> "unit"
-    | 'a' -> "array"
+    | 'a' -> "Value*"
     | _ -> "int"
   else "int"
 
@@ -129,11 +125,11 @@ let set_environment fv =
      |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
 
 (*Set each value of the tuple to a spot in the array*)
-let set_tuple r xs =
+let set_tuple r rt xs =
   match xs with
   | [] -> ""
   | _::_ ->
-    List.mapi(fun i l -> Printf.sprintf "%s[%d] = %s;\n" (alpha_convert r) i (alpha_convert l)) xs
+    List.mapi(fun i l -> Printf.sprintf "%s[%d].%s = %s;\n" (alpha_convert r) i (type_for_union rt) (alpha_convert l)) xs
     |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
     
 (*Print the C statements used to create a Closure*)
@@ -185,7 +181,7 @@ let create_tuple xts y =
   List.mapi (fun i l ->
       begin
 	let (n, t) = l in
- Printf.sprintf "%s %s = %s[%d];\n" (string_of_type t) (alpha_convert n) (alpha_convert y) i
+ Printf.sprintf "%s %s = %s[%d].%s;\n" (string_of_type t) (alpha_convert n) (alpha_convert y) i (type_for_union t)
       end
     ) xts
   |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
@@ -305,11 +301,12 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
       | "min_caml_sqrt" -> Printf.sprintf "%s = sqrt(%s);" r params
       | "min_caml_floor" -> Printf.sprintf "%s = floor(%s);" r params
       | "min_caml_abs_float" -> Printf.sprintf "%s = fabs(%s);" r params
-      | "min_caml_read_int" -> Printf.sprintf "double d%s;\n%s = scanf(\"%%lf\", &d%s);\n %s = (int) d%s;" r params r r r
+      (* | "min_caml_read_int" -> Printf.sprintf "double d%s;\n%s = scanf(\"%%lf\", &d%s);\n %s = (int) d%s;" r params r r r *)
+      | "min_caml_read_int" -> Printf.sprintf "%s = scanf(\"%%d\", &%s);" params r
       | "min_caml_read_float" -> Printf.sprintf "%s = scanf(\"%%lf\", &%s);" params r
       | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> Printf.sprintf "fprintf(stderr, %s);" params
       | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r (alpha_convert l) params)
-  | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(%s));\n%s" r (List.length xs) (tuple_of_type rt) (set_tuple r xs)
+  | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(Value));\n%s" r (List.length xs) (set_tuple r rt xs)
   | LetTuple(xts, y, e) -> 
      let t = (trans_exp r rt t_env typedef_names env_name func_name e) in
      Printf.sprintf "%s%s" (create_tuple xts y) t
