@@ -6,8 +6,10 @@
 RESULT = min-caml
 NCSUFFIX = .opt
 CC = gcc
-CFLAGS = -g -O3 -Wall
+CFLAGS = -g -O2 -Wall
 MINCFLAGS = -g -O3 -Wall -I ./translation/
+INDENT = indent
+INDENTARGS = -brf -br -nbc -T Value -T Closure
 
 default: debug-code top $(RESULT) do_test
 $(RESULT): debug-code top
@@ -59,7 +61,7 @@ test/%.cmp: test/%.res test/%.ans
 test/%.min-caml.time: test/%.min-caml
 	time -p -o $@ ./$<
 test/%.ml.c: test/%.s
-	indent -brf -br -di0 $@
+	$(INDENT) $(INDENTARGS) $@
 	rm $@~
 test/%.min-c: test/%.ml.c
 	$(CC) $(MINCFLAGS) $^ -lm -o $@

@@ -4,6 +4,8 @@ SLDS = ball contest cup dra lattice mange mir orange piero1 piero2 planet \
 shuttle test test2 test3 tileball tron tsu tsu2 tsu3
 CC = gcc
 FLAGS = -g -ffloat-store -O3 -I ../translation/
+INDENT = indent
+INDENTARGS = -brf -br -nbc -nbdfa -T Value -T Closure
 
 .PRECIOUS: %.cmp %.diff.gcc-GCC.ppm %.diff.ocamlopt-gcc.ppm %.mincaml.ppm %.gcc.ppm %.GCC.ppm %.ocamlopt.ppm %.ocamlc.ppm %.minc.ppm
 
@@ -27,7 +29,7 @@ ppmdiff: ppm.ml diff.ml
 min-rt.min-c: min-rt.ml.c
 	$(CC) $(FLAGS) $^ -lm -o $@
 min-rt.ml.c: min-rt.s
-	indent -brf -br -di0 $@
+	$(INDENT) $(INDENTARGS) $@
 	rm $@~
 
 %.mincaml.ppm: %.sld min-rt.min-caml
