@@ -113,7 +113,7 @@ let set_environment fv =
 (*Print the C statements used to create a Closure*)
 let make_closure r f env = 
   let r' = alpha_convert r in 
-  Printf.sprintf "Closure* %s = malloc(sizeof(Closure));\n%s -> fp = (Function)%s_fun;\n%s -> env = %s;\n" r' r' (alpha_convert f) r' env
+  Printf.sprintf "Closure* %s = (Closure*) malloc(sizeof(Closure));\n%s -> fp = (Function)%s_fun;\n%s -> env = %s;\n" r' r' (alpha_convert f) r' env
    
 (*List the parameters for functions or lists*)
 let list_params l =
@@ -294,7 +294,7 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
       | "min_caml_read_float" -> Printf.sprintf "%s = scanf(\"%%lf\", &%s);" params r
       | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> Printf.sprintf "fprintf(stderr, %s);" params
       | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r (alpha_convert l) params)
-  | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(Value));\n%s" r (List.length xs) (set_tuple r t_env xs)
+  | Tuple(xs) -> Printf.sprintf "%s = (Value*) malloc(%d * sizeof(Value));\n%s" r (List.length xs) (set_tuple r t_env xs)
   | LetTuple(xts, y, e) -> 
      let t = (trans_exp r rt t_env typedef_names env_name func_name e) in
      Printf.sprintf "%s%s" (create_tuple xts y) t
@@ -335,39 +335,39 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
 (*This function creates the C main function*)
 let make_main r typedef_names body min_rt =
   let extenv = if min_rt = true  then
-		 Printf.sprintf "and_net = malloc(200 * sizeof(Value));
-				 beam = malloc(8 * sizeof(Value));
-				 chkinside_p = malloc(24 * sizeof(Value));
-				 cos_v = malloc(16 * sizeof(Value));
-				 crashed_object = malloc(4 * sizeof(Value));
-				 crashed_point = malloc(4 * sizeof(Value));
-				 cs_temp = malloc(128 * sizeof(Value));
-				 dbg = malloc(4 * sizeof(Value));
-				 end_flag = malloc(4 * sizeof(Value));
-				 intsec_rectside = malloc(4 * sizeof(Value));
-				 isoutside_q = malloc(24 * sizeof(Value));
-				 light = malloc(24 * sizeof(Value));
-				 nvector = malloc(24 * sizeof(Value));
-				 nvector_w = malloc(24 * sizeof(Value));
-				 objects = malloc(240 * sizeof(Value));
-				 or_net = malloc(4 * sizeof(Value));
-				 rgb = malloc(24 * sizeof(Value));
-				 scan_d = malloc(8 * sizeof(Value));
-				 scan_met1 = malloc(8 * sizeof(Value));
-				 scan_offset = malloc(8 * sizeof(Value));
-				 scan_sscany = malloc(8 * sizeof(Value));
-				 screen = malloc(24 * sizeof(Value));
-				 sin_v = malloc(16 * sizeof(Value));
-				 size = malloc(8 * sizeof(Value));
-				 solver_dist = malloc(8 * sizeof(Value));
-				 solver_w_vec = malloc(24 * sizeof(Value));
-				 texture_color = malloc(24 * sizeof(Value));
-				 tmin = malloc(8 * sizeof(Value));
-				 view = malloc(24 * sizeof(Value));
-				 viewpoint = malloc(24 * sizeof(Value));
-				 vp = malloc(24 * sizeof(Value));
-				 vscan = malloc(24 * sizeof(Value));
-				 wscan = malloc(24 * sizeof(Value));\n"
+		 Printf.sprintf "and_net = (Value*) malloc(200 * sizeof(Value));
+				 beam = (Value*) malloc(8 * sizeof(Value));
+				 chkinside_p = (Value*) malloc(24 * sizeof(Value));
+				 cos_v = (Value*) malloc(16 * sizeof(Value));
+				 crashed_object = (Value*) malloc(4 * sizeof(Value));
+				 crashed_point = (Value*) malloc(4 * sizeof(Value));
+				 cs_temp = (Value*) malloc(128 * sizeof(Value));
+				 dbg = (Value*) malloc(4 * sizeof(Value));
+				 end_flag = (Value*) malloc(4 * sizeof(Value));
+				 intsec_rectside = (Value*) malloc(4 * sizeof(Value));
+				 isoutside_q = (Value*) malloc(24 * sizeof(Value));
+				 light = (Value*) malloc(24 * sizeof(Value));
+				 nvector = (Value*) malloc(24 * sizeof(Value));
+				 nvector_w = (Value*) malloc(24 * sizeof(Value));
+				 objects = (Value*) malloc(240 * sizeof(Value));
+				 or_net = (Value*) malloc(4 * sizeof(Value));
+				 rgb = (Value*) malloc(24 * sizeof(Value));
+				 scan_d = (Value*) malloc(8 * sizeof(Value));
+				 scan_met1 = (Value*) malloc(8 * sizeof(Value));
+				 scan_offset = (Value*) malloc(8 * sizeof(Value));
+				 scan_sscany = (Value*) malloc(8 * sizeof(Value));
+				 screen = (Value*) malloc(24 * sizeof(Value));
+				 sin_v = (Value*) malloc(16 * sizeof(Value));
+				 size = (Value*) malloc(8 * sizeof(Value));
+				 solver_dist = (Value*) malloc(8 * sizeof(Value));
+				 solver_w_vec = (Value*) malloc(24 * sizeof(Value));
+				 texture_color = (Value*) malloc(24 * sizeof(Value));
+				 tmin = (Value*) malloc(8 * sizeof(Value));
+				 view = (Value*) malloc(24 * sizeof(Value));
+				 viewpoint = (Value*) malloc(24 * sizeof(Value));
+				 vp = (Value*) malloc(24 * sizeof(Value));
+				 vscan = (Value*) malloc(24 * sizeof(Value));
+				 wscan = (Value*) malloc(24 * sizeof(Value));\n"
 	       else Printf.sprintf "" in
   Printf.sprintf "int main(){\n%sint %s = 0;\n%s\nreturn %s;\n}\n" extenv r (trans_exp r Type.Int [] typedef_names "" "main" body) r
 

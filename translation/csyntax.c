@@ -11,7 +11,7 @@ static inline void make_int_array(Value **array, int size, int initial_value){
   if(size < 1){
     size = 1;
   }
-  *array = malloc(size * sizeof(Value));
+  *array = (Value*) malloc(size * sizeof(Value));
   if(*array == NULL){
     printf("Error allocating memory for environment\n");
     exit(-1);
@@ -27,7 +27,7 @@ static inline void make_double_array(Value **array, int size, double initial_val
   if(size < 1){
     size = 1;
   }
-  *array = malloc(size * sizeof(Value));
+  *array = (Value*) malloc(size * sizeof(Value));
   if(*array == NULL){
     printf("Error allocating memory for environment\n");
     exit(-1);
@@ -43,7 +43,7 @@ static inline void make_multi_array(Value **array, int size, Value* initial_valu
   if(size < 1){
     size = 1;
   }
-  *array = malloc(size * sizeof(Value));
+  *array = (Value*) malloc(size * sizeof(Value));
   if(*array == NULL){
     printf("Error allocating memory for environment\n");
     exit(-1);
@@ -59,7 +59,7 @@ static inline void make_closure_array(Value **array, int size, Closure* initial_
   if(size < 1){
     size = 1;
   }
-  *array = malloc(size * sizeof(Value));
+  *array = (Value*) malloc(size * sizeof(Value));
   if(*array == NULL){
     printf("Error allocating memory for environment\n");
     exit(-1);
@@ -75,7 +75,7 @@ static inline void make_closure_array(Value **array, int size, Closure* initial_
 static inline void safe_malloc(Value **env, int size){
   *env = NULL;
   if(size > 0){
-    *env = malloc(size * sizeof(Value));
+      *env = (Value*) malloc(size * sizeof(Value));
     if(*env == NULL){
       printf("Error allocating memory for environment\n");
       exit(-1);

@@ -3,16 +3,17 @@ RESULT = ../min-caml
 SLDS = ball contest cup dra lattice mange mir orange piero1 piero2 planet \
 shuttle test test2 test3 tileball tron tsu tsu2 tsu3
 CC = gcc
-FLAGS = -g -ffloat-store -O3 -I ../translation/
+FLAGS = -g -O3 -I ../translation/
 INDENT = indent
 INDENTARGS = -brf -br -nbc -T Value -T Closure
+GPP = g++
 
 .PRECIOUS: %.cmp %.diff.gcc-GCC.ppm %.diff.ocamlopt-gcc.ppm %.mincaml.ppm %.gcc.ppm %.GCC.ppm %.ocamlopt.ppm %.ocamlc.ppm %.minc.ppm
 
 test: $(SLDS:%=%.cmp) #$(SLDS:%=%.diff.ocamlopt-gcc.ppm) $(SLDS:%=%.diff.gcc-GCC.ppm)
 
 clean:
-	rm -f *.cmp *.ppm *.ppm.tmp ppmdiff raytrace RayTrace *.sld_ *.cmo *.cmx *.cmi *.o min-rt_b min-rt min-rt.s min-rt.min-caml min-rt.min-c min-rt.ml.c
+	rm -f *.cmp *.ppm *.ppm.tmp ppmdiff raytrace RayTrace *.sld_ *.cmo *.cmx *.cmi *.o min-rt_b min-rt min-rt.s min-rt.min-caml min-rt.MIN-C min-rt.min-c min-rt.ml.c
 
 %.cmp: %.mincaml.ppm %.minc.ppm # avoid 80-bit float on x86
 	-diff $^ > $@
@@ -31,6 +32,11 @@ min-rt.min-c: min-rt.ml.c
 min-rt.ml.c: min-rt.s
 	$(INDENT) $(INDENTARGS) $@
 	rm $@~
+min-rt.MIN-C: min-rt.ml.c
+	$(GPP) $(FLAGS) $^ -lm -o $@
+%.MINC.ppm: %.sld min-rt.MIN-C
+	time -p ./min-rt.min-c < $< > $@.tmp
+	mv $@.tmp $@
 
 %.mincaml.ppm: %.sld min-rt.min-caml
 	time -p ./min-rt.min-caml < $< > $@.tmp
@@ -58,7 +64,7 @@ RayTrace: RayTrace.cxx
 	time -p ./min-rt < $< > $@.tmp
 	mv $@.tmp $@
 %.ocamlc.ppm: %.sld min-rt_b
-	./min-rt_b < $< > $@.tmp # to avoid 80-bit float on x86
+	time -p ./min-rt_b < $< > $@.tmp # to avoid 80-bit float on x86
 	mv $@.tmp $@
 
 ######################################################################
