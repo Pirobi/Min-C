@@ -5,7 +5,7 @@ shuttle test test2 test3 tileball tron tsu tsu2 tsu3
 CC = gcc
 FLAGS = -g -ffloat-store -O3 -I ../translation/
 INDENT = indent
-INDENTARGS = -brf -br -nbc -nbdfa -T Value -T Closure
+INDENTARGS = -brf -br -nbc -T Value -T Closure
 
 .PRECIOUS: %.cmp %.diff.gcc-GCC.ppm %.diff.ocamlopt-gcc.ppm %.mincaml.ppm %.gcc.ppm %.GCC.ppm %.ocamlopt.ppm %.ocamlc.ppm %.minc.ppm
 
@@ -24,7 +24,7 @@ ppmdiff: ppm.ml diff.ml
 	ocamlopt $^ -o $@
 
 %.minc.ppm: %.sld min-rt.min-c
-	-time -p ./min-rt.min-c < $< > $@.tmp
+	time -p ./min-rt.min-c < $< > $@.tmp
 	mv $@.tmp $@
 min-rt.min-c: min-rt.ml.c
 	$(CC) $(FLAGS) $^ -lm -o $@
@@ -33,7 +33,7 @@ min-rt.ml.c: min-rt.s
 	rm $@~
 
 %.mincaml.ppm: %.sld min-rt.min-caml
-	-time -p ./min-rt.min-caml < $< > $@.tmp
+	time -p ./min-rt.min-caml < $< > $@.tmp
 	mv $@.tmp $@
 min-rt.min-caml: min-rt.s globals.s ../libmincaml.S ../stub.c
 	gcc -m32 -g -O2 -Wall $^ -lm -o min-rt.min-caml
@@ -43,19 +43,19 @@ min-rt.s: min-rt.ml $(RESULT)
 %.gcc.ppm: %.sld raytrace
 	echo 768 > $<_
 	cat $< >> $<_
-	time ./raytrace < $<_ > $@.tmp
+	time -p ./raytrace < $<_ > $@.tmp
 	mv $@.tmp $@
 raytrace: raytrace.c
 	gcc -ffloat-store -Wall -O3 raytrace.c -lm -o raytrace
 
 %.GCC.ppm: %.sld RayTrace
-	time ./RayTrace -s -w 768 -h 768 < $< > $@.tmp
+	time -p ./RayTrace -s -w 768 -h 768 < $< > $@.tmp
 	mv $@.tmp $@
 RayTrace: RayTrace.cxx
 	g++ -Wall -O3 RayTrace.cxx -lm -o RayTrace
 
 %.ocamlopt.ppm: %.sld min-rt
-	time ./min-rt < $< > $@.tmp
+	time -p ./min-rt < $< > $@.tmp
 	mv $@.tmp $@
 %.ocamlc.ppm: %.sld min-rt_b
 	./min-rt_b < $< > $@.tmp # to avoid 80-bit float on x86

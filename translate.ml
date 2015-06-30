@@ -46,7 +46,7 @@ let rec type_for_union t = match t with
       | Type.Fun(l', r') -> "c"
       | _ -> type_for_union r)
   | Type.Array(t') -> "a"
-  | Type.Tuple(xs) -> type_for_union (List.hd xs)
+  | Type.Tuple(xs) -> "a"
   | _ -> ""
 
 let type_for_array t = match t with
@@ -85,20 +85,6 @@ let rec get_return_type t = match t with
   | Type.Tuple(xs) -> "Value*"
   | _ -> ""
 
-(*Determine the type of the given string and return a string*)
-let type_of_string s =
-  if String.length s > 2 then
-    match s.[1] with
-    | 'i' -> "int"
-    | 'd' -> "double"
-    | 'b' -> "bool"
-    | 'f' -> "Closure"
-    | 't' -> "Value*"
-    | 'u' -> "unit"
-    | 'a' -> "Value*"
-    | _ -> "int"
-  else "int"
-
 let generate_extenv r min_rt = 
   if min_rt = true then 
     M.iter (fun x t -> 
@@ -123,15 +109,7 @@ let set_environment fv =
           Printf.sprintf "%s %s = env[%d].%s;\n" (string_of_type t) (alpha_convert n) i (type_for_union t)
         end) fv 
      |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
-
-(*Set each value of the tuple to a spot in the array*)
-let set_tuple r rt xs =
-  match xs with
-  | [] -> ""
-  | _::_ ->
-    List.mapi(fun i l -> Printf.sprintf "%s[%d].%s = %s;\n" (alpha_convert r) i (type_for_union rt) (alpha_convert l)) xs
-    |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
-    
+   
 (*Print the C statements used to create a Closure*)
 let make_closure r f env = 
   let r' = alpha_convert r in 
@@ -160,19 +138,18 @@ let rec make_typedefs(f : fundef list) (g : string list) (h : string list) =
        let a = elem.args in
        let signature = Printf.sprintf "(%s, Value *env)"  
 				      (List.fold_left(fun acc (s, typ) -> match acc with 
-					       | "" -> acc ^ (string_of_type typ) ^ " " ^ (alpha_convert s) 
-	       | _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ (alpha_convert s)) "" a) in
+									  | "" -> acc ^ (string_of_type typ) ^ " " ^ (alpha_convert s) 
+									  | _ -> acc ^ ", " ^ (string_of_type typ) ^ " " ^ (alpha_convert s)) "" a) in
        let name = "fun_" ^ (typedef_of_type t) ^ "_" ^ 
-		  (List.fold_left(fun acc (s, typ) -> match acc with
-		     | "" -> (typedef_of_type typ)
-       | _ -> acc ^ "_" ^ (typedef_of_type typ)) "" a) 
-		  ^ "_Value" in
+		    (List.fold_left(fun acc (s, typ) -> match acc with
+							| "" -> (typedef_of_type typ)
+							| _ -> acc ^ "_" ^ (typedef_of_type typ)) "" a) ^ "_Value" in
        let typedef = (get_return_type t) ^ " " ^ name ^ signature in
        let (g', h') =
 	 if not (List.exists (fun n -> n = name) g) then 
-    (name :: g, typedef::h) 
-  else 
-    (g, h) in 
+	   (name :: g, typedef::h) 
+	 else 
+	   (g, h) in 
        (make_typedefs (List.tl f) g' h')
      end 
      
@@ -181,11 +158,21 @@ let create_tuple xts y =
   List.mapi (fun i l ->
       begin
 	let (n, t) = l in
- Printf.sprintf "%s %s = %s[%d].%s;\n" (string_of_type t) (alpha_convert n) (alpha_convert y) i (type_for_union t)
+	Printf.sprintf "%s %s = %s[%d].%s;\n" (string_of_type t) (alpha_convert n) (alpha_convert y) i (type_for_union t)
       end
     ) xts
   |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
-    
+
+(*Set each value of the tuple to a spot in the array*)
+let set_tuple r (t_env : (string * Type.t) list) xs =
+  match xs with
+  | [] -> ""
+  | _::_ ->
+     List.mapi(fun i l -> 
+	       let(name, typ) = List.find (fun (n, t) -> n = l) t_env in 
+	       Printf.sprintf "%s[%d].%s = %s;\n" (alpha_convert r) i (type_for_union typ) (alpha_convert l)) xs
+     |> List.fold_left (fun acc s -> acc ^ "" ^ s) ""
+     
 (*This function will translate a single line of the OCaml intermediate code and decide the translated C version*)
 let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_names : string list) (env_name : string) (func_name : string) = 
   let r =  alpha_convert r' in
@@ -269,9 +256,10 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
        begin
 	 let types = "fun_" ^ (typedef_of_type rt) ^ "_" ^ 
 		       (List.fold_left (fun acc x -> 
+					let(name, typ) = List.find (fun (n, t) -> n = x) t_env in
 					match acc with 
-					| "" -> acc ^ "" ^ (type_of_string (alpha_convert x)) 
-					| _ -> acc ^ "_" ^ (type_of_string (alpha_convert x))) "" ys) ^ "_Value" in
+					| "" -> acc ^ "" ^ (typedef_of_type typ) 
+					| _ -> acc ^ "_" ^ (typedef_of_type typ)) "" ys) ^ "_Value" in
 	 try
 	   let typedef_type = List.find (fun typ -> typ = types) typedef_names in 
 	   Printf.sprintf "%s = ((%s*)%s -> fp)(%s, %s -> env);" r typedef_type x' (list_params ys) x'
@@ -306,7 +294,7 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
       | "min_caml_read_float" -> Printf.sprintf "%s = scanf(\"%%lf\", &%s);" params r
       | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> Printf.sprintf "fprintf(stderr, %s);" params
       | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r (alpha_convert l) params)
-  | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(Value));\n%s" r (List.length xs) (set_tuple r rt xs)
+  | Tuple(xs) -> Printf.sprintf "%s = malloc(%d * sizeof(Value));\n%s" r (List.length xs) (set_tuple r t_env xs)
   | LetTuple(xts, y, e) -> 
      let t = (trans_exp r rt t_env typedef_names env_name func_name e) in
      Printf.sprintf "%s%s" (create_tuple xts y) t
