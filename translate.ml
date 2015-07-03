@@ -13,6 +13,7 @@ open Closure
 let make_header () =
   Printf.sprintf "#include\"csyntax.c\"\n\n"
 
+(*Removes any decimals from variable names*)
 let alpha_convert r = 
   let r' = if String.contains r '.' then 
 	     begin
@@ -49,6 +50,7 @@ let rec type_for_union t = match t with
   | Type.Tuple(xs) -> "a"
   | _ -> ""
 
+(*Used to determine what array-generation function to use*)
 let type_for_array t = match t with
   | Type.Unit -> "int"
   | Type.Int -> "int"
@@ -85,6 +87,7 @@ let rec get_return_type t = match t with
   | Type.Tuple(xs) -> "Value*"
   | _ -> ""
 
+(*In min-rt, print all of the external variables used in the program*)
 let generate_extenv r min_rt = 
   if min_rt = true then 
     M.iter (fun x t -> 
@@ -113,7 +116,7 @@ let set_environment fv =
 (*Print the C statements used to create a Closure*)
 let make_closure r f env = 
   let r' = alpha_convert r in 
-  Printf.sprintf "Closure* %s = (Closure*) malloc(sizeof(Closure));\n%s -> fp = (Function)%s_fun;\n%s -> env = %s;\n" r' r' (alpha_convert f) r' env
+  Printf.sprintf "closure_malloc(&%s);\n%s -> fp = (Function)%s_fun;\n%s -> env = %s;\n" r' r' (alpha_convert f) r' env
    
 (*List the parameters for functions or lists*)
 let list_params l =
@@ -153,7 +156,7 @@ let rec make_typedefs(f : fundef list) (g : string list) (h : string list) =
        (make_typedefs (List.tl f) g' h')
      end 
      
-(*Generate a C equivalent of an OCaml tuple*)
+(*Extract all values from a tuple*)
 let create_tuple xts y =
   List.mapi (fun i l ->
       begin
@@ -289,12 +292,11 @@ let rec trans_exp r' (rt : Type.t) (t_env : (string * Type.t) list) (typedef_nam
       | "min_caml_sqrt" -> Printf.sprintf "%s = sqrt(%s);" r params
       | "min_caml_floor" -> Printf.sprintf "%s = floor(%s);" r params
       | "min_caml_abs_float" -> Printf.sprintf "%s = fabs(%s);" r params
-      (* | "min_caml_read_int" -> Printf.sprintf "double d%s;\n%s = scanf(\"%%lf\", &d%s);\n %s = (int) d%s;" r params r r r *)
       | "min_caml_read_int" -> Printf.sprintf "%s = scanf(\"%%d\", &%s);" params r
       | "min_caml_read_float" -> Printf.sprintf "%s = scanf(\"%%lf\", &%s);" params r
       | "min_caml_prerr_int" | "min_caml_prerr_float" | "min_caml_prerr_byte" -> Printf.sprintf "fprintf(stderr, %s);" params
       | _ -> Printf.sprintf "%s = %s_fun(%s, NULL);" r (alpha_convert l) params)
-  | Tuple(xs) -> Printf.sprintf "%s = (Value*) malloc(%d * sizeof(Value));\n%s" r (List.length xs) (set_tuple r t_env xs)
+  | Tuple(xs) -> Printf.sprintf "safe_malloc(&%s, %d);\n%s" r (List.length xs) (set_tuple r t_env xs)
   | LetTuple(xts, y, e) -> 
      let t = (trans_exp r rt t_env typedef_names env_name func_name e) in
      Printf.sprintf "%s%s" (create_tuple xts y) t
@@ -393,7 +395,7 @@ let translate s n =
 		       |> Inline.f
 		       |> Elim.f
 		       |> Closure.f
-		       |> (fun (Prog (p, t)) -> (p, t)) in(*Deal with Prog and Fundef*)
+		       |> (fun (Prog (p, t)) -> (p, t)) in
   let (typedef_names, typedefs) = make_typedefs funcs [] [] in
   let r = ref "" in
   let () = generate_extenv r n in
@@ -421,6 +423,7 @@ let main file =
     close_out out_channel;
     Format.eprintf "Translation complete.@."
 
+(*Get the execution time of the translator*)
 let time f x =
   let start = Sys.time () in
   let res = f x in

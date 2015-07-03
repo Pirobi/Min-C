@@ -69,7 +69,14 @@ static inline void make_closure_array(Value **array, int size, Closure* initial_
   }
 }
 
-
+static inline void closure_malloc(Closure **c){
+    *c = NULL;
+    *c = (Closure*) malloc(sizeof(Closure));
+    if(*c == NULL){
+	printf("Error allocating memory for closure\n");
+	exit(-1);
+    }
+}
 
 
 static inline void safe_malloc(Value **env, int size){
