@@ -3,7 +3,7 @@ RESULT = ../min-caml
 SLDS = ball contest cup dra lattice mange mir orange piero1 piero2 planet \
 shuttle test test2 test3 tileball tron tsu tsu2 tsu3
 CC = gcc
-FLAGS = -g -O3 -Wall -I ../translation/
+FLAGS = -g -O3 -I ../translation/
 INDENT = indent
 INDENTARGS = -brf -br -nbc -T Value -T Closure
 GPP = g++

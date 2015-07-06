@@ -5,87 +5,93 @@
 #include<math.h>
 #include"csyntax.h"
 
-static inline void make_int_array(Value **array, int size, int initial_value){
+static inline Value* make_int_array(int size, int initial_value){
   int x;
-  *array = NULL;  
+  Value* array = NULL;  
   if(size < 1){
     size = 1;
   }
-  *array = (Value*) malloc(size * sizeof(Value));
-  if(*array == NULL){
-    printf("Error allocating memory for environment\n");
+  array = (Value*) malloc(size * sizeof(Value));
+  if(array == NULL){
+    printf("Error allocating memory for array\n");
     exit(-1);
   }
   for(x = 0; x < size; x++){
-    (*array)[x].i = initial_value;
+    array[x].i = initial_value;
   }
+  return array;
 }
 
-static inline void make_double_array(Value **array, int size, double initial_value){
+static inline Value* make_double_array(int size, double initial_value){
   int x;
-  *array = NULL;  
+  Value* array = NULL;  
   if(size < 1){
     size = 1;
   }
-  *array = (Value*) malloc(size * sizeof(Value));
-  if(*array == NULL){
-    printf("Error allocating memory for environment\n");
+  array = (Value*) malloc(size * sizeof(Value));
+  if(array == NULL){
+    printf("Error allocating memory for array\n");
     exit(-1);
   }
   for(x = 0; x < size; x++){
-    (*array)[x].d = initial_value;
+    array[x].d = initial_value;
   }
+  return array;
 }
 
-static inline void make_multi_array(Value **array, int size, Value* initial_value){
+static inline Value* make_multi_array(int size, Value* initial_value){
   int x;
-  *array = NULL;  
+  Value* array = NULL;  
   if(size < 1){
     size = 1;
   }
-  *array = (Value*) malloc(size * sizeof(Value));
-  if(*array == NULL){
-    printf("Error allocating memory for environment\n");
+  array = (Value*) malloc(size * sizeof(Value));
+  if(array == NULL){
+    printf("Error allocating memory for array\n");
     exit(-1);
   }
   for(x = 0; x < size; x++){
-    (*array)[x].a = initial_value;
+    array[x].a = initial_value;
   }
+  return array;
 }
 
-static inline void make_closure_array(Value **array, int size, Closure* initial_value){
+static inline Value* make_closure_array(int size, Closure* initial_value){
   int x;
-  *array = NULL;  
+  Value* array = NULL;  
   if(size < 1){
     size = 1;
   }
-  *array = (Value*) malloc(size * sizeof(Value));
-  if(*array == NULL){
-    printf("Error allocating memory for environment\n");
+  array = (Value*) malloc(size * sizeof(Value));
+  if(array == NULL){
+    printf("Error allocating memory for array\n");
     exit(-1);
   }
   for(x = 0; x < size; x++){
-    (*array)[x].c = initial_value;
+    array[x].c = initial_value;
   }
+  return array;
 }
 
-static inline void closure_malloc(Closure **c){
-    *c = NULL;
-    *c = (Closure*) malloc(sizeof(Closure));
-    if(*c == NULL){
+static inline Closure* closure_malloc(){
+    Closure* c = NULL;
+    c = (Closure*) malloc(sizeof(Closure));
+    if(c == NULL){
 	printf("Error allocating memory for closure\n");
 	exit(-1);
     }
+    return c;
 }
 
 
-static inline void safe_malloc(Value **env, int size){
-  *env = NULL;
+static inline Value* safe_malloc(int size){
+  Value* env = NULL;
   if(size > 0){
-      *env = (Value*) malloc(size * sizeof(Value));
-    if(*env == NULL){
+      env = (Value*) malloc(size * sizeof(Value));
+    if(env == NULL){
       printf("Error allocating memory for environment\n");
       exit(-1);
     }
   }
+  return env;
 }

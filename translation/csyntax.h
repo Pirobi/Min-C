@@ -24,13 +24,4 @@ typedef union Value{
     union Value* a;
 }Value;
 
-typedef enum{
-  INT,
-  DOUBLE,
-  BOOL,
-  CLOSURE,
-  ARRAY
-}Type;
-
-
 #endif
