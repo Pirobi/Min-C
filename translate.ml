@@ -79,14 +79,17 @@ let rec get_return_type t = match t with
   | Type.Fun(l, r) -> string_of_type r
   | _ -> assert false
 
-(*In min-rt, print all of the external variables used in the program*)
-let generate_extenv r min_rt = 
-  if min_rt = true then 
+let rec extern_return_type t = match t with
+  | Type.Unit -> "void" 
+  | _ -> string_of_type t
+
+(*Print all of the external variables used in the program*)
+let generate_extenv r = 
     M.iter (fun x t -> 
 	    (match t with 
 	     | Type.Fun _ -> ()
-	     | _ -> r := !r ^ Printf.sprintf "%s %s;\n" (string_of_type t) x)) !Typing.extenv
-  else Printf.printf "No extenv\n" 
+	     | Type.Array _ | Type.Tuple _ -> r := !r ^ Printf.sprintf "extern Value %s[];\n" x
+	     | _ -> r := !r ^ Printf.sprintf "extern %s %s;\n" (string_of_type t) x)) !Typing.extenv
 
 (*If the return variable has already been declared, omit the type*)
 let include_type r rt = 
@@ -325,43 +328,8 @@ let rec make_functions(f : fundef list) (typedef_names : string list) =
      end
 
 (*This function creates the C main function*)
-let make_main r typedef_names body min_rt =
-  let extenv = if min_rt = true  then
-		 Printf.sprintf "and_net = safe_malloc(200);
-				 beam = safe_malloc(8);
-				 chkinside_p = safe_malloc(24);
-				 cos_v = safe_malloc(16);
-				 crashed_object = safe_malloc(4);
-				 crashed_point = safe_malloc(4);
-				 cs_temp = safe_malloc(128);
-				 dbg = safe_malloc(4);
-				 end_flag = safe_malloc(4);
-				 intsec_rectside = safe_malloc(4);
-				 isoutside_q = safe_malloc(24);
-				 light = safe_malloc(24);
-				 nvector = safe_malloc(24);
-				 nvector_w = safe_malloc(24);
-				 objects = safe_malloc(240);
-				 or_net = safe_malloc(4);
-				 rgb = safe_malloc(24);
-				 scan_d = safe_malloc(8);
-				 scan_met1 = safe_malloc(8);
-				 scan_offset = safe_malloc(8);
-				 scan_sscany = safe_malloc(8);
-				 screen = safe_malloc(24);
-				 sin_v = safe_malloc(16);
-				 size = safe_malloc(8);
-				 solver_dist = safe_malloc(8);
-				 solver_w_vec = safe_malloc(24);
-				 texture_color = safe_malloc(24);
-				 tmin = safe_malloc(8);
-				 view = safe_malloc(24);
-				 viewpoint = safe_malloc(24);
-				 vp = safe_malloc(24);
-				 vscan = safe_malloc(24);
-				 wscan = safe_malloc(24);\n"
-	       else Printf.sprintf "" in
-  Printf.sprintf "int main(){\n%sint %s = 0;\n%s\nreturn %s;\n}\n" extenv r (trans_exp r Type.Int [] typedef_names "" "main" body) r
+let make_main r typedef_names body =
+  Printf.sprintf "int main(){\nint %s = 0;\n%s\nreturn %s;\n}\n" r (trans_exp r Type.Int [] typedef_names "" "main" body) r
 
 (*Generates the intermediate code for use in debugging the translation*)
 let debug s =
@@ -375,7 +343,7 @@ let debug s =
 	       |> Closure.f in result
 			        			     
 (*Compiles Min-Caml code through closure conversion, then translates the resulting intermediate code into C*)
-let translate s n =
+let translate s =
   let (funcs, mainf) = Lexing.from_string s
 		       |> Parser.exp Lexer.token
 		       |> Typing.f 
@@ -388,25 +356,22 @@ let translate s n =
 		       |> (fun (Prog (p, t)) -> (p, t)) in
   let (typedef_names, typedefs) = make_typedefs funcs [] [] in
   let r = ref "" in
-  let () = generate_extenv r n in
+  let () = generate_extenv r in
   Format.eprintf "Translating intermediate code to C...@.";
-  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ !r ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf n) 
+  make_header() ^ (List.fold_right(fun acc s -> "typedef " ^ acc ^ ";\n" ^ s) typedefs "") ^ "\n" ^ !r ^ "\n" ^ (make_functions funcs typedef_names) ^ (make_main "ans" typedef_names mainf) 
 																	     
 (*Reads a file and translates the Min-Caml code*)
 let main file = 
   Format.eprintf "Preparing file %s.ml for translation...@." file;
   let lines = ref "" in
   let in_channel = open_in (file ^ ".ml") in
-  let min_rt = (match file with
-		| "min-rt" -> true
-		| _ -> false) in
   try
     while true do
       lines := Printf.sprintf "%s%s\n" !lines (input_line in_channel)
     done;
   with End_of_file ->
     close_in in_channel;
-    let result = translate !lines min_rt in
+    let result = translate !lines in
     let out_channel = open_out (file ^ ".ml.c") in
     Format.eprintf "Outputting to %s.ml.c...@." file;
     output_string out_channel result;

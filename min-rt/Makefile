@@ -7,6 +7,7 @@ FLAGS = -g -O3 -I ../translation/
 INDENT = indent
 INDENTARGS = -brf -br -nbc -T Value -T Closure
 GPP = g++
+EXTERNAL = external.c
 
 .PRECIOUS: %.cmp %.diff.gcc-GCC.ppm %.diff.ocamlopt-gcc.ppm %.mincaml.ppm %.gcc.ppm %.GCC.ppm %.ocamlopt.ppm %.ocamlc.ppm %.minc.ppm
 
@@ -27,12 +28,12 @@ ppmdiff: ppm.ml diff.ml
 %.minc.ppm: %.sld min-rt.min-c
 	time -p ./min-rt.min-c < $< > $@.tmp
 	mv $@.tmp $@
-min-rt.min-c: min-rt.ml.c
+min-rt.min-c: $(EXTERNAL) min-rt.ml.c
 	$(CC) $(FLAGS) $^ -lm -o $@
 min-rt.ml.c: min-rt.s
 	$(INDENT) $(INDENTARGS) $@
 	rm $@~
-min-rt.MIN-C: min-rt.ml.c
+min-rt.MIN-C: $(EXTERNAL) min-rt.ml.c
 	$(GPP) $(FLAGS) $^ -lm -o $@
 %.MINC.ppm: %.sld min-rt.MIN-C
 	time -p ./min-rt.min-c < $< > $@.tmp
