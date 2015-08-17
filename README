@@ -25,6 +25,37 @@ http://esumii.github.io/min-caml/paper.pdf (English academic paper)
    though it takes time because of OCaml bytecode (for testing by
    comparison), not MinCaml
 
+#############################################################################################################
+A translator from MinCaml to C, written in OCaml
+
+To run the translator:
+
+1. Follow the above steps to install MinCaml
+
+2. cd /min-caml/
+
+3. make test/*.ml.c
+   - This will read the .ml file in the test folder and output a translated .ml.c file in the same folder.
+   - You can put any typed code into the test folder and translate it in this way
+
+4. Use gcc or another compiler to compile the translated code. 
+   - You MUST include translation/csyntax.c and any external functions/variables file when compiling.
+
+To run ray tracer translations:
+
+1. cd min-rt/
+
+2. make min-rt.ml.c
+
+3. make *.min-c.ppm
+   - Where * = the name of the .sld file you with to generate, which must be stored in the min-rt folder
+###############################################################################################################
+
+[Updates on August 17, 2015]
+
+- Added ability to translate min-caml source code into C. README
+  for translator can be found in ./translation/
+
 [Updates on October 9, 2013]
 
 - Moved from SourceForge https://sourceforge.net/p/min-caml/code/ to
