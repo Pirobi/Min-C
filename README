@@ -26,7 +26,10 @@ http://esumii.github.io/min-caml/paper.pdf (English academic paper)
    comparison), not MinCaml
 
 #############################################################################################################
-A translator from MinCaml to C, written in OCaml
+Translator from MinCaml to C, written in OCaml.
+
+This translator will take source code written in MinCaml and translate into C code. The translated C code can 
+then be compiled and run or further modified.
 
 To run the translator:
 
@@ -38,8 +41,15 @@ To run the translator:
    - This will read the .ml file in the test folder and output a translated .ml.c file in the same folder.
    - You can put any typed code into the test folder and translate it in this way
 
-4. Use gcc or another compiler to compile the translated code. 
-   - You MUST include translation/csyntax.c and any external functions/variables file when compiling.
+4. Translated code can be edited and modified to fit your program. Please use helper functions/structs
+   Found in /translation/: csyntax.c and csyntax.h
+
+5. Any external variables/functions defined by you must be placed into a seperate C file. The translator
+   Will automatically determine external variables. A future update will make the translator automatically
+   determine external functions.
+
+6. Use gcc or another compiler to compile the translated code. 
+   - You MUST include translation/csyntax.c and any files containing external variables/functions when compiling.
 
 To run ray tracer translations:
 
@@ -53,8 +63,7 @@ To run ray tracer translations:
 
 [Updates on August 17, 2015]
 
-- Added ability to translate min-caml source code into C. README
-  for translator can be found in ./translation/
+- Added ability to translate min-caml source code into C.
 
 [Updates on October 9, 2013]
 
